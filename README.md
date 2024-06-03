@@ -74,7 +74,7 @@ To test classification and obtain results one may use follwoing line executed fr
 |----------|----------|
 | model  | all, SVM, RFC, LR, NB, KNN |
 | dataset | MT, POM  |
-| dimension | <ul><li><code>MT</code>: persuasiveness, engagement, confidence, global</li> <ul><li><code>POM</code>: persuasive, confident, etc. </li></ul> |
+| dimension | <ul><li><code>MT</code>: [persuasiveness, engagement, confidence, global]</li><li><code>POM</code>: persuasive, confident, etc. </li></ul> |
 | clip | full, beg, mid, end |
 
 When model provided with "all" option, code will test all the classification models from this list: [SVM, RFC, LR, NB, KNN]. To add new models, please, add them to the file "./Models/ML_Model.py" and than to the list contained in the variable models_list in the test_MT.py.
