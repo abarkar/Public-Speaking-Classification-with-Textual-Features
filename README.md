@@ -15,7 +15,7 @@ A report with the updated detailed results can be found [here](docs/Report_Class
 In [@Barkar2023] we consider two classes of performance quality: Data points with human-evaluated scores equal to or higher than the median were classified as "high-quality", while those with scores lower than the median were classified as "low-quality". In the update of this experiment, we study the following classification setups: 
 
 | Setup Keyword | Classes Sizes (Number of documents) |
-|----------|----------|----------|
+|----------|----------|
 | medianSep  | (TODO:fill) |
 | meanSep | (TODO:fill)   |
 | Q1Q3Sep | (TODO:fill)   |
@@ -58,7 +58,7 @@ If you want to use the code on the other datasets then you should prepare input 
 
 We used several classical classification models:
 | Model | Parameters |
-|----------|----------|----------|
+|----------|----------|
 | Support Vector Machine (SVM)  | - 'kernel': ['rbf', 'linear'], 
 - 'probability':[True],
 - 'gamma': [0.001, 0.01, 0.1, 1,'auto'],
@@ -85,7 +85,7 @@ To test classification and obtain results one may use follwoing line executed fr
 " python3 test_MT.py --model SVM --dataset MT --dimension dimension_of_interest --clip full"
 
 | Parameter | Options |
-|----------|----------|----------|
+|----------|----------|
 | model  | all, SVM, RFC, LR, NB, KNN |
 | dataset | MT, POM  |
 | dimension | - MT: persuasiveness, engagement, confidence, global
