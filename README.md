@@ -23,7 +23,9 @@ In [@Barkar2023] we consider two classes of performance quality: Data points wit
 
 For class separation execute code preprocessing/LabelProcessor_MT.py with corresponding Setup Keyword. See the example for the separation w.r.t. median:
 
-" python3 LabelProcessor_MT.py --setup medianSep --dimension dimension_of_interest --clip full"
+```bash
+python3 LabelProcessor_MT.py --setup medianSep --dimension dimension_of_interest --clip full
+```
 
 Here, as dimension_of_interest put the name of the dimension that you are interested in (it will be persuasiveness by the default): 
 
