@@ -1,7 +1,7 @@
 # Public Speaking Classification with Textual Features
 
 
-This repository contains code for the extraction and evaluation of the new public speaking textual feature set (PSTFS) on the performance classification task. PSTFS is tested on the 3MT_French dataset (collected from the competition "Ma thèse en 180 seconds") [@Biancardi2024]. The first results with PSTFS are reported in the paper [@Barkar2023] and published on ICMI2023. This repository contains updated results for further research. 
+This repository contains code for extracting and evaluating the new public speaking textual feature set (PSTFS) on the performance classification task. PSTFS is tested on the 3MT_French dataset (collected from the competition "Ma thèse en 180 seconds") [@Biancardi2024]. The first results with PSTFS are reported in the paper [@Barkar2023] and published on ICMI2023. This repository contains updated results for further research. 
 
 ## Paper and Report
 The research paper [@Barkar2023] related to this project can be found [here](docs/Barkar2023.pdf).
@@ -27,7 +27,7 @@ For class separation execute code preprocessing/LabelProcessor_MT.py with corres
 python3 LabelProcessor_MT.py --setup medianSep --dimension dimension_of_interest --clip full
 ```
 
-Here, as dimension_of_interest put the name of the dimension that you are interested in (it will be persuasiveness by the default): 
+Here, as dimension_of_interest put the name of the dimension that you are interested in (it will be persuasiveness by default): 
 
 | dimensions | options |
 |----------|----------|
@@ -39,21 +39,23 @@ Here, as dimension_of_interest put the name of the dimension that you are intere
 mean: simple arithmetic mean
 rms: root mean squared
 harmmean: harmonic mean
-rater1: rating of the first rater
-rater2: rating of the second rater
-rate3: rating of the third rater
+rater1: the rating of the first rater
+rater2: the rating of the second rater
+rate3: the rating of the third rater
 
-You also can choose to work with the video clips (1 minute for the beginning, the middle and the end). Annotation schema for the clips was the same in the 3MT_French dataset, therefore, for each clip there are three raters to annotate it. Al the three raters always are different. For more details see [@Biancardi2024]. To switch to the clips you may use clip with options: full, beg, mid, end. By the default system will use "full".
+You also can choose to work with the video clips (1 minute for the beginning, the middle and the end). The annotation schema for the clips was the same in the 3MT_French dataset, therefore, for each clip there are three raters to annotate it. All three raters always are different. For more details see [@Biancardi2024]. To switch to the clips you may use a clip with options: full, beg, mid, end. By default system will use "full".
 
 ## Feature extraction
 
 Code with feature extraction is located in the file preprocessing/TextProcessor_MT.py. To execute it you can use the command:
 
-" python3 TextProcessor_MT.py --dataset MT "
+```bash
+python3 TextProcessor_MT.py --dataset MT "
+```
 
 If you want to use the code on the other datasets then you should prepare input data so that:
 - Transcripts are contained in the folder: '../data/{dataset}/transcripts/' where dataset is the name of the folder containing the transcripts of your dataset.
-- Each transcripts is located in the separated .txt file with the name corresponding to the ID of this sample in the dataset.
+- Each transcript is located in the separated .txt file with the name corresponding to the ID of this sample in the dataset.
 
 
 ## Training and Testing
@@ -68,9 +70,11 @@ We used several classical classification models:
 | K-Nearest Neighbors (KNN)      | <ul><li><code>n_neighbors</code>: [3, 5, 7]</li><li><code>weights</code>: ['uniform', 'distance']</li><li><code>algorithm</code>: ['auto', 'ball_tree', 'kd_tree', 'brute']</li></ul> |
 
 
-To test classification and obtain results one may use follwoing line executed from the root (default parameters: all, MT, persuasiveness, full):
+To test classification and obtain results one may use the following line executed from the root (default parameters: all, MT, persuasiveness, full):
 
-" python3 test_MT.py --model SVM --dataset MT --dimension dimension_of_interest --clip full"
+```bash
+python3 test_MT.py --model SVM --dataset MT --dimension dimension_of_interest --clip full
+```
 
 | Parameter | Options |
 |----------|----------|
@@ -79,11 +83,11 @@ To test classification and obtain results one may use follwoing line executed fr
 | dimension | <ul><li><code>MT</code>: persuasiveness, engagement, confidence, global</li><li><code>POM</code>: persuasive, confident, etc. </li></ul> |
 | clip | full, beg, mid, end |
 
-When model provided with "all" option, code will test all the classification models from this list: [SVM, RFC, LR, NB, KNN]. To add new models, please, add them to the file "./Models/ML_Model.py" and than to the list contained in the variable models_list in the test_MT.py.
+When the model is provided with the "all" option, the code will test all the classification models from this list: [SVM, RFC, LR, NB, KNN]. To add new models, please, add them to the file "./Models/ML_Model.py" and then to the list contained in the variable models_list in the test_MT.py.
 
 ## Feature Importance: SHAP values
 
-SHAP value analysis is implemented in the same file with training and testing of the model. For more details refer to feedback/SHAP.py.
+SHAP value analysis is implemented in the same file with training and testing of the model, for more details refer to feedback/SHAP.py.
 
 ## Results
 
