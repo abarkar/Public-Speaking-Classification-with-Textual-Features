@@ -12,7 +12,7 @@ A report with the updated detailed results can be found [here](docs/Report_Class
 
 
 ## Classification Setup
-In [@Barkar2023] we consider two classes of performance quality: Data points with human-evaluated scores equal to or higher than the median were classified as "high-quality", while those with scores lower than the median were classified as "low-quality". In the update of this experiment, we study the following classification setups: 
+In [@Barkar2023] we consider two classes of performance quality: Data points with human-evaluated scores equal to or higher than the median were classified as "high-quality". In comparison, those with scores lower than the median were classified as "low-quality". In the update of this experiment, we study the following classification setups: 
 
 | Setup Keyword | Classes Sizes (Number of documents) |
 |----------|----------|
@@ -57,28 +57,14 @@ If you want to use the code on the other datasets then you should prepare input 
 ## Training and Testing
 
 We used several classical classification models:
-| Model | Parameters |
-|----------|----------|
-| Support Vector Machine (SVM)  | - 'kernel': ['rbf', 'linear'], 
-- 'probability':[True],
-- 'gamma': [0.001, 0.01, 0.1, 1,'auto'],
-- 'C': [1, 10, 20] |
-| Random Forest Classificator (RFC) | - "max_depth": [None],
-                         - "max_features": [10,20, 'sqrt'],
-                         - "min_samples_split": [2, 3, 10],
-                         - "min_samples_leaf": [1, 3, 10],
-                         - "bootstrap": [True],
-                         - "n_estimators": [300,400],
-                         - "criterion": ["gini"]   |
-| Logistic Regression (LR) | - "penalty": ['l1', 'l2'],
-                         - "C": [0.001, 0.01, 0.1, 1., 10, 20],
-                         - "multi_class": ['ovr'],
-                         - "solver": ['liblinear'],
-                         - "max_iter": [1000] |
-| Naive Bayes (NB) | none |
-| K-Nearest Neighbors (KNN) | - 'n_neighbors': [3, 5, 7],
-                        - 'weights': ['uniform', 'distance'],
-                        - 'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute'] |
+| Model                          | Parameters                                                                 |
+|--------------------------------|-----------------------------------------------------------------------------|
+| Support Vector Machine (SVM)   | <ul><li><code>kernel</code>: ['rbf', 'linear']</li><li><code>probability</code>: [True]</li><li><code>gamma</code>: [0.001, 0.01, 0.1, 1, 'auto']</li><li><code>C</code>: [1, 10, 20]</li></ul> |
+| Random Forest Classifier (RFC) | <ul><li><code>max_depth</code>: [None]</li><li><code>max_features</code>: [10, 20, 'sqrt']</li><li><code>min_samples_split</code>: [2, 3, 10]</li><li><code>min_samples_leaf</code>: [1, 3, 10]</li><li><code>bootstrap</code>: [True]</li><li><code>n_estimators</code>: [300, 400]</li><li><code>criterion</code>: ['gini']</li></ul> |
+| Logistic Regression (LR)       | <ul><li><code>penalty</code>: ['l1', 'l2']</li><li><code>C</code>: [0.001, 0.01, 0.1, 1, 10, 20]</li><li><code>multi_class</code>: ['ovr']</li><li><code>solver</code>: ['liblinear']</li><li><code>max_iter</code>: [1000]</li></ul> |
+| Naive Bayes (NB)               | None                                                                       |
+| K-Nearest Neighbors (KNN)      | <ul><li><code>n_neighbors</code>: [3, 5, 7]</li><li><code>weights</code>: ['uniform', 'distance']</li><li><code>algorithm</code>: ['auto', 'ball_tree', 'kd_tree', 'brute']</li></ul> |
+
 
 To test classification and obtain results one may use follwoing line executed from the root (default parameters: all, MT, persuasiveness, full):
 
