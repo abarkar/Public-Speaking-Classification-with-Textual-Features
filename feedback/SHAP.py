@@ -18,7 +18,7 @@ rate_type = 'persuasiveness'
 revert_dict = lambda d: dict(chain(*[zip(val, repeat(key)) for key, val in d.items()]))
 
 # calculate importance of each category
-def SVMInterpret(model, X, groups, features_name):
+def ModelInterpret(model, X, groups, features_name):
     group_shap = grouped_shap(model, X, X, groups, features_name)
     txtForSave = open('./results/' + dataset + '/' + rate_type + '/mean_interpret.txt', 'w')
 
