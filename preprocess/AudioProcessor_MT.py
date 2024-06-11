@@ -29,7 +29,7 @@ def create_csv_files(features, data_dir):
         current_category_feats = pd.concat(
             [all_features["file"], all_features[feat]], axis=1
         )
-        current_category_feats.to_csv(os.path.join(csv_dir, f"{cat}_{clip}.csv"))
+        current_category_feats.to_csv(os.path.join(csv_dir, f"{cat.title()}.csv"))
 
 
 def createFeatureLists():
@@ -90,13 +90,11 @@ if __name__ == "__main__":
     # Use the configuration values
     rootDirPath = config["rootDirPath"]
     dataset = config["dataset"]
-    dimension = config["dimension"]
     clip = config["clip"]
 
     # Example usage in your script
     print(f"Root Directory Path: {rootDirPath}")
     print(f"Dataset: {dataset}")
-    print(f"Dimension: {dimension}")
     print(f"Clip: {clip}")
 
     sys.path.append(rootDirPath)

@@ -1,5 +1,5 @@
 {
-    "frequency": [
+    "Frequency": [
         "F0semitoneFrom27.5Hz_sma3nz_amean",
         "F0semitoneFrom27.5Hz_sma3nz_stddevNorm",
         "F0semitoneFrom27.5Hz_sma3nz_percentile20.0",
@@ -36,7 +36,7 @@
         "logRelF0-H1-A3_sma3nz_amean",
         "logRelF0-H1-A3_sma3nz_stddevNorm"
     ],
-    "intensity": [
+    "Intensity": [
         "loudness_sma3_amean",
         "loudness_sma3_stddevNorm",
         "loudness_sma3_percentile20.0",
@@ -55,7 +55,7 @@
         "MeanUnvoicedSegmentLength",
         "StddevUnvoicedSegmentLength"
     ],
-    "voice_quality": [
+    "Voice_quality": [
         "jitterLocal_sma3nz_amean",
         "jitterLocal_sma3nz_stddevNorm",
         "shimmerLocaldB_sma3nz_amean",
@@ -66,7 +66,7 @@
 	"hammarbergIndexV_sma3nz_stddevNorm",
 	"hammarbergIndexUV_sma3nz_amean"
     ],
-    "spectrum": [
+    "Spectrum": [
         "spectralFlux_sma3_amean",
         "spectralFlux_sma3_stddevNorm",
         "spectralFluxV_sma3nz_amean",
@@ -79,7 +79,7 @@
         "slopeUV0-500_sma3nz_amean",
         "slopeUV500-1500_sma3nz_amean"
     ],
-    "cepstrum": [
+    "Cepstrum": [
         "mfcc1_sma3_amean",
         "mfcc1_sma3_stddevNorm",
         "mfcc2_sma3_amean",
