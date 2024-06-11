@@ -16,9 +16,10 @@ def create_csv_files(features, data_dir):
     all_features = pd.concat(features).reset_index()
     all_features = all_features.drop(columns=["start", "end"])
     # Get only the audio id from the full path of the file
-    all_features["file"] = (
+    all_features["ID"] = (
         all_features["file"].str.split("/").str[-1].str.split(".").str[0]
     )
+    all_features = all_features.drop(columns=["file"])
     # Create right path for saving csv file
     feature_dir = os.path.join(data_dir, "features")
     csv_dir = os.path.join(feature_dir, clip, "audio")
@@ -29,7 +30,7 @@ def create_csv_files(features, data_dir):
         current_category_feats = pd.concat(
             [all_features["file"], all_features[feat]], axis=1
         )
-        current_category_feats.to_csv(os.path.join(csv_dir, f"{cat.title()}.csv"))
+        current_category_feats.to_csv(os.path.join(csv_dir, f"{cat.title()}.csv"), index=False)
 
 
 def createFeatureLists():

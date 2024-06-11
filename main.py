@@ -514,11 +514,14 @@ def mainPipeline():
 
         # Load features of different modalities from the .csv files, create feature grouping by category
         X, group_by_category = loadFeturesByCategories(feature_dir)
+        print(X)
         # Load Ratings w.r.t. task
         Y = loadRatings(dim)
+        print(Y)
         # Check correspondance of IDs in features and labels, prepare target and background .csv for SHAP analysis
         # TODO: check whether we need target and background at all
         X, Y, target = dataPreprocessing(X, Y)
+        print(target)
         print("*********************** Correlation Analysis with Labels ***********************")
         # correlation(X, Y, group_by_category)
         correlation_analysis(X, Y, group_by_category, output_dir)
