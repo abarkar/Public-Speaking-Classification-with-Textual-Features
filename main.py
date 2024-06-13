@@ -528,12 +528,12 @@ def mainPipeline():
         print("*********************** featureSelection ***********************")
         # X = feature_selection(X, Y)
         if (len(X.columns) > 0):
+            X.set_index('ID', inplace=True)
+            Y.set_index('ID', inplace=True)
             for clf_model in model:
                 # Set the path to save model results
                 model_res_dir = os.path.join(output_dir, clf_model)
                 # Change the data indexing for the train/test splitting
-                X.set_index('ID', inplace=True)
-                Y.set_index('ID', inplace=True)
                 print("*********************** Create a classificator object ***********************")
                 clf = classificator(clf_model)
                 print("*********************** Chose Best Parameters ***********************")

@@ -15,7 +15,7 @@ def read_config(config_file='config.ini'):
         'dataset': 'MT',
         'dimension': ['persuasiveness'],
         'clip': 'full',
-        'model': ['all'],
+        'model': ['SVM'],
         'clasSeparator': 'mean',
         'aggregationMethod': 'rms',
         'task': 'classification',
