@@ -110,6 +110,10 @@ def dataPreprocessing(X, Y):
     # Check for the same IDs in X(features) and Y(labels)
     Y = Y.loc[(Y["ID"]).isin(X["ID"])]
     X = X.loc[(X["ID"]).isin(Y["ID"])]
+    # Merge data together to have same indexing for easier train/test split further
+    data = pd.merge(X, Y, on="ID")
+    Y=data[["ID","label"]]
+    X=data.drop(columns=['label'])
 
     # Set tagret data
     if (dataset == "POM"):
@@ -518,10 +522,6 @@ def mainPipeline():
         print("*********************** featureSelection ***********************")
         # X = feature_selection(X, Y)
         if (len(X.columns) > 0):
-            # Merge data together to have same indexing for easier train/test split further
-            data = pd.merge(X, Y, on="ID")
-            Y=data[["ID","label"]]
-            X=data.drop(columns=['label'])
             # Set ID column to index
             X.set_index('ID', inplace=True)
             Y.set_index('ID', inplace=True)
