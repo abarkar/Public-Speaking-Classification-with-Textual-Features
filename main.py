@@ -108,10 +108,8 @@ def dataPreprocessing(X, Y):
     target (DataFrame): One chosen sample of dataset
     """
     # Check for the same IDs in X(features) and Y(labels)
-    # print(len(Y.index))
-    # print(len(X.index))
-    Y = Y.loc[(Y.index).isin(X.index)]
-    X = X.loc[(X.index).isin(Y.index)]
+    Y = Y.loc[(Y["ID"]).isin(X["ID"])]
+    X = X.loc[(X["ID"]).isin(Y["ID"])]
 
     # Set tagret data
     if (dataset == "POM"):
@@ -162,8 +160,6 @@ def loadFeturesByCategories(feature_dir):
             # Create the new pair of (category_name: list_of_features)
             group_by_category[str(clean_name)] = list(feature_names)
             # Add features to the big feature dataset aligning along IDs
-            # Add features to the big feature dataset aligning along IDs
-            print(f'{clean_name} features:', len(df.index))
             if feature_df.empty:
                 feature_df = df
             else:
@@ -172,8 +168,6 @@ def loadFeturesByCategories(feature_dir):
                 if not mismatched_rows.empty:
                     print("Mismatched rows:", mismatched_rows)
                 feature_df = merged_df.drop(columns='_merge')
-            # print(feature_df.columns)
-            print('full feature set: ', len(feature_df.index))
             # Check for duplicate IDs
             if feature_df['ID'].duplicated().any():
                 feature_df = feature_df.drop_duplicates(subset=['ID'])
@@ -229,8 +223,6 @@ def choseBestParametersForClassification(X, Y, clf, output_dir):
     rf_param (list): list of the best parameters.
     best_model (classifier): the best model after grid search.
     """
-    
-    
     # Split data for training and testing for the grid search
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0, stratify=Y)
     # USe Grid search with the parameters specifies in the classifer class
@@ -346,9 +338,10 @@ def leaveOneOutTrain(X, Y, best_param, clf, output_dir):
     """
     # Initialisation of leave one out object
     loo = LeaveOneOut()
+    
     # Go through the data batches for each left out ID
     test_mean = []
-    for i, (train_index, test_index) in enumerate(loo.split(X)):
+    for i, (train_index, test_index) in enumerate(loo.split(X, Y)):
         # Take train and test data and labels according to the indexes of the current batch
         X_train = X.loc[X.index[train_index]]
         X_test = X.loc[X.index[test_index]]
@@ -525,12 +518,17 @@ def mainPipeline():
         print("*********************** featureSelection ***********************")
         # X = feature_selection(X, Y)
         if (len(X.columns) > 0):
+            # Merge data together to have same indexing for easier train/test split further
+            data = pd.merge(X, Y, on="ID")
+            Y=data[["ID","label"]]
+            X=data.drop(columns=['label'])
+            # Set ID column to index
+            X.set_index('ID', inplace=True)
+            Y.set_index('ID', inplace=True)
             for clf_model in model:
+                print(clf_model)
                 # Set the path to save model results
                 model_res_dir = os.path.join(output_dir, clf_model)
-                # Change the data indexing for the train/test splitting
-                X.set_index('ID', inplace=True)
-                Y.set_index('ID', inplace=True)
                 print("*********************** Create a classificator object ***********************")
                 clf = classificator(clf_model)
                 print("*********************** Chose Best Parameters ***********************")
@@ -538,9 +536,9 @@ def mainPipeline():
                 print("*********************** LeaveOneOut ***********************")
                 leaveOneOutTrain(X, Y, best_param, clf, model_res_dir)
                 print("*********************** AverageF1 ***********************")
-                averageF1Score(X, Y, best_param, clf, model_res_dir)
+                # averageF1Score(X, Y, best_param, clf, model_res_dir)
                 print("*********************** Random ***********************")
-                randomClassifier(X, Y, output_dir)
+                # randomClassifier(X, Y, output_dir)
                 print("*********************** SHAP ***********************")
                 # X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42, stratify=Y)
                 # best_model.fit(X_train, y_train.values.ravel())

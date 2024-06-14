@@ -94,14 +94,15 @@ def extractConfidenceLabels():
         # Create the new DataFrame for classes labels storage
         data_classified = pd.DataFrame()
         for index, row in data_labels.iterrows():   
-            if row[dim] >= threshold[0]:
+            if row[dim] <= threshold[0]:
                 data_classified = data_classified._append({'ID': row["ID"], 'label': 1}, ignore_index=True)
-            if row[dim] < threshold[1]:
+            if row[dim] > threshold[1]:
                 data_classified = data_classified._append({'ID': row["ID"], 'label': 0}, ignore_index=True)
 
         # Check classes sizes
         class_1 = len(data_classified.loc[data_classified['label'] == 1])
         class_0 = len(data_classified.loc[data_classified['label'] == 0])
+        print(data_classified.head())
         print("Nb of samples in class_1: ", class_1, "Nb of samples in class_0: ", class_0, "\n")
         print("Nb of samples of the dataset: ", data_classified['label'].value_counts())
         # Saving directory
