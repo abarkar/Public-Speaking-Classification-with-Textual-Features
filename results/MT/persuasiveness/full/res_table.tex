@@ -1,0 +1,16 @@
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Metric} & \textbf{SVM} & \textbf{RFC} & \textbf{LR} & \textbf{NB} \\ \hline
+LVO Accuracy Mean & 0.5282 & 0.4839 & 0.5323 & 0.5806 \\ \hline
+LVO Accuracy CI & (0.466, 0.5905) & (0.4215, 0.5462) & (0.47, 0.5945) & (0.5191, 0.6422) \\ \hline
+F1-Score Mean & 0.6607 & 0.5613 & 0.6597 & 0.6598 \\ \hline
+F1-score CI & (0.6208, 0.7007) & (0.5416, 0.581) & (0.6266, 0.6929) & (0.6437, 0.6758) \\ \hline
+Best Parameters & \makecell[l]{\{'C': 1,\\ 'gamma': 0.001,\\ 'kernel': 'rbf',\\ 'probability': True\}} & \makecell[l]{\{'bootstrap': True,\\ 'criterion': 'gini',\\ 'max\_depth': None,\\ 'max\_features': 20,\\ 'min\_samples\_leaf': 10,\\ 'min\_samples\_split': 10,\\ 'n\_estimators': 300\}} & \makecell[l]{\{'C': 0.001,\\ 'max\_iter': 1000,\\ 'multi\_class': 'ovr',\\ 'penalty': 'l1',\\ 'solver': 'liblinear'\}} & \makecell[l]{\{\}} \\ \hline
+Best Train Score & 0.5303 & 0.5458 & 0.5304 & 0.576 \\ \hline
+Best Test Score & 0.52 & 0.54 & 0.52 & 0.52 \\ \hline
+\end{tabular}
+\caption{Persuasiveness Results}
+\label{table:table:persuasiveness}
+\end{table}

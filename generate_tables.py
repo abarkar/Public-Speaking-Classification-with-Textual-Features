@@ -36,6 +36,31 @@ def parse_best_params(filename):
     return best_params, best_train, best_test
 
 
+def create_latex_table(data, table_caption, table_label):
+    columns = data.columns.tolist()
+    num_cols = len(columns)
+    latex_str = "\\begin{table}[h!]\n\\centering\n"
+    latex_str += "\\begin{tabular}{|l|" + "c|" * (num_cols - 1) + "}\n\\hline\n"
+    header_row = (
+        " & ".join([f"\\textbf{{{col}}}" for col in columns]) + " \\\\ \\hline\n"
+    )
+    latex_str += header_row
+    for _, row in data.iterrows():
+        row_str = " & ".join([str(val) for val in row]) + " \\\\ \\hline\n"
+        if row_str.startswith("Best"):
+            row_str = (
+                row_str.replace("{", "\makecell[l]{\{")
+                .replace("}", "\}}")
+                .replace(",", ",\\\\")
+            )
+        latex_str += row_str
+    latex_str += "\\end{tabular}\n"
+    latex_str += f"\\caption{{{table_caption}}}\n"
+    latex_str += f"\\label{{table:{table_label}}}\n"
+    latex_str += "\\end{table}\n"
+    return latex_str.replace("_", "\_")
+
+
 def create_table(filepaths):
     table = {}
     table["Metric"] = [
@@ -91,6 +116,11 @@ def tablesGenerator():
             filepaths += glob.glob(f"{final_result_dir}/*.txt")
         result_df = create_table(filepaths)
         result_df.to_csv(f"{dim_dir}/res_table.csv", index=False)
+        latex_table = create_latex_table(
+            result_df, f"{dim.title()} Results", f"table:{dim}"
+        )
+        with open(f"{dim_dir}/res_table.tex", "w") as outf:
+            outf.write(latex_table)
 
 
 if __name__ == "__main__":
