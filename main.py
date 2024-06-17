@@ -110,8 +110,8 @@ def dataPreprocessing(X, Y):
     # Check for the same IDs in X(features) and Y(labels)
     # print(len(Y.index))
     # print(len(X.index))
-    Y = Y.loc[(Y.index).isin(X.index)]
-    X = X.loc[(X.index).isin(Y.index)]
+    Y = Y.loc[(Y["ID"]).isin(X["ID"])]
+    X = X.loc[(X["ID"]).isin(Y["ID"])]
 
     # Set tagret data
     if (dataset == "POM"):
@@ -348,7 +348,7 @@ def leaveOneOutTrain(X, Y, best_param, clf, output_dir):
     loo = LeaveOneOut()
     # Go through the data batches for each left out ID
     test_mean = []
-    for i, (train_index, test_index) in enumerate(loo.split(X)):
+    for i, (train_index, test_index) in enumerate(loo.split(X, Y)):
         # Take train and test data and labels according to the indexes of the current batch
         X_train = X.loc[X.index[train_index]]
         X_test = X.loc[X.index[test_index]]
@@ -528,6 +528,9 @@ def mainPipeline():
         print("*********************** featureSelection ***********************")
         # X = feature_selection(X, Y)
         if (len(X.columns) > 0):
+            data = pd.merge(X, Y, on="ID")
+            Y = data[["ID", "label"]]
+            X = data.drop(columns=["label"])
             X.set_index('ID', inplace=True)
             Y.set_index('ID', inplace=True)
             for clf_model in model:
