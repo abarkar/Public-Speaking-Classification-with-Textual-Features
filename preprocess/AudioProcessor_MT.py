@@ -9,6 +9,21 @@ import glob
 import pandas as pd
 import json
 import opensmile
+from tqdm import tqdm
+
+
+def add_sex_feature(frequency_df):
+    gender_dir = os.path.join(rootDirPath, "data", dataset)
+    gender_data = pd.read_csv(f"{gender_dir}/{dataset}_gender.csv", sep=";")[
+        ["ID", "H/F"]
+    ]
+    gender_data["Sex"] = gender_data["H/F"].apply(lambda x: 0 if x == "H" else 1)
+    print(gender_data)
+    print(frequency_df)
+    frequency_df = frequency_df.set_index("ID").join(
+        gender_data[["ID", "Sex"]].set_index("ID")
+    )
+    return frequency_df
 
 
 def create_csv_files(features, data_dir):
@@ -28,9 +43,14 @@ def create_csv_files(features, data_dir):
     categoryDict = createFeatureLists()
     for cat, feat in categoryDict.items():
         current_category_feats = pd.concat(
-            [all_features["file"], all_features[feat]], axis=1
+            [all_features["ID"], all_features[feat]], axis=1
         )
-        current_category_feats.to_csv(os.path.join(csv_dir, f"{cat.title()}.csv"), index=False)
+        if cat == "Frequency":
+            current_category_feats = add_sex_feature(current_category_feats)
+        keep_index = cat == "Frequency"
+        current_category_feats.to_csv(
+            os.path.join(csv_dir, f"{cat.title()}.csv"), index=keep_index
+        )
 
 
 def createFeatureLists():
@@ -75,7 +95,7 @@ def audioProcess():
     )
     features = []
     # Extract features with opensmile for every file and append to the list
-    for audio in audio_paths:
+    for audio in tqdm(audio_paths):
         features.append(smile.process_file(audio))
     create_csv_files(features, data_dir)
 
