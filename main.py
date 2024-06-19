@@ -31,6 +31,8 @@ from feedback.SHAP import grouped_shap
 from sklearn.model_selection import train_test_split, LeaveOneOut
 from models.ML_Model import classificator #definedSVM, definedRFC, definedLR, SupportVectorMachine, RandomForest, LogRegression#, simpleDNN
 from sklearn.metrics import f1_score, accuracy_score, confusion_matrix
+from sklearn.utils import shuffle
+import models.custom_metrics as cm
 # Save results/models
 import json
 from joblib import dump,load
@@ -188,12 +190,13 @@ def loadRatings(dim):
     Return:
     labels (DataFrame): label values.
     """
-    label_file = os.path.join(rootDirPath, "data", dataset, "labels", clip, dim + "Label.csv")
+    label_file = os.path.join(rootDirPath, "data", dataset, "labels", task, clip, aggregationMethod, dim + "Label.csv")
     if task =="classification":
+        label_file = os.path.join(rootDirPath, "data", dataset, "labels", task, clip, aggregationMethod, clasSeparator, dim + "Label.csv")
         labels=pd.read_csv(label_file)    
     else:
-        #TODO: adapt the function for the regression task
-        labels=pd.DataFrame()
+        label_file = os.path.join(rootDirPath, "data", dataset, "labels", task, clip, aggregationMethod, dim + "Label.csv")
+        labels=pd.read_csv(label_file) 
     return labels
 
 
@@ -228,7 +231,7 @@ def choseBestParametersForClassification(X, Y, clf, output_dir):
     best_model (classifier): the best model after grid search.
     """
     # Split data for training and testing for the grid search
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0, stratify=Y)
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)#, stratify=Y)
     # USe Grid search with the parameters specifies in the classifer class
     rf_param, rf_train, rf_test, best_model = clf.GridSearch(X_train, y_train, X_test, y_test)
     # Save the best parameters
@@ -266,6 +269,103 @@ def averageF1Score(X, Y, best_param, clf, output_dir):
     txtForSave = open(f'{output_dir}/F1_score.txt', 'w')
     txtForSave.write("mean: {}".format(mean) + " confidence interval: {}".format(ci) + "\n")
     txtForSave.close()
+
+# Function to evaluate regression model
+def evaluate_model(model, X_test, y_test):
+    # Predict labels from trained model with the best parameters
+    y_pred = model.predict(X_test)
+    # Postprocess ground truth values
+    y_test = y_test.to_numpy().flatten()
+    # Calculate metrics
+    mae = mean_absolute_error(y_test, y_pred)
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = mean_squared_error(y_test, y_pred, squared=False)
+    r2 = r2_score(y_test, y_pred)
+    mape = np.mean(np.abs((y_test - y_pred) / y_test)) * 100
+    medae = median_absolute_error(y_test, y_pred)
+    return {'MAE': mae, 'MSE': mse, 'RMSE': rmse, 'R2': r2, 'MAPE': mape, 'MedAE': medae}
+
+def permutation_test(trained_model, X, y, metric, n_permutations=1000, random_state=None):
+    """
+    Perform permutation test to obtain p-value for a given metric.
+
+    Parameters:
+    model: Trained model to be evaluated.
+    X: Feature matrix.
+    y: Target vector.
+    metric: Metric function to evaluate the model.
+    n_permutations: Number of permutations.
+    random_state: Random state for reproducibility.
+
+    Returns:
+    p_value: P-value of the test.
+    """
+    if random_state:
+        np.random.seed(random_state)
+    
+    # Original metric
+    y_pred = trained_model.predict(X)
+    original_metric = metric(y, y_pred)
+    
+    # Permuted metrics
+    permuted_metrics = []
+    for _ in range(n_permutations):
+        y_permuted = shuffle(y, random_state=random_state)
+        y_pred_permuted = trained_model.predict(X)
+        permuted_metric = metric(y_permuted, y_pred_permuted)
+        permuted_metrics.append(permuted_metric)
+    
+    # Calculate p-value
+    permuted_metrics = np.array(permuted_metrics)
+    p_value = np.mean(permuted_metrics >= original_metric)
+    
+    return original_metric, p_value
+
+def bestModelPerformanceAssessment(save_dir, trained_model, X, y):
+    """
+    Test pre-trained model with the best parameters and measure performance with the custom 
+    metrics from ./models/custim_metrics.py.
+
+    Parameters:
+    model: Trained model to be evaluated.
+    X: Feature matrix.
+    y: Target vector.
+
+    Returns:
+    saves results to ./results/{dimention}/{clip}/{model}/
+    """
+    # Postprocess ground truth values
+    y = y.to_numpy().flatten()
+    metrics_dict = {"":["value", "p-value"]}
+    if task=="classification":
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.f1_metric)
+        metrics_dict["f1 score"]=[original_metric, p_value]
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.accuracy)
+        metrics_dict["accuracy"]=[original_metric, p_value]
+    elif task =="regression":
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.mae_metric)
+        metrics_dict["mae"]=[original_metric, p_value]
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.mse_metric)
+        metrics_dict["mse"]=[original_metric, p_value]
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.rmse_metric)
+        metrics_dict["rmse"]=[original_metric, p_value]
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.r2_metric)
+        metrics_dict["r2"]=[original_metric, p_value]
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.mape_metric)
+        metrics_dict["mape"]=[original_metric, p_value]
+        original_metric, p_value = permutation_test(trained_model, X, y, cm.medae_metric)
+        metrics_dict["medae"]=[original_metric, p_value]
+    # Convert dictionary to DataFrame
+    df = pd.DataFrame(metrics_dict)
+    print(df)
+    # Convert to LaTeX
+    latex_table = df.to_latex(index=False)
+    # Save Latex Table
+    with open(f'{save_dir}/metrics.tex', 'w') as f:
+        f.write(latex_table)
+
+
+
 
 
 
@@ -351,10 +451,10 @@ def leaveOneOutTrain(X, Y, best_param, clf, output_dir):
         X_test = X.loc[X.index[test_index]]
         y_train = Y.loc[Y.index[train_index]]
         y_test = Y.loc[Y.index[test_index]]
-        # Accaracy of the model
-        rf_test, f1_score = clf.Defined(X_train, y_train, X_test, y_test, best_param)
+        # Accaracy of the model mesured with the target metric. To set target matric go to ./model/ML_Model.py
+        target_metric = clf.Defined(X_train, y_train, X_test, y_test, best_param)
         # Save the accuracy
-        test_mean.append(rf_test)
+        test_mean.append(target_metric)
     # Calculate mean accuracy 
     mean, ci = calculate_ci(test_mean)
     # Save results
@@ -535,6 +635,9 @@ def mainPipeline():
                 best_param, best_model = choseBestParametersForClassification(X, Y, clf, model_res_dir)
                 print("*********************** LeaveOneOut ***********************")
                 leaveOneOutTrain(X, Y, best_param, clf, model_res_dir)
+                print("*********************** Performance assessment ***********************")
+                bestModelPerformanceAssessment(model_res_dir, best_model, X, Y)
+
                 print("*********************** AverageF1 ***********************")
                 # averageF1Score(X, Y, best_param, clf, model_res_dir)
                 print("*********************** Random ***********************")
@@ -565,6 +668,8 @@ if __name__ == "__main__":
     modalities = config['modalities']
     threshold = config['threshold']
     featureSelection = config['featureSelection']
+    clasSeparator = config['clasSeparator']
+    aggregationMethod = config['aggregationMethod']
 
     # Example usage in your script
     print(f"Root Directory Path: {rootDirPath}")
@@ -576,6 +681,8 @@ if __name__ == "__main__":
     print(f"Modalities: {modalities}")
     print(f"Threshold: {threshold}")
     print(f"Feature Selection: {featureSelection}")
+    print(f"Class Separation w.r.t.: {clasSeparator}")
+    print(f"Score Aggregation method: {aggregationMethod}")
 
 
     # Adding the rootDirPath to the system path

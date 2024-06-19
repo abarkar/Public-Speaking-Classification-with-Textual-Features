@@ -93,20 +93,24 @@ def extractConfidenceLabels():
 
         # Create the new DataFrame for classes labels storage
         data_classified = pd.DataFrame()
-        for index, row in data_labels.iterrows():   
-            if row[dim] <= threshold[0]:
-                data_classified = data_classified._append({'ID': row["ID"], 'label': 1}, ignore_index=True)
-            if row[dim] > threshold[1]:
-                data_classified = data_classified._append({'ID': row["ID"], 'label': 0}, ignore_index=True)
+        for index, row in data_labels.iterrows(): 
+            if task =="classification": 
+                if row[dim] <= threshold[0]:
+                    data_classified = data_classified._append({'ID': row["ID"], 'label': 1}, ignore_index=True)
+                if row[dim] > threshold[1]:
+                    data_classified = data_classified._append({'ID': row["ID"], 'label': 0}, ignore_index=True)
+            elif task =="regression":
+                data_classified = data_classified._append({'ID': row["ID"], 'label': row[dim]}, ignore_index=True)
+
 
         # Check classes sizes
-        class_1 = len(data_classified.loc[data_classified['label'] == 1])
-        class_0 = len(data_classified.loc[data_classified['label'] == 0])
-        print(data_classified.head())
-        print("Nb of samples in class_1: ", class_1, "Nb of samples in class_0: ", class_0, "\n")
-        print("Nb of samples of the dataset: ", data_classified['label'].value_counts())
+        # class_1 = len(data_classified.loc[data_classified['label'] == 1])
+        # class_0 = len(data_classified.loc[data_classified['label'] == 0])
+        # print(data_classified.head())
+        # print("Nb of samples in class_1: ", class_1, "Nb of samples in class_0: ", class_0, "\n")
+        # print("Nb of samples of the dataset: ", data_classified['label'].value_counts())
         # Saving directory
-        save_dir=os.path.join(rootDirPath, "data", dataset, "labels", clip)
+        save_dir=os.path.join(rootDirPath, "data", dataset, "labels", task, clip, aggregationMethod)
         # Check if the directory exists
         os.makedirs(save_dir, exist_ok=True)
         # Save data with classes separation to the .csv
@@ -146,6 +150,7 @@ if __name__ == "__main__":
     clip = config['clip']
     clasSeparator = config['clasSeparator']
     aggregationMethod = config['aggregationMethod']
+    task = config['task']
 
     # Example usage in your script
     print(f"Root Directory Path: {rootDirPath}")
@@ -154,6 +159,7 @@ if __name__ == "__main__":
     print(f"Clip: {clip}")
     print(f"Class Separator: {clasSeparator}")
     print(f"Aggregation Method: {aggregationMethod}")
+    print(f"Task: {task}")
 
     # Adding the rootDirPath to the system path
     sys.path.append(rootDirPath)
