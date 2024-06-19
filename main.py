@@ -30,7 +30,7 @@ from feedback.SHAP import grouped_shap
 # Trainins/test
 from sklearn.model_selection import train_test_split, LeaveOneOut
 from models.ML_Model import classificator #definedSVM, definedRFC, definedLR, SupportVectorMachine, RandomForest, LogRegression#, simpleDNN
-from sklearn.metrics import f1_score, accuracy_score, confusion_matrix
+from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 # Save results/models
 import json
 from joblib import dump,load
@@ -258,12 +258,20 @@ def averageF1Score(X, Y, best_param, clf, output_dir):
     """
     # Avegare F1 Score over 50 trainings
     test_mean = []
+    total_conf_matrix = np.zeros((len(np.unique(Y)), len(np.unique(Y))))
     for i in range(0, 50):
         # Split the data with the new seed
         X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=i)
         # Obtain f1 score for the model with the best parameters
-        rf_test, f1_score = clf.Defined(X_train, y_train, X_test, y_test, best_param)
+        rf_test, f1_score, prediction = clf.Defined(X_train, y_train, X_test, y_test, best_param)
         test_mean.append(f1_score)
+        conf_matrix = confusion_matrix(y_test['label'], prediction)
+        total_conf_matrix += conf_matrix
+    avg_conf_matrix = total_conf_matrix / 50.0
+    disp = ConfusionMatrixDisplay(avg_conf_matrix, display_labels=np.unique(Y))
+    disp.plot(cmap="OrRd")
+    plt.savefig(f"{output_dir}/conf_matrix.png")
+    # plt.show()
     # Calculate average F1 score 
     mean, ci = calculate_ci(test_mean)
     # Save average F1 score
@@ -355,7 +363,7 @@ def leaveOneOutTrain(X, Y, best_param, clf, output_dir):
         y_train = Y.loc[Y.index[train_index]]
         y_test = Y.loc[Y.index[test_index]]
         # Accaracy of the model
-        rf_test, f1_score = clf.Defined(X_train, y_train, X_test, y_test, best_param)
+        rf_test, f1_score, prediction = clf.Defined(X_train, y_train, X_test, y_test, best_param)
         # Save the accuracy
         test_mean.append(rf_test)
     # Calculate mean accuracy 

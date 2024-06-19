@@ -32,8 +32,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, balanced_accuracy_score
+from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, balanced_accuracy_score, ConfusionMatrixDisplay
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class classificator:
@@ -163,7 +164,11 @@ class classificator:
         # Calculate the accuracy of the classifier
         accuracy = accuracy_score(Y_test, y_pred)
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        return accuracy, f1
+        # conf_matrix = confusion_matrix(Y_test, y_pred)
+        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
+        # disp.plot(cmap="OrRd")
+        # plt.show()
+        return accuracy, f1, y_pred
     
 
     def definedNB(self, X_train, Y_train, X_test, Y_test, best_param):
@@ -175,7 +180,11 @@ class classificator:
         # Calculate the accuracy of the classifier
         accuracy = accuracy_score(Y_test, y_pred)
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        return accuracy, f1
+        # conf_matrix = confusion_matrix(Y_test, y_pred)
+        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
+        # disp.plot(cmap="OrRd")
+        # plt.show()
+        return accuracy, f1, y_pred
 
     def definedLR(self, X_train, Y_train, X_test, Y_test, best_param):
         clf = LogisticRegression(max_iter = best_param["max_iter"], solver = best_param["solver"], penalty = best_param["penalty"],C = best_param["C"], multi_class = best_param["multi_class"])
@@ -190,7 +199,11 @@ class classificator:
         print("Real: \n", Y_test, "\n")
         accuracy = balanced_accuracy_score(Y_test, y_pred)
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        return accuracy, f1
+        # conf_matrix = confusion_matrix(Y_test, y_pred)
+        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
+        # disp.plot(cmap="OrRd")
+        # plt.show()
+        return accuracy, f1, y_pred
 
     def definedSVM(self, X_train, Y_train, X_test, Y_test, best_param):
         SVM = svm.SVC(kernel=best_param["kernel"], probability=best_param["probability"], gamma=best_param["gamma"], C=best_param["C"])
@@ -199,9 +212,13 @@ class classificator:
         # print("------------- F1 average test ----------")
         # print("Predicted: \n", y_pred , "\n")
         # print("Real: \n", Y_test, "\n")
-        f1 = f1_score(Y_test, y_pred, zero_division=0.)
+        f1 = f1_score ( Y_test, y_pred, zero_division=0.)
         acc = accuracy_score(Y_test, y_pred)
-        return acc, f1
+        # conf_matrix = confusion_matrix(Y_test, y_pred)
+        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
+        # disp.plot(cmap="OrRd")
+        # plt.show()
+        return acc, f1, y_pred
 
     def definedRFC(self, X_train, Y_train, X_test, Y_test, best_param):
         clf = RandomForestClassifier(max_features = best_param["max_features"], min_samples_split = best_param["min_samples_split"], min_samples_leaf = best_param["min_samples_leaf"], bootstrap = best_param["bootstrap"], n_estimators = best_param["n_estimators"], criterion = best_param["criterion"])
@@ -218,6 +235,10 @@ class classificator:
         accuracy = accuracy_score(Y_test, y_pred)
 
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        return accuracy, f1
+        # conf_matrix = confusion_matrix(Y_test, y_pred)
+        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
+        # disp.plot(cmap="OrRd")
+        # plt.show()
+        return accuracy, f1, y_pred
 
 
