@@ -45,11 +45,11 @@ def create_csv_files(features, data_dir):
         current_category_feats = pd.concat(
             [all_features["ID"], all_features[feat]], axis=1
         )
-        if cat == "Frequency":
-            current_category_feats = add_sex_feature(current_category_feats)
-        keep_index = cat == "Frequency"
+        # if cat == "Frequency":
+        #     current_category_feats = add_sex_feature(current_category_feats)
+        # keep_index = cat == "Frequency"
         current_category_feats.to_csv(
-            os.path.join(csv_dir, f"{cat.title()}.csv"), index=keep_index
+            os.path.join(csv_dir, f"{cat.title()}.csv"), index=False
         )
 
 
