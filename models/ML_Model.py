@@ -28,19 +28,20 @@ test_score (float): Score of best_estimator on the test set.
 """
 from sklearn import svm
 from sklearn.model_selection import GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, balanced_accuracy_score, ConfusionMatrixDisplay
+from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, balanced_accuracy_score
+import models.custom_metrics as cm
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class classificator:
     def __init__(self, clf_type):
         self.clf = clf_type
         self.scoring = "accuracy"
+        self.target_metric=cm.f1_metric
 
     def GridSearch(self, X_train, Y_train, X_test, Y_test):
         if self.clf == "SVM":
@@ -53,6 +54,21 @@ class classificator:
             return self.NBayes(X_train, Y_train, X_test, Y_test)
         elif self.clf == "KN":
             return self.KNeigbors(X_train, Y_train, X_test, Y_test)
+        elif self.clf == "LIN":
+            self.target_metric=cm.rmse_metric
+            return self.LinReg(X_train, Y_train, X_test, Y_test)
+        elif self.clf == "RID":
+            self.target_metric=cm.rmse_metric
+            return self.RidgeReg(X_train, Y_train, X_test, Y_test)
+        elif self.clf == "LAS":
+            self.target_metric=cm.rmse_metric
+            return self.LassoReg(X_train, Y_train, X_test, Y_test)
+        elif self.clf == "eNET":
+            self.target_metric=cm.rmse_metric
+            return self.ElasticNetReg(X_train, Y_train, X_test, Y_test)
+        elif self.clf == "RFR":
+            self.target_metric=cm.rmse_metric
+            return self.RandomForestReg(X_train, Y_train, X_test, Y_test)
         else:
             print("This classificator is not implemented\n")
             return None
@@ -67,6 +83,16 @@ class classificator:
             return self.definedNB( X_train, Y_train, X_test, Y_test, best_param)
         elif self.clf == "KN":
             return self.definedKN(X_train, Y_train, X_test, Y_test, best_param)
+        elif self.clf == "LIN":
+            return self.definedLinReg(X_train, Y_train, X_test, Y_test, best_param)
+        elif self.clf == "RID":
+            return self.definedRidgeReg(X_train, Y_train, X_test, Y_test, best_param)
+        elif self.clf == "LAS":
+            return self.definedLassoReg(X_train, Y_train, X_test, Y_test, best_param)
+        elif self.clf == "eNET":
+            return self.definedElasticNetReg(X_train, Y_train, X_test, Y_test, best_param)
+        elif self.clf == "RFR":
+            return self.definedRandomForgestReg(X_train, Y_train, X_test, Y_test, best_param)
         else:
             print("This classificator is not implemented\n")
             return None
@@ -151,9 +177,165 @@ class classificator:
         train_score = gsKN.best_score_
         test_score = KN_best.score(X_test, Y_test)
         return best_param, train_score, test_score, KN_best
+    
+
+
+    def LinReg(self, X_train, Y_train, X_test, Y_test):
+        model = LinearRegression()
+        model.fit(X_train, Y_train)
+        best_param={}
+        best_param['coefficients']=model.coef_
+        best_param['intercept']=model.intercept_
+        Y_pred_train = model.predict(X_train)
+        Y_pred_test = model.predict(X_test)
+        train_score = self.target_metric(Y_train, Y_pred_train)
+        test_score = self.target_metric(Y_test, Y_pred_test) 
+        return best_param, train_score, test_score, model
+
+
+    def RidgeReg(self, X_train, Y_train, X_test, Y_test):
+        model = Ridge()
+        # Define the range of alpha values to try
+        param_grid ={'alpha':[0.1, 1.0, 10.0]}
+        # Perform randomized search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_root_mean_squared_error', cv=5)
+        # Fit Grid Search
+        grid_search.fit(X_train, Y_train)
+        # Get the best hyperparameters
+        best_model = grid_search.best_estimator_
+        best_param = grid_search.best_params_ 
+        print("best_param of Ridge regression in GS:", best_param)
+        train_score = grid_search.best_score_
+        test_score = grid_search.score(X_test, Y_test)
+        return best_param, train_score, test_score, best_model
 
 
 
+    def LassoReg(self, X_train, Y_train, X_test, Y_test):
+        model = Lasso()
+        # Define the range of alpha values to try
+        param_grid ={'alpha':[0.1, 1.0, 10.0]}
+        # Perform grid search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_root_mean_squared_error', cv=5)
+        grid_search.fit(X_train, Y_train)
+        # Get the best hyperparameters
+        best_model = grid_search.best_estimator_
+        best_param = grid_search.best_params_
+        train_score = grid_search.best_score_
+        test_score = grid_search.score(X_test, Y_test)
+        return best_param, train_score, test_score, best_model
+
+
+    def ElasticNetReg(self, X_train, Y_train, X_test, Y_test):
+        model = ElasticNet()
+        # Define the range of alpha and l1_ratio values to try
+        param_grid={'alpha': [0.1, 1.0, 10.0], 'l1_ratio': [0.1, 0.5, 0.9]}
+        # Perform grid search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_root_mean_squared_error', cv=5)
+        grid_search.fit(X_train, Y_train)
+        # Get the best hyperparameters
+        best_model = grid_search.best_estimator_
+        best_param = grid_search.best_params_
+        train_score = grid_search.best_score_
+        test_score = grid_search.score(X_test, Y_test)
+        return best_param, train_score, test_score, best_model
+        
+        
+    def RandomForestReg(self, X_train, Y_train, X_test, Y_test):
+        model = RandomForestRegressor()
+        # Define the hyperparameters to tune
+        param_grid = {
+            'n_estimators': [100, 200, 300],
+            'max_depth': [None, 10, 20],
+            'min_samples_split': [2, 5, 10],
+            'min_samples_leaf': [1, 2, 4]
+        }
+        # Perform grid search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_root_mean_squared_error', cv=5)
+        grid_search.fit(X_train, Y_train)
+        # Get the best hyperparameters
+        best_model = grid_search.best_estimator_
+        best_param = grid_search.best_params_
+        train_score = grid_search.best_score_
+        test_score = grid_search.score(X_test, Y_test)
+        return best_param, train_score, test_score, best_model
+    
+    def definedLinReg(self, X_train, Y_train, X_test, Y_test, best_param):
+        # Create a new LinearRegression instance
+        defined_model = LinearRegression()
+        # Manually set the coefficients and intercept
+        defined_model.coef_ = best_param['coefficients']
+        defined_model.intercept_ = best_param["intercept"]
+        # Fit defined model
+        defined_model.fit(X_train,Y_train.values.ravel())
+        Y_pred = defined_model.predict(X_test)
+        # Metrics for defined model
+        mae = cm.mae_metric(Y_test, Y_pred)
+        rmse = cm.rmse_metric(Y_test, Y_pred)
+        return mae, rmse
+    
+    def definedLassoReg(self, X_train, Y_train, X_test, Y_test, best_param):
+        # Create a new LinearRegression instance
+        defined_model = Lasso()
+        # Manually set the coefficients and intercept
+        defined_model.coef_ = best_param['coefficients']
+        defined_model.intercept_ = best_param["intercept"]
+        # Fit defined model
+        defined_model.fit(X_train,Y_train.values.ravel())
+        Y_pred = defined_model.predict(X_test)
+        # Metrics for defined model
+        mae = cm.mae_metric(Y_test, Y_pred)
+        rmse = cm.rmse_metric(Y_test, Y_pred)
+        return mae, rmse
+    
+    def definedElasticNetReg(self, X_train, Y_train, X_test, Y_test, best_param):
+        # Create a new LinearRegression instance
+        defined_model = ElasticNet()
+        # Manually set the coefficients and intercept
+        # defined_model.alpha = best_param['alpha']
+        # defined_model.l1_ratio = best_param['l1_ratio']
+        defined_model.coef_ = best_param['coefficients']
+        defined_model.intercept_ = best_param["intercept"]
+        # Fit defined model
+        defined_model.fit(X_train,Y_train.values.ravel())
+        Y_pred = defined_model.predict(X_test)
+        # Metrics for defined model
+        mae = cm.mae_metric(Y_test, Y_pred)
+        rmse = cm.rmse_metric(Y_test, Y_pred)
+        return mae, rmse
+    
+    def definedRandomForgestReg(self, X_train, Y_train, X_test, Y_test, best_param):
+        # Create a new LinearRegression instance
+        defined_model = ElasticNet()
+        # Manually set the coefficients and intercept
+        defined_model.n_estimators = best_param['n_estimators']
+        defined_model.max_depth = best_param['max_depth']
+        defined_model.min_samples_split = best_param['min_samples_split']
+        defined_model.min_samples_leaf = best_param['min_samples_leaf']
+        # Fit defined model
+        defined_model.fit(X_train,Y_train.values.ravel())
+        Y_pred = defined_model.predict(X_test)
+        # Metrics for defined model
+        mae = cm.mae_metric(Y_test, Y_pred)
+        rmse = cm.rmse_metric(Y_test, Y_pred)
+        return mae, rmse
+
+
+    def definedRidgeReg(self, X_train, Y_train, X_test, Y_test, best_param):
+        # Create a new LinearRegression instance
+        defined_model = Ridge()
+        # Manually set the coefficients and intercept
+        defined_model.coef_ = best_param['coefficients']
+        defined_model.intercept_ = best_param["intercept"]
+        # Fit defined model
+        defined_model.fit(X_train,Y_train.values.ravel())
+        Y_pred = defined_model.predict(X_test)
+        # Metrics for defined model
+        mae = cm.mae_metric(Y_test, Y_pred)
+        rmse = cm.rmse_metric(Y_test, Y_pred)
+        # Now target m
+        return rmse
+        
 
     def definedKN(self, X_train, Y_train, X_test, Y_test, best_param):
         clf = KNeighborsClassifier(n_neighbors = best_param["n_neighbors"])
@@ -164,11 +346,7 @@ class classificator:
         # Calculate the accuracy of the classifier
         accuracy = accuracy_score(Y_test, y_pred)
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        # conf_matrix = confusion_matrix(Y_test, y_pred)
-        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
-        # disp.plot(cmap="OrRd")
-        # plt.show()
-        return accuracy, f1, y_pred
+        return accuracy, f1
     
 
     def definedNB(self, X_train, Y_train, X_test, Y_test, best_param):
@@ -180,11 +358,7 @@ class classificator:
         # Calculate the accuracy of the classifier
         accuracy = accuracy_score(Y_test, y_pred)
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        # conf_matrix = confusion_matrix(Y_test, y_pred)
-        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
-        # disp.plot(cmap="OrRd")
-        # plt.show()
-        return accuracy, f1, y_pred
+        return accuracy, f1
 
     def definedLR(self, X_train, Y_train, X_test, Y_test, best_param):
         clf = LogisticRegression(max_iter = best_param["max_iter"], solver = best_param["solver"], penalty = best_param["penalty"],C = best_param["C"], multi_class = best_param["multi_class"])
@@ -199,11 +373,7 @@ class classificator:
         print("Real: \n", Y_test, "\n")
         accuracy = balanced_accuracy_score(Y_test, y_pred)
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        # conf_matrix = confusion_matrix(Y_test, y_pred)
-        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
-        # disp.plot(cmap="OrRd")
-        # plt.show()
-        return accuracy, f1, y_pred
+        return accuracy, f1
 
     def definedSVM(self, X_train, Y_train, X_test, Y_test, best_param):
         SVM = svm.SVC(kernel=best_param["kernel"], probability=best_param["probability"], gamma=best_param["gamma"], C=best_param["C"])
@@ -212,13 +382,9 @@ class classificator:
         # print("------------- F1 average test ----------")
         # print("Predicted: \n", y_pred , "\n")
         # print("Real: \n", Y_test, "\n")
-        f1 = f1_score ( Y_test, y_pred, zero_division=0.)
+        f1 = f1_score(Y_test, y_pred, zero_division=0.)
         acc = accuracy_score(Y_test, y_pred)
-        # conf_matrix = confusion_matrix(Y_test, y_pred)
-        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
-        # disp.plot(cmap="OrRd")
-        # plt.show()
-        return acc, f1, y_pred
+        return acc, f1
 
     def definedRFC(self, X_train, Y_train, X_test, Y_test, best_param):
         clf = RandomForestClassifier(max_features = best_param["max_features"], min_samples_split = best_param["min_samples_split"], min_samples_leaf = best_param["min_samples_leaf"], bootstrap = best_param["bootstrap"], n_estimators = best_param["n_estimators"], criterion = best_param["criterion"])
@@ -235,10 +401,97 @@ class classificator:
         accuracy = accuracy_score(Y_test, y_pred)
 
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
-        # conf_matrix = confusion_matrix(Y_test, y_pred)
-        # disp = ConfusionMatrixDisplay(conf_matrix, display_labels=np.unique(Y_test))
-        # disp.plot(cmap="OrRd")
-        # plt.show()
-        return accuracy, f1, y_pred
+        return accuracy, f1
 
 
+
+
+
+
+
+
+
+
+def train_regression_model(X_train, y_train, model_type='ridge'):
+    best_params=[]
+    # Convert y_train to a 1D array
+    y_train = y_train.values.ravel()
+    if model_type == 'linear':
+        final_model = LinearRegression()
+        # Just fit the model directly
+        print(y_train)
+        final_model.fit(X_train, y_train)
+        best_params=final_model.coef_
+    
+    elif model_type == 'ridge':
+        model = Ridge()
+        # Define the range of alpha values to try
+        alphas = [0.1, 1.0, 10.0]
+        # Perform randomized search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid={'alpha': alphas}, scoring='neg_root_mean_squared_error', cv=5)
+        
+        # grid_search=RandomizedSearchCV(estimator=model, param_distributions={'alpha': alphas}, scoring='neg_root_mean_squared_error', n_iter=100, cv=5)
+        grid_search.fit(X_train, y_train)
+        # Get the best hyperparameters
+        best_param = grid_search.best_params_ 
+        # Train the final model with the best alpha
+        final_model = Ridge(**best_param)
+        final_model.fit(X_train, y_train) 
+        # y_pred=final_model.predict(X_train)
+        # print(y_pred)
+
+    elif model_type == 'lasso':
+        model = Lasso()
+        # Define the range of alpha values to try
+        alphas = [0.1, 1.0, 10.0]
+        # Perform grid search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid={'alpha': alphas}, scoring='neg_root_mean_squared_error', cv=5)
+        grid_search.fit(X_train, y_train)
+
+        # Get the best hyperparameters
+        best_param = grid_search.best_params_['alpha']
+
+        # Train the final model with the best alpha
+        final_model = Lasso(alpha=best_param)
+        final_model.fit(X_train, y_train)
+
+    elif model_type == 'random_forest':
+        model = RandomForestRegressor()
+        # Define the hyperparameters to tune
+        param_grid = {
+            'n_estimators': [100, 200, 300],
+            'max_depth': [None, 10, 20],
+            'min_samples_split': [2, 5, 10],
+            'min_samples_leaf': [1, 2, 4]
+        }
+        # Perform grid search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_root_mean_squared_error', cv=5)
+        grid_search.fit(X_train, y_train)
+
+        # Get the best hyperparameters
+        best_params = grid_search.best_params_
+
+        # Train the final model with the best hyperparameters
+        final_model = RandomForestRegressor(**best_params)
+        final_model.fit(X_train, y_train)
+
+    elif model_type == 'ElasticNet':
+        model = ElasticNet()
+        # Define the range of alpha and l1_ratio values to try
+        alphas = [0.1, 1.0, 10.0]
+        l1_ratios = [0.1, 0.5, 0.9]
+        # Perform grid search cross-validation
+        grid_search = GridSearchCV(estimator=model, param_grid={'alpha': alphas, 'l1_ratio': l1_ratios}, scoring='neg_root_mean_squared_error', cv=5)
+        grid_search.fit(X_train, y_train)
+
+        # Get the best hyperparameters
+        best_params = grid_search.best_params_
+
+        # Train the final model with the best hyperparameters
+        final_model = ElasticNet(**best_params)
+        final_model.fit(X_train, y_train)
+    else:
+        raise ValueError("Invalid model type")
+    # print("Best parameters: ", best_params)
+    # print()
+    return final_model, best_params
