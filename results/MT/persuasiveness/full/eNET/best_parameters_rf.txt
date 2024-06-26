@@ -1,0 +1,3 @@
+best parameters: {'alpha': 1.0, 'l1_ratio': 0.5}
+ best_train_score: -0.5136004734449606
+ best_test_score: -0.6993045382110565

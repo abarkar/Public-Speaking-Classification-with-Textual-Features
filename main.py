@@ -316,6 +316,7 @@ def permutation_test(trained_model, X, y, metric, n_permutations=1000, random_st
         permuted_metrics.append(permuted_metric)
     
     # Calculate p-value
+    print(permuted_metrics)
     permuted_metrics = np.array(permuted_metrics)
     p_value = np.mean(permuted_metrics >= original_metric)
     
