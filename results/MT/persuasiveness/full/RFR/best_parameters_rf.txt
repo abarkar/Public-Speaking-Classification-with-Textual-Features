@@ -1,3 +1,3 @@
-best parameters: {'max_depth': None, 'min_samples_leaf': 4, 'min_samples_split': 10, 'n_estimators': 300}
- best_train_score: -0.5441056801015232
- best_test_score: -0.6733074587192768
+best parameters: {'max_depth': 10, 'min_samples_leaf': 4, 'min_samples_split': 5, 'n_estimators': 300}
+ best_train_score: -0.5436667611541484
+ best_test_score: -0.6818719035339109

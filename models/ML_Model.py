@@ -204,7 +204,7 @@ class classificator:
         # Get the best hyperparameters
         best_model = grid_search.best_estimator_
         best_param = grid_search.best_params_ 
-        print("best_param of Ridge regression in GS:", best_param)
+        # print("best_param of Ridge regression in GS:", best_param)
         train_score = grid_search.best_score_
         test_score = grid_search.score(X_test, Y_test)
         return best_param, train_score, test_score, best_model
@@ -236,6 +236,7 @@ class classificator:
         # Get the best hyperparameters
         best_model = grid_search.best_estimator_
         best_param = grid_search.best_params_
+        # print(best_param)
         train_score = grid_search.best_score_
         test_score = grid_search.score(X_test, Y_test)
         return best_param, train_score, test_score, best_model
@@ -276,10 +277,10 @@ class classificator:
     
     def definedLassoReg(self, X_train, Y_train, X_test, Y_test, best_param):
         # Create a new LinearRegression instance
-        defined_model = Lasso()
+        defined_model = Lasso(alpha=best_param['alpha'])
         # Manually set the coefficients and intercept
-        defined_model.coef_ = best_param['coefficients']
-        defined_model.intercept_ = best_param["intercept"]
+        # defined_model.coef_ = best_param['alpha']
+        # defined_model.intercept_ = best_param["intercept"]
         # Fit defined model
         defined_model.fit(X_train,Y_train.values.ravel())
         Y_pred = defined_model.predict(X_test)
@@ -290,12 +291,12 @@ class classificator:
     
     def definedElasticNetReg(self, X_train, Y_train, X_test, Y_test, best_param):
         # Create a new LinearRegression instance
-        defined_model = ElasticNet()
+        defined_model = ElasticNet(alpha=best_param['alpha'], l1_ratio=best_param['l1_ratio'])
         # Manually set the coefficients and intercept
         # defined_model.alpha = best_param['alpha']
         # defined_model.l1_ratio = best_param['l1_ratio']
-        defined_model.coef_ = best_param['coefficients']
-        defined_model.intercept_ = best_param["intercept"]
+        # print(defined_model.coef_ )
+        # defined_model.coef_ = best_param['alpha']
         # Fit defined model
         defined_model.fit(X_train,Y_train.values.ravel())
         Y_pred = defined_model.predict(X_test)
@@ -323,10 +324,10 @@ class classificator:
 
     def definedRidgeReg(self, X_train, Y_train, X_test, Y_test, best_param):
         # Create a new LinearRegression instance
-        defined_model = Ridge()
+        defined_model = Ridge(alpha=best_param['alpha'])
         # Manually set the coefficients and intercept
-        defined_model.coef_ = best_param['coefficients']
-        defined_model.intercept_ = best_param["intercept"]
+        defined_model.coef_ = best_param['alpha']
+        # defined_model.intercept_ = best_param["intercept"]
         # Fit defined model
         defined_model.fit(X_train,Y_train.values.ravel())
         Y_pred = defined_model.predict(X_test)
@@ -403,95 +404,3 @@ class classificator:
         f1 = f1_score(Y_test, y_pred, zero_division=0.)
         return accuracy, f1
 
-
-
-
-
-
-
-
-
-
-def train_regression_model(X_train, y_train, model_type='ridge'):
-    best_params=[]
-    # Convert y_train to a 1D array
-    y_train = y_train.values.ravel()
-    if model_type == 'linear':
-        final_model = LinearRegression()
-        # Just fit the model directly
-        print(y_train)
-        final_model.fit(X_train, y_train)
-        best_params=final_model.coef_
-    
-    elif model_type == 'ridge':
-        model = Ridge()
-        # Define the range of alpha values to try
-        alphas = [0.1, 1.0, 10.0]
-        # Perform randomized search cross-validation
-        grid_search = GridSearchCV(estimator=model, param_grid={'alpha': alphas}, scoring='neg_root_mean_squared_error', cv=5)
-        
-        # grid_search=RandomizedSearchCV(estimator=model, param_distributions={'alpha': alphas}, scoring='neg_root_mean_squared_error', n_iter=100, cv=5)
-        grid_search.fit(X_train, y_train)
-        # Get the best hyperparameters
-        best_param = grid_search.best_params_ 
-        # Train the final model with the best alpha
-        final_model = Ridge(**best_param)
-        final_model.fit(X_train, y_train) 
-        # y_pred=final_model.predict(X_train)
-        # print(y_pred)
-
-    elif model_type == 'lasso':
-        model = Lasso()
-        # Define the range of alpha values to try
-        alphas = [0.1, 1.0, 10.0]
-        # Perform grid search cross-validation
-        grid_search = GridSearchCV(estimator=model, param_grid={'alpha': alphas}, scoring='neg_root_mean_squared_error', cv=5)
-        grid_search.fit(X_train, y_train)
-
-        # Get the best hyperparameters
-        best_param = grid_search.best_params_['alpha']
-
-        # Train the final model with the best alpha
-        final_model = Lasso(alpha=best_param)
-        final_model.fit(X_train, y_train)
-
-    elif model_type == 'random_forest':
-        model = RandomForestRegressor()
-        # Define the hyperparameters to tune
-        param_grid = {
-            'n_estimators': [100, 200, 300],
-            'max_depth': [None, 10, 20],
-            'min_samples_split': [2, 5, 10],
-            'min_samples_leaf': [1, 2, 4]
-        }
-        # Perform grid search cross-validation
-        grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_root_mean_squared_error', cv=5)
-        grid_search.fit(X_train, y_train)
-
-        # Get the best hyperparameters
-        best_params = grid_search.best_params_
-
-        # Train the final model with the best hyperparameters
-        final_model = RandomForestRegressor(**best_params)
-        final_model.fit(X_train, y_train)
-
-    elif model_type == 'ElasticNet':
-        model = ElasticNet()
-        # Define the range of alpha and l1_ratio values to try
-        alphas = [0.1, 1.0, 10.0]
-        l1_ratios = [0.1, 0.5, 0.9]
-        # Perform grid search cross-validation
-        grid_search = GridSearchCV(estimator=model, param_grid={'alpha': alphas, 'l1_ratio': l1_ratios}, scoring='neg_root_mean_squared_error', cv=5)
-        grid_search.fit(X_train, y_train)
-
-        # Get the best hyperparameters
-        best_params = grid_search.best_params_
-
-        # Train the final model with the best hyperparameters
-        final_model = ElasticNet(**best_params)
-        final_model.fit(X_train, y_train)
-    else:
-        raise ValueError("Invalid model type")
-    # print("Best parameters: ", best_params)
-    # print()
-    return final_model, best_params
