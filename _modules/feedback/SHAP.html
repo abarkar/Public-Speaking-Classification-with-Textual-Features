@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>feedback.SHAP &#8212; Documentation Public Speaking Automatic Assessment with AudioTextual Features 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Code source de feedback.SHAP</h1><div class="highlight"><pre>
+<span></span><span class="c1"># SHAP related methods</span>
+
+<span class="kn">import</span> <span class="nn">shap</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span><span class="p">,</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;/Users/goddessoffailures/Desktop/Mock-Up_sample/Mock-Up_sample/REVITALISE&#39;</span><span class="p">)</span>
+
+
+<span class="k">global</span> <span class="n">dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="s1">&#39;MT&#39;</span>
+
+<span class="k">global</span> <span class="n">rate_type</span>
+<span class="n">rate_type</span> <span class="o">=</span> <span class="s1">&#39;persuasiveness&#39;</span>
+
+<span class="n">revert_dict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">zip</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()]))</span>
+
+<span class="c1"># calculate importance of each category</span>
+<div class="viewcode-block" id="ModelInterpret"><a class="viewcode-back" href="../../modules.html#feedback.SHAP.ModelInterpret">[docs]</a><span class="k">def</span> <span class="nf">ModelInterpret</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">features_name</span><span class="p">):</span>
+    <span class="n">group_shap</span> <span class="o">=</span> <span class="n">grouped_shap</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">features_name</span><span class="p">)</span>
+    <span class="n">txtForSave</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./results/&#39;</span> <span class="o">+</span> <span class="n">dataset</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">rate_type</span> <span class="o">+</span> <span class="s1">&#39;/mean_interpret.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">col_0</span> <span class="ow">in</span> <span class="n">group_shap</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">group_shap</span><span class="p">[</span><span class="n">col_0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">txtForSave</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">col_0</span> <span class="o">+</span> <span class="s2">&quot;: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># print(col_0 + &quot;: {}&quot;.format(tmp.mean()))</span>
+    <span class="n">txtForSave</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="plot_shap_by_feature"><a class="viewcode-back" href="../../modules.html#feedback.SHAP.plot_shap_by_feature">[docs]</a><span class="k">def</span> <span class="nf">plot_shap_by_feature</span><span class="p">(</span><span class="n">shap_values</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plot contribution&quot;</span><span class="p">)</span>
+    <span class="n">shap</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">shap_values</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">auto_size_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./results/&#39;</span> <span class="o">+</span> <span class="n">dataset</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">rate_type</span> <span class="o">+</span> <span class="s1">&#39;contributionSHAP.png&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># calculate Shapley value of each group</span>
+<div class="viewcode-block" id="grouped_shap"><a class="viewcode-back" href="../../modules.html#feedback.SHAP.grouped_shap">[docs]</a><span class="k">def</span> <span class="nf">grouped_shap</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">background</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">features_name</span><span class="p">):</span>
+    <span class="n">explainer</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">KernelExplainer</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span> <span class="n">background</span><span class="p">)</span>
+    <span class="n">shap_values</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="c1"># shap_values_all = explainer.shap_values(background)</span>
+
+    <span class="c1">#matrix of SHAP values (# samples x # features). Each row sums to the difference between the model</span>
+    <span class="c1"># output for that sample and the expected value of the model output (which is stored as expected_value attribute of the explainer).</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;there is shpa w.r.t. features&quot;</span><span class="p">)</span>
+    <span class="n">shap</span><span class="o">.</span><span class="n">summary_plot</span><span class="p">(</span><span class="n">shap_values</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">target</span><span class="p">,</span> <span class="n">max_display</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">auto_size_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;finished&quot;</span><span class="p">)</span>
+
+    <span class="c1"># plot_shap_by_feature(shap_values, target)</span>
+
+    <span class="n">shap_0</span> <span class="o">=</span> <span class="n">shap_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">groupmap</span> <span class="o">=</span> <span class="n">revert_dict</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+    <span class="n">shap_Tdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">shap_0</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">features_name</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;features&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">shap_Tdf</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">shap_Tdf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">groupmap</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">shap_grouped</span> <span class="o">=</span> <span class="n">shap_Tdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;group&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">shap_grouped</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">shap_grouped</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Public Speaking Automatic Assessment with AudioTextual Features</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">My Project Modules</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Code du module</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Recherche rapide</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Alisa Barkar, Valentine Fleith.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
