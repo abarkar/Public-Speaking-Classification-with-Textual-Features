@@ -1,5 +1,7 @@
 """
 The AudioProcessor_MT.py script extracts eGeMAPS (extended Geneva Minimalistic Acoustic Parameter Set) features from MT dataset files and saves the resulting feature set to a CSV file.
+
+@author: Valentine Fleith, valentine.fleith@gmail.com
 """
 
 
@@ -13,6 +15,15 @@ from tqdm import tqdm
 
 
 def add_sex_feature(frequency_df):
+    """
+    Adds a sex feature to the frequency DataFrame based on gender information from a CSV file.
+
+    Parameters:
+    frequency_df (DataFrame): DataFrame containing frequency features with an 'ID' column.
+
+    Returns:
+    DataFrame: Updated DataFrame with an additional 'Sex' column where '0' indicates male and '1' indicates female.
+    """
     gender_dir = os.path.join(rootDirPath, "data", dataset)
     gender_data = pd.read_csv(f"{gender_dir}/{dataset}_gender.csv", sep=";")[
         ["ID", "H/F"]
@@ -27,6 +38,13 @@ def add_sex_feature(frequency_df):
 
 
 def create_csv_files(features, data_dir):
+    """
+    Creates CSV files for the extracted features and saves them in the appropriate directory.
+
+    Parameters:
+    features (list of DataFrame): List of DataFrames containing the extracted features.
+    data_dir (str): Directory path where the data is stored.
+    """
     # Concat and remove columns automatically added by OpenSmile
     all_features = pd.concat(features).reset_index()
     all_features = all_features.drop(columns=["start", "end"])
