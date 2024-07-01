@@ -1,0 +1,1007 @@
+
+<!DOCTYPE html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Project Modules &#8212; Documentation Public Speaking Automatic Assessment with AudioTextual Features 1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="next" title="Project Structure" href="project_structure.html" />
+    <link rel="prev" title="Welcome to Public Speaking Automatic Assessment with AudioTextual Features’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-main">
+<span id="project-modules"></span><h1>Project Modules<a class="headerlink" href="#module-main" title="Lien permanent vers cette rubrique">¶</a></h1>
+<p>This script trains and tests classical ML models based on different multimodal features.</p>
+<p>The configuration is downloaded from the <cite>configuration.ini</cite> file. It chooses:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>rootDirPath</p></li>
+<li><p>dataset</p></li>
+<li><p>dimension</p></li>
+<li><p>clip</p></li>
+<li><p>model</p></li>
+<li><p>clasSeparator</p></li>
+<li><p>scoreType</p></li>
+<li><p>task</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="main.averageF1Score">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">averageF1Score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#averageF1Score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.averageF1Score" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Calculation of the average F1 score based on the model with the best parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
+<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
+<li><p><strong>best_param</strong> (<em>list</em>) – List of the best parameters.</p></li>
+<li><p><strong>clf</strong> (<em>object</em>) – Classifier object (classification model).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.bestModelPerformanceAssessment">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">bestModelPerformanceAssessment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#bestModelPerformanceAssessment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.bestModelPerformanceAssessment" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Test pre-trained model with the best parameters and measure performance with custom
+metrics from <cite>./models/custom_metrics.py</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>object</em>) – Trained model to be evaluated.</p></li>
+<li><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>array-like</em>) – Feature matrix.</p></li>
+<li><p><strong>y</strong> (<em>Series</em><em> or </em><em>array-like</em>) – Target vector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Saves results to <cite>./results/{dimension}/{clip}/{model}/</cite>.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.calc_corr_by_categories">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">calc_corr_by_categories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#calc_corr_by_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.calc_corr_by_categories" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Calculate correlation between features and labels and then group it by the categories.
+For each category, plot the boxplot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>corr</strong> (<em>numpy.ndarray</em><em> or </em><em>array-like</em>) – Correlations between features and labels.</p></li>
+<li><p><strong>group_by_category</strong> (<em>dict</em>) – Dictionary with pairs (category: list_of_features).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Type of correlation.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.calculate_ci">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">calculate_ci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#calculate_ci"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.calculate_ci" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Calculate mean and confidence interval from the data in the provided list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>list</em>) – List of values.</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>mean (float): Mean of the values in the data.</p></li>
+<li><p>ci (float): Confidence interval of the mean of the values in the data.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.choseBestParametersForClassification">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">choseBestParametersForClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#choseBestParametersForClassification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.choseBestParametersForClassification" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Grid search for the given model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
+<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
+<li><p><strong>clf</strong> (<em>object</em>) – Classifier object (classification model).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>rf_param (list): List of the best parameters.</p></li>
+<li><p>best_model (classifier): The best model after grid search.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.correlation_analysis">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">correlation_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#correlation_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.correlation_analysis" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Launch calculation of different correlations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
+<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
+<li><p><strong>group_by_category</strong> (<em>dict</em>) – Dictionary with pairs (category: list_of_features).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.dataPreprocessing">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">dataPreprocessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#dataPreprocessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.dataPreprocessing" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Checks that X and Y have the same list of IDs.
+Saves target and background data for further SHAP analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em>) – Feature values.</p></li>
+<li><p><strong>Y</strong> (<em>DataFrame</em>) – Labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>X (DataFrame): Feature values.</p></li>
+<li><p>Y (DataFrame): Labels.</p></li>
+<li><p>target (DataFrame): One chosen sample of dataset.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.feature_selection">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">feature_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#feature_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.feature_selection" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Feature selection based on Spearman correlation.
+Save the new X and target to the same files as before.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em>) – Feature values.</p></li>
+<li><p><strong>Y</strong> (<em>DataFrame</em>) – Labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Only features with the absolute value of correlation bigger than threshold.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.leaveOneOutTrain">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">leaveOneOutTrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#leaveOneOutTrain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.leaveOneOutTrain" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Leave-one-out method for testing the model with the best parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>best_model</strong> (<em>object</em>) – Classification model with the best parameters.</p></li>
+<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
+<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
+<li><p><strong>clf</strong> (<em>object</em>) – Classifier object (classification model).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.loadFeturesByCategories">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">loadFeturesByCategories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#loadFeturesByCategories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.loadFeturesByCategories" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Loads features from the .csv files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>feature_dir</strong> (<em>str</em>) – Directory containing feature files.</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>feature_df (DataFrame): Feature values.</p></li>
+<li><p>group_by_category (dict): Dictionary of pairs (category_name: list_of_features).</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.loadRatings">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">loadRatings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#loadRatings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.loadRatings" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Loads labels from the .csv file with respect to the task (classification/regression).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Labels.</p>
+</dd>
+<dt class="field-even">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.mainPipeline">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">mainPipeline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#mainPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.mainPipeline" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Main function that executes the pipeline steps:</p>
+<ol class="arabic simple">
+<li><p>Download features, preprocess, select features.</p></li>
+<li><p>Correlation analysis.</p></li>
+<li><p>Grid Search for the best parameters.</p></li>
+<li><p>Leave One Out for model testing.</p></li>
+<li><p>SHAP analysis.</p></li>
+</ol>
+<p>This function executes a pipeline of steps for each dimension specified:
+- Downloads features, preprocesses them, and selects relevant features.
+- Performs correlation analysis between features and labels.
+- Conducts a grid search to find the best parameters for a classifier.
+- Uses Leave One Out cross-validation to test the model.
+- Performs SHAP analysis to interpret model predictions.</p>
+<p>Notes:
+- Dimensions are assumed to be already downloaded from the configuration file.
+- Results are saved in the directory specified by <cite>rootDirPath/results/{dataset}/{dimension}/{clip}</cite>.</p>
+<p>No input parameters are directly specified within the function definition. However, it interacts with
+global variables or imports functions that may require certain configurations or data inputs.</p>
+<dl class="simple">
+<dt>None</dt><dd><p>The function does not return a value but saves results and outputs diagnostic messages during execution.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.permutation_test">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">permutation_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#permutation_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.permutation_test" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Perform permutation test to obtain p-value for a given metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>object</em>) – Trained model to be evaluated.</p></li>
+<li><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>array-like</em>) – Feature matrix.</p></li>
+<li><p><strong>y</strong> (<em>Series</em><em> or </em><em>array-like</em>) – Target vector.</p></li>
+<li><p><strong>metric</strong> (<em>function</em>) – Metric function to evaluate the model.</p></li>
+<li><p><strong>n_permutations</strong> (<em>int</em>) – Number of permutations.</p></li>
+<li><p><strong>random_state</strong> (<em>int</em><em> or </em><em>None</em>) – Random state for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>P-value of the test.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.plot_feature_correlations">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">plot_feature_correlations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#plot_feature_correlations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.plot_feature_correlations" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Calculate Spearman and Pearson correlations between features. Saves results as correlation matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.randomClassifier">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">randomClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#randomClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.randomClassifier" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Random classification and all 1 predition (to compare accuracy with the classififers).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>array-like</em>) – Feature matrix.</p></li>
+<li><p><strong>Y</strong> (<em>Series</em><em> or </em><em>array-like</em>) – Target vector.</p></li>
+<li><p><strong>output_dir</strong> (<em>String</em>) – Save directory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Saves results to output_dir.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.revert_dict">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">revert_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#revert_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.revert_dict" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Revert the dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – Dictionary with pairs (category: list_of_features).</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary mapping feature names to categories.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.save_correlations_to_csv">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">save_correlations_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#save_correlations_to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.save_correlations_to_csv" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Calculate Spearman and Pearson correlations between features and labels, save results to .csv.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
+<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.shapAnalysis">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">shapAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">best_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#shapAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.shapAnalysis" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>SHAP analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>best_model</strong> (<em>object</em>) – Classification model with the best parameters.</p></li>
+<li><p><strong>X_train</strong> (<em>DataFrame</em>) – List of features for training.</p></li>
+<li><p><strong>X_test</strong> (<em>DataFrame</em>) – List of features for testing.</p></li>
+<li><p><strong>group_by_category</strong> (<em>dict</em>) – Dictionary of pairs (category: list_of_features).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-preprocess.LabelProcessor_MT"></span><p>This script creates classes of low and high quiality of performance based on
+the subjective ratings provided in the dataset.</p>
+<p>&#64;author: Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.LabelProcessor_MT.extractConfidenceLabels">
+<span class="sig-prename descclassname"><span class="pre">preprocess.LabelProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">extractConfidenceLabels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/LabelProcessor_MT.html#extractConfidenceLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.LabelProcessor_MT.extractConfidenceLabels" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Categorize data based on the given method.</p>
+<p>Parameters:
+data_labels (DataFrame): The input DataFrame that is downlodaded via the function readData().
+dim_columns (list of strings or string): The dimension columns that will be categorized.
+scoreType (str): The method to use for categorization (“mean”, “median”, “Q1Q3”).</p>
+<p>Returns:
+DataFrame: The DataFrame with a new column for categorization.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.LabelProcessor_MT.readData">
+<span class="sig-prename descclassname"><span class="pre">preprocess.LabelProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">readData</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/LabelProcessor_MT.html#readData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.LabelProcessor_MT.readData" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Read and cleans data.
+Parameters:
+rootDirPath (str): Directory containing the dataset named « {dataset}_aggregated_scores.csv »</p>
+<p>Returns:
+data_labels (DataFrame): Slice of initial data with considered clip, scoreType and dimensions.
+dim_columns (list): list of column names of considered dimensions of dataset.
+index (list): list of sample IDs.</p>
+</dd></dl>
+
+<span class="target" id="module-preprocess.TextProcessor_MT"></span><p>This script extracts textual features based on:
+&#64;article{Vajjala2016AutomatedAO,</p>
+<blockquote>
+<div><p>title={Automated Assessment of Non-Native Learner Essays: Investigating the Role of Linguistic Features},
+author={Sowmya Vajjala},
+journal={International Journal of Artificial Intelligence in Education},
+year={2016},
+volume={28},
+pages={79 - 105},
+url={<a class="reference external" href="https://api.semanticscholar.org/CorpusID:3666482">https://api.semanticscholar.org/CorpusID:3666482</a>}</p>
+</div></blockquote>
+<p>}</p>
+<p>&#64;author: Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.POSTagDensity">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">POSTagDensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#POSTagDensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.POSTagDensity" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function for density feature calculation.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.POSTagForEng">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">POSTagForEng</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#POSTagForEng"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.POSTagForEng" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function for builging mapping between POSTag notations in french and english tagging.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.TextProcess">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">TextProcess</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#TextProcess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.TextProcess" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Main function that reads .txt files from the directory with transcripts and
+executes feature extraction. Transcript directory should contain subfolders:</p>
+<blockquote>
+<div><p>full, beg, mid, end</p>
+</div></blockquote>
+<p>Transcripts are named with the ID in the dataset.</p>
+<p>Parameters:
+rootDirPath (str): Root directory
+dataset: Name of the dataset</p>
+<p>Returns:
+str(featureCategories[idx])+ ».csv » (DataFrame): array of N x nb_cat_feat dimensions where</p>
+<blockquote>
+<div><p>N – number of data samples
+nb_cat_feat – number of features in the {category}
+category: linkingRate, devirsity, density, discourse,
+reference, synonymRate</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.contentWordOverlap">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">contentWordOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#contentWordOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.contentWordOverlap" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.createFeatureLists">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">createFeatureLists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#createFeatureLists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.createFeatureLists" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function createing the dictionary of the feature names of the category.</p>
+<p>Returns:
+categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.embeddingExtraction">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">embeddingExtraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#embeddingExtraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.embeddingExtraction" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.extractLinkingRate">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">extractLinkingRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#extractLinkingRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.extractLinkingRate" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function extracts linking rate features.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+conjunctFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.extractSynonymsRate">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">extractSynonymsRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#extractSynonymsRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.extractSynonymsRate" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function extracts synonym rate features.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+synonymsFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.extractTextFeatures">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">extractTextFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#extractTextFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.extractTextFeatures" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function createing the dictionary of the feature names of the category.</p>
+<p>Returns:
+categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.frencToken">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">frencToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lemma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#frencToken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.frencToken" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class of french tokens.</p>
+<p>Attributes:
+self.text (str): word.
+<a href="#id1"><span class="problematic" id="id2">self.lemma_</span></a> (str): lemma of the word
+<a href="#id3"><span class="problematic" id="id4">self.pos_</span></a> (str): pos of the word
+<a href="#id5"><span class="problematic" id="id6">self.tag_</span></a> (str): tag of the word</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.frenchDoc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">frenchDoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listOfFrenchSentences</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#frenchDoc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.frenchDoc" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class of french document postagging.</p>
+<p>Attributes:
+self.text (str): text of the transcript.
+self.docFull (list of lists): list of lists [spacyToken.text, <a href="#id7"><span class="problematic" id="id8">spacyToken.lemma_</span></a>, <a href="#id9"><span class="problematic" id="id10">spacyToken.pos_</span></a>, tag]
+self.docPerSent (list of lists of lists): list of lists corresponding the sentences of the text where each is the sequence of lists [spacyToken.text, <a href="#id11"><span class="problematic" id="id12">spacyToken.lemma_</span></a>, <a href="#id13"><span class="problematic" id="id14">spacyToken.pos_</span></a>, tag]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.french_to_english_text">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">french_to_english_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#french_to_english_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.french_to_english_text" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function cleaning the french letters in the filenames if needed.</p>
+<p>Parameters:
+text (str): Name of the file/name of the directory.</p>
+<p>Returns:
+translated_text (str): cleaned name of directory name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.fullTaggingForFrench">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">fullTaggingForFrench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#fullTaggingForFrench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.fullTaggingForFrench" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function that gives frenchDoc class object for the given text.</p>
+<p>Parameters:
+transcript (srt): full text of the .txt file.</p>
+<p>Returns:
+doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.getOverlapFeatures">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">getOverlapFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#getOverlapFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.getOverlapFeatures" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function extracts overlap features.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+overlapFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.getRefExpFeatures">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">getRefExpFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#getRefExpFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.getRefExpFeatures" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function extracts referencial features.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+refExprFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.hasStutterPrefix">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">hasStutterPrefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#hasStutterPrefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.hasStutterPrefix" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isPrefix">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isPrefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">word2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isPrefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isPrefix" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isThereArgumentOverlap">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isThereArgumentOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isThereArgumentOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isThereArgumentOverlap" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isThereNounOverlap">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isThereNounOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isThereNounOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isThereNounOverlap" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isThereStemOverlap">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isThereStemOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isThereStemOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isThereStemOverlap" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.lexicalDiversity">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">lexicalDiversity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#lexicalDiversity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.lexicalDiversity" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function for lexical diversity feature calculation.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+(list): list of features.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.measureOfTextualLexicalDiversity">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">measureOfTextualLexicalDiversity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#measureOfTextualLexicalDiversity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.measureOfTextualLexicalDiversity" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function for MTLD calculation.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+(float): MTLD value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.nbTokens">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">nbTokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#nbTokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.nbTokens" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.nbType">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">nbType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#nbType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.nbType" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.readMeta">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">readMeta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#readMeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.readMeta" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.sanitize_filename">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">sanitize_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#sanitize_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.sanitize_filename" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function cleaning the filenames from special symbols if needed.</p>
+<p>Parameters:
+filename (str): Name of the file/name of the directory.</p>
+<p>Returns:
+(str): cleaned name of directory name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.sentenceSeparation">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">sentenceSeparation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#sentenceSeparation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.sentenceSeparation" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function is used for separation on sentences in the case if there is no punctuation.
+With whisper — no need to use, it is commented.</p>
+<p>Parameters:
+transcript (srt): full text of the .txt file.</p>
+<p>Returns:
+sentences (list of strings): list of sentences of the text.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.stutterFeatures">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">stutterFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#stutterFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.stutterFeatures" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function extracts stutter features.</p>
+<p>Parameters:
+doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+<p>Returns:
+stutterFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.text2sentence">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">text2sentence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#text2sentence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.text2sentence" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function that downloads text from the transcript and launches the creation
+of the new frenchDoc class object.</p>
+<p>Parameters:
+ID (srt): ID of .txt file in the directory with transcripts.</p>
+<p>Returns:
+doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.TextProcessor_MT.tokenTypes">
+<span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">tokenTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#tokenTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.tokenTypes" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.custom_metrics"></span><dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.accuracy">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#accuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.accuracy" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.f1_metric">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">f1_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#f1_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.f1_metric" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.mae_metric">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">mae_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#mae_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.mae_metric" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.mape_metric">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">mape_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#mape_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.mape_metric" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.medae_metric">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">medae_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#medae_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.medae_metric" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.mse_metric">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">mse_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#mse_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.mse_metric" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.r2_metric">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">r2_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#r2_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.r2_metric" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models.custom_metrics.rmse_metric">
+<span class="sig-prename descclassname"><span class="pre">models.custom_metrics.</span></span><span class="sig-name descname"><span class="pre">rmse_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/custom_metrics.html#rmse_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.custom_metrics.rmse_metric" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-models.ML_Model"></span><p>Implementation of classifiers class.</p>
+<p>TODO: Add regression models.</p>
+<p>Classifier class has GridSearch and Defined functions that create eather
+search for the parameters or fit and test the model with predefined parameters.</p>
+<p>Use GridSearch for the research goals and Defined models for the actual
+predictions on the new data.</p>
+<p>Attributes:
+self.clf : model name which is passed to the model when creating the class object.
+self.scoring : scoring method used in the grid search (accuracy/f1 for classification).</p>
+<p>Return:
+Grid Search: best_param, train_score, test_score, {self.clf}_best
+Defined: accuracy, f1</p>
+<p>best_param (dict): Parameter setting that gave the best results on the hold out data.
+train_score (float): Mean cross-validated score of the best_estimator.
+test_score (float): Score of best_estimator on the test set.
+{self.clf}_best (estimator): Estimator that was chosen by the search, i.e.</p>
+<blockquote>
+<div><p>estimator which gave highest score (or smallest
+loss if specified) on the left out data.</p>
+</div></blockquote>
+<p>&#64;author: Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="models.ML_Model.classificator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.ML_Model.</span></span><span class="sig-name descname"><span class="pre">classificator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clf_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.Defined">
+<span class="sig-name descname"><span class="pre">Defined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.Defined"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.Defined" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.ElasticNetReg">
+<span class="sig-name descname"><span class="pre">ElasticNetReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.ElasticNetReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.ElasticNetReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.GridSearch">
+<span class="sig-name descname"><span class="pre">GridSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.GridSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.GridSearch" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.KNeigbors">
+<span class="sig-name descname"><span class="pre">KNeigbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.KNeigbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.KNeigbors" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.LassoReg">
+<span class="sig-name descname"><span class="pre">LassoReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.LassoReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.LassoReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.LinReg">
+<span class="sig-name descname"><span class="pre">LinReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.LinReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.LinReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.LogRegression">
+<span class="sig-name descname"><span class="pre">LogRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.LogRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.LogRegression" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.NBayes">
+<span class="sig-name descname"><span class="pre">NBayes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.NBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.NBayes" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.RandomForest">
+<span class="sig-name descname"><span class="pre">RandomForest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.RandomForest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.RandomForest" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.RandomForestReg">
+<span class="sig-name descname"><span class="pre">RandomForestReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.RandomForestReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.RandomForestReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.RidgeReg">
+<span class="sig-name descname"><span class="pre">RidgeReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.RidgeReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.RidgeReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.SupportVectorMachine">
+<span class="sig-name descname"><span class="pre">SupportVectorMachine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.SupportVectorMachine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.SupportVectorMachine" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedElasticNetReg">
+<span class="sig-name descname"><span class="pre">definedElasticNetReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedElasticNetReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedElasticNetReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedKN">
+<span class="sig-name descname"><span class="pre">definedKN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedKN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedKN" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedLR">
+<span class="sig-name descname"><span class="pre">definedLR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedLR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedLR" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedLassoReg">
+<span class="sig-name descname"><span class="pre">definedLassoReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedLassoReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedLassoReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedLinReg">
+<span class="sig-name descname"><span class="pre">definedLinReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedLinReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedLinReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedNB">
+<span class="sig-name descname"><span class="pre">definedNB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedNB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedNB" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedRFC">
+<span class="sig-name descname"><span class="pre">definedRFC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedRFC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedRFC" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedRandomForgestReg">
+<span class="sig-name descname"><span class="pre">definedRandomForgestReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedRandomForgestReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedRandomForgestReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedRidgeReg">
+<span class="sig-name descname"><span class="pre">definedRidgeReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedRidgeReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedRidgeReg" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models.ML_Model.classificator.definedSVM">
+<span class="sig-name descname"><span class="pre">definedSVM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/ML_Model.html#classificator.definedSVM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models.ML_Model.classificator.definedSVM" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-feedback.feedback_generator"></span><dl class="py class">
+<dt class="sig sig-object py" id="feedback.feedback_generator.feedback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">feedback.feedback_generator.</span></span><span class="sig-name descname"><span class="pre">feedback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/feedback_generator.html#feedback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.feedback_generator.feedback" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="feedback.feedback_generator.feedback.ABS_SHAP">
+<span class="sig-name descname"><span class="pre">ABS_SHAP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/feedback_generator.html#feedback.ABS_SHAP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.feedback_generator.feedback.ABS_SHAP" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="feedback.feedback_generator.feedback.generateReport">
+<span class="sig-name descname"><span class="pre">generateReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_shap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/feedback_generator.html#feedback.generateReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.feedback_generator.feedback.generateReport" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="feedback.feedback_generator.feedback.polish">
+<span class="sig-name descname"><span class="pre">polish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/feedback_generator.html#feedback.polish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.feedback_generator.feedback.polish" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="feedback.feedback_generator.feedback.scoreMap">
+<span class="sig-name descname"><span class="pre">scoreMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/feedback_generator.html#feedback.scoreMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.feedback_generator.feedback.scoreMap" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-feedback.SHAP"></span><dl class="py function">
+<dt class="sig sig-object py" id="feedback.SHAP.ModelInterpret">
+<span class="sig-prename descclassname"><span class="pre">feedback.SHAP.</span></span><span class="sig-name descname"><span class="pre">ModelInterpret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/SHAP.html#ModelInterpret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.SHAP.ModelInterpret" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="feedback.SHAP.grouped_shap">
+<span class="sig-prename descclassname"><span class="pre">feedback.SHAP.</span></span><span class="sig-name descname"><span class="pre">grouped_shap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/SHAP.html#grouped_shap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.SHAP.grouped_shap" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="feedback.SHAP.plot_shap_by_feature">
+<span class="sig-prename descclassname"><span class="pre">feedback.SHAP.</span></span><span class="sig-name descname"><span class="pre">plot_shap_by_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shap_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/feedback/SHAP.html#plot_shap_by_feature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#feedback.SHAP.plot_shap_by_feature" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="feedback.SHAP.revert_dict">
+<span class="sig-prename descclassname"><span class="pre">feedback.SHAP.</span></span><span class="sig-name descname"><span class="pre">revert_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#feedback.SHAP.revert_dict" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Public Speaking Automatic Assessment with AudioTextual Features</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_structure.html">Project Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_config.html">Configuration File</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="Chapitre précédent">Welcome to Public Speaking Automatic Assessment with AudioTextual Features’s documentation!</a></li>
+      <li>Next: <a href="project_structure.html" title="Chapitre suivant">Project Structure</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Recherche rapide</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Alisa Barkar, Valentine Fleith.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/modules.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

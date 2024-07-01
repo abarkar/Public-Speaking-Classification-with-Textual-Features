@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>preprocess.LabelProcessor_MT &#8212; Documentation Public Speaking Automatic Assessment with AudioTextual Features 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Code source de preprocess.LabelProcessor_MT</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script creates classes of low and high quiality of performance based on</span>
+<span class="sd">the subjective ratings provided in the dataset.</span>
+
+<span class="sd">@author: Alisa Barkar, alisa.george.barkar@gmail.com</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Data &amp; Mathmatics</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1"># System</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># Configuration</span>
+<span class="kn">from</span> <span class="nn">config_reader</span> <span class="kn">import</span> <span class="n">read_config</span>
+<span class="c1"># Global variable declaration</span>
+<span class="k">global</span> <span class="n">rootDirPath</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">dimension</span><span class="p">,</span> <span class="n">clip</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">clasSeparator</span><span class="p">,</span> <span class="n">scoreType</span>
+
+
+<div class="viewcode-block" id="readData"><a class="viewcode-back" href="../../modules.html#preprocess.LabelProcessor_MT.readData">[docs]</a><span class="k">def</span> <span class="nf">readData</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read and cleans data.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    rootDirPath (str): Directory containing the dataset named &quot;{dataset}_aggregated_scores.csv&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    data_labels (DataFrame): Slice of initial data with considered clip, scoreType and dimensions.</span>
+<span class="sd">    dim_columns (list): list of column names of considered dimensions of dataset.</span>
+<span class="sd">    index (list): list of sample IDs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Data directory</span>
+    <span class="n">data_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootDirPath</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">dataset</span><span class="o">+</span><span class="s2">&quot;_aggregated_ratings.csv&quot;</span><span class="p">)</span>
+    <span class="c1"># Read data: 0 column should contain IDs of data samples</span>
+    <span class="n">data_labels</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="c1">#, index_col=0)</span>
+    <span class="c1"># Take a clip slice of dataset if needed</span>
+    <span class="n">data_labels</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[(</span><span class="n">data_labels</span><span class="p">[</span><span class="s1">&#39;clip&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">clip</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data_labels</span><span class="p">[</span><span class="s1">&#39;aggregationMethod&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">aggregationMethod</span><span class="p">)]</span>
+    <span class="c1"># Take the dimension&#39;</span>
+    <span class="c1"># if dimension == &quot;all&quot;:</span>
+    <span class="c1">#     # Columns to exclude</span>
+    <span class="c1">#     columns_to_exclude = [&#39;ID&#39;, &#39;clip&#39;, &#39;aggregationMethod&#39;]</span>
+    <span class="c1">#     # Select all columns except the specified ones</span>
+    <span class="c1">#     dim_columns= data_labels.drop(columns=columns_to_exclude).columns</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     dim_columns= dimension</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">data_labels</span><span class="o">.</span><span class="n">index</span>
+
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">dimension</span><span class="p">:</span>
+        <span class="c1"># # Make sure that scores will be read as float</span>
+        <span class="c1"># # Convert the specified columns</span>
+        <span class="c1"># print(data_labels[dim].head())</span>
+        <span class="c1"># data_labels[dim] = data_labels[dim].apply(lambda col: col.str.replace(&#39;,&#39;, &#39;.&#39;).astype(float))</span>
+
+        <span class="c1"># Ensure the columns are of float type</span>
+        <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data_labels</span><span class="p">,</span> <span class="n">index</span></div>
+
+
+
+
+<div class="viewcode-block" id="extractConfidenceLabels"><a class="viewcode-back" href="../../modules.html#preprocess.LabelProcessor_MT.extractConfidenceLabels">[docs]</a><span class="k">def</span> <span class="nf">extractConfidenceLabels</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Categorize data based on the given method.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    data_labels (DataFrame): The input DataFrame that is downlodaded via the function readData().</span>
+<span class="sd">    dim_columns (list of strings or string): The dimension columns that will be categorized.</span>
+<span class="sd">    scoreType (str): The method to use for categorization (&#39;mean&#39;, &#39;median&#39;, &#39;Q1Q3&#39;).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    DataFrame: The DataFrame with a new column for categorization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Read data </span>
+    <span class="n">data_labels</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">readData</span><span class="p">()</span>
+    <span class="c1"># Go through all the dimensions and for each create the labels</span>
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">dimension</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Considered dimension is: &quot;</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Create thresholds for data class separation</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">clasSeparator</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span>
+            <span class="n">threshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="n">threshold</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">clasSeparator</span> <span class="o">==</span> <span class="s1">&#39;median&#39;</span><span class="p">:</span>
+            <span class="n">threshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+            <span class="n">threshold</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">clasSeparator</span> <span class="o">==</span> <span class="s1">&#39;Q1Q3&#39;</span><span class="p">:</span>
+            <span class="n">threshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+            <span class="n">threshold</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_labels</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid method. Choose from &#39;mean&#39;, &#39;median&#39;, &#39;Q1Q3&#39;.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Print dimension</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thresholds are: &quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot; and &quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create the new DataFrame for classes labels storage</span>
+        <span class="n">data_classified</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data_labels</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span> 
+            <span class="k">if</span> <span class="n">task</span> <span class="o">==</span><span class="s2">&quot;classification&quot;</span><span class="p">:</span> 
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">data_classified</span> <span class="o">=</span> <span class="n">data_classified</span><span class="o">.</span><span class="n">_append</span><span class="p">({</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">],</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">data_classified</span> <span class="o">=</span> <span class="n">data_classified</span><span class="o">.</span><span class="n">_append</span><span class="p">({</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">],</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">task</span> <span class="o">==</span><span class="s2">&quot;regression&quot;</span><span class="p">:</span>
+                <span class="n">data_classified</span> <span class="o">=</span> <span class="n">data_classified</span><span class="o">.</span><span class="n">_append</span><span class="p">({</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">],</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">dim</span><span class="p">]},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+        <span class="c1"># Check classes sizes</span>
+        <span class="c1"># class_1 = len(data_classified.loc[data_classified[&#39;label&#39;] == 1])</span>
+        <span class="c1"># class_0 = len(data_classified.loc[data_classified[&#39;label&#39;] == 0])</span>
+        <span class="c1"># print(data_classified.head())</span>
+        <span class="c1"># print(&quot;Nb of samples in class_1: &quot;, class_1, &quot;Nb of samples in class_0: &quot;, class_0, &quot;\n&quot;)</span>
+        <span class="c1"># print(&quot;Nb of samples of the dataset: &quot;, data_classified[&#39;label&#39;].value_counts())</span>
+        <span class="c1"># Saving directory</span>
+        <span class="n">save_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootDirPath</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">clip</span><span class="p">,</span> <span class="n">aggregationMethod</span><span class="p">)</span>
+        <span class="c1"># Check if the directory exists</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Save data with classes separation to the .csv</span>
+        <span class="n">data_classified</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">save_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s1">Label.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This programm categorize data w.r.t. the chosen thresholding.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    rootDirPath : Directory of the data_labels.csv file with the scores of different dimensions. </span>
+<span class="sd">                    Data has to be 2D array of N x (D+4) dimensions where N -- number of samples in the dataset</span>
+<span class="sd">                    D -- number of dimensions that are annotated in the dataset (i.e. persuasiveness, confidence, etc.)</span>
+<span class="sd">                    3 represent 3 more columns that are not dataset dependent and has to be specyfied in the data: </span>
+<span class="sd">                    ID (ids of samples in dataset), video(clip type i.e. full, beg, mid, end), scoreType(types </span>
+<span class="sd">                    of annotation agregation i.e. mean, rms, etc.).</span>
+<span class="sd">    dataset: The name of the used dataset (directories have to be named the same way).</span>
+<span class="sd">    dimension: The dimension from dataset interesting for the analysis (all, persuasiveness, engagement, etc.).</span>
+<span class="sd">    clip: The type of considered video slices (full, beginning, middle, end).</span>
+<span class="sd">    model: Classification model (NOT USED HERE)</span>
+<span class="sd">    clasSeparator: The value that will be used as the threshold for separation on classes (&#39;mean&#39;, &#39;median&#39;, &#39;Q1Q3&#39;).</span>
+<span class="sd">    scoreType: The type of code aggregation that was used for obtaining the scores (mean, rms, etc.)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    DataFrame: The DataFrame of N x 2 dimensions where the first column represents sample IDs in the dataset and </span>
+<span class="sd">                the second column has 1/0 labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Now the new version automatically take the values from the configuration file via the config_reader.py</span>
+    <span class="c1"># Read the configuration</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">read_config</span><span class="p">()</span>
+
+
+    <span class="c1"># Use the configuration values</span>
+    <span class="n">rootDirPath</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;rootDirPath&#39;</span><span class="p">]</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;dimension&#39;</span><span class="p">]</span>
+    <span class="n">clip</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;clip&#39;</span><span class="p">]</span>
+    <span class="n">clasSeparator</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;clasSeparator&#39;</span><span class="p">]</span>
+    <span class="n">aggregationMethod</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;aggregationMethod&#39;</span><span class="p">]</span>
+    <span class="n">task</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Example usage in your script</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Root Directory Path: </span><span class="si">{</span><span class="n">rootDirPath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimension: </span><span class="si">{</span><span class="n">dimension</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clip: </span><span class="si">{</span><span class="n">clip</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Class Separator: </span><span class="si">{</span><span class="n">clasSeparator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Aggregation Method: </span><span class="si">{</span><span class="n">aggregationMethod</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task: </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Adding the rootDirPath to the system path</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rootDirPath</span><span class="p">)</span>
+    <span class="c1"># Execute the Separation on Classes</span>
+    <span class="n">extractConfidenceLabels</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Public Speaking Automatic Assessment with AudioTextual Features</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">My Project Modules</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Code du module</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Recherche rapide</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Alisa Barkar, Valentine Fleith.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
