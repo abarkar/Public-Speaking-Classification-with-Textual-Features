@@ -11,6 +11,11 @@ Project Modules
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: preprocess.AudioProcessor_MT
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: preprocess.TextProcessor_MT
    :members:
    :undoc-members:

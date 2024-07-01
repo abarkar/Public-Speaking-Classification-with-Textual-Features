@@ -34,20 +34,14 @@
             
   <h1>Code source de preprocess.TextProcessor_MT</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This script extracts textual features based on:</span>
-<span class="sd">@article{Vajjala2016AutomatedAO,</span>
-<span class="sd">  title={Automated Assessment of Non-Native Learner Essays: Investigating the Role of Linguistic Features},</span>
-<span class="sd">  author={Sowmya Vajjala},</span>
-<span class="sd">  journal={International Journal of Artificial Intelligence in Education},</span>
-<span class="sd">  year={2016},</span>
-<span class="sd">  volume={28},</span>
-<span class="sd">  pages={79 - 105},</span>
-<span class="sd">  url={https://api.semanticscholar.org/CorpusID:3666482}</span>
-<span class="sd">}</span>
+<span class="sd">This script extracts textual features based on the methodology described in:</span>
 
+<span class="sd">    &quot;Automated Assessment of Non-Native Learner Essays: Investigating the Role of Linguistic Features&quot;</span>
+<span class="sd">    by Sowmya Vajjala, International Journal of Artificial Intelligence in Education, 2016.</span>
+<span class="sd">    Available at: https://api.semanticscholar.org/CorpusID:3666482</span>
 
-
-<span class="sd">@author: Alisa Barkar, alisa.george.barkar@gmail.com</span>
+<span class="sd">@author:</span>
+<span class="sd">    Alisa Barkar &lt;alisa.george.barkar@gmail.com&gt;</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># NLP</span>
 <span class="kn">from</span> <span class="nn">flair.data</span> <span class="kn">import</span> <span class="n">Sentence</span>
@@ -78,13 +72,40 @@
 <span class="c1"># Manipulation with french and english POSTagging</span>
 <span class="c1">#---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="nbTokens"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.nbTokens">[docs]</a><span class="k">def</span> <span class="nf">nbTokens</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the total number of tokens in a given document.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    doc (list of frencToken): Represents a document as a list of frencToken objects.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    int: Total number of tokens in the document.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="nbType"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.nbType">[docs]</a><span class="k">def</span> <span class="nf">nbType</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the number of unique part-of-speech (POS) types in a given document.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    doc (list of frencToken): Represents a document as a list of frencToken objects.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    int: Number of unique POS types in the document.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">types</span> <span class="o">=</span> <span class="n">tokenTypes</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">types</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="tokenTypes"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.tokenTypes">[docs]</a><span class="k">def</span> <span class="nf">tokenTypes</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Counts the occurrences of each part-of-speech (POS) tag in a given document.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    doc (list of frencToken): Represents a document as a list of frencToken objects.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    dict: A dictionary where keys are POS tags and values are the counts of tokens with each POS tag.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">types</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">pos_</span><span class="p">)</span>
@@ -100,15 +121,29 @@
 <span class="c1">#TODO: lowercase !!!! for lemmas at least!!</span>
 <div class="viewcode-block" id="frencToken"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.frencToken">[docs]</a><span class="k">class</span> <span class="nc">frencToken</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class of french tokens. </span>
+<span class="sd">    Class for representing French tokens with linguistic annotations.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">    self.text (str): word.  </span>
-<span class="sd">    self.lemma_ (str): lemma of the word</span>
-<span class="sd">    self.pos_ (str): pos of the word</span>
-<span class="sd">    self.tag_ (str): tag of the word</span>
+<span class="sd">    self.text (str): Actual word or token.</span>
+<span class="sd">    self.lemma\_ (str): Lemma (base form) of the word.</span>
+<span class="sd">    self.pos\_ (str): Part-of-speech (POS) tag of the word.</span>
+<span class="sd">    self.tag\_ (str): Additional tag associated with the word.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">    __init__(self, text=None, lemma=None, pos=None, tag=None): Initializes the token object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">lemma</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize frencToken object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        text (str, optional): Actual word or token.</span>
+<span class="sd">        lemma (str, optional): Lemma (base form) of the word.</span>
+<span class="sd">        pos (str, optional): Part-of-speech (POS) tag of the word.</span>
+<span class="sd">        tag (str, optional): Additional tag associated with the word.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lemma_</span> <span class="o">=</span> <span class="n">lemma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos_</span> <span class="o">=</span> <span class="n">pos</span>
@@ -116,14 +151,24 @@
 
 <div class="viewcode-block" id="frenchDoc"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.frenchDoc">[docs]</a><span class="k">class</span> <span class="nc">frenchDoc</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class of french document postagging. </span>
+<span class="sd">    Class for storing French language document annotations.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">    self.text (str): text of the transcript.  </span>
-<span class="sd">    self.docFull (list of lists): list of lists [spacyToken.text, spacyToken.lemma_, spacyToken.pos_, tag]</span>
-<span class="sd">    self.docPerSent (list of lists of lists): list of lists corresponding the sentences of the text where each is the sequence of lists [spacyToken.text, spacyToken.lemma_, spacyToken.pos_, tag]</span>
+<span class="sd">    self.text (str): Full text of the document.</span>
+<span class="sd">    self.docFull (list): List of tokens with annotations [`spacyToken.text`, `spacyToken.lemma_`, `spacyToken.pos_`, `tag`].</span>
+<span class="sd">    self.docPerSent (list): List of sentences, each containing a list of tokens with annotations.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">    __init__(self, listOfFrenchSentences): Initializes the object with a list of annotated sentences.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listOfFrenchSentences</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize frenchDoc object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        listOfFrenchSentences (list of lists): List of sentences where each sentence is a list of tokens with annotations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">docFull</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">listOfFrenchSentences</span><span class="p">:</span>
@@ -136,14 +181,13 @@
 
 <div class="viewcode-block" id="sentenceSeparation"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.sentenceSeparation">[docs]</a><span class="k">def</span> <span class="nf">sentenceSeparation</span><span class="p">(</span><span class="n">transcript</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function is used for separation on sentences in the case if there is no punctuation. </span>
-<span class="sd">    With whisper --- no need to use, it is commented. </span>
+<span class="sd">    Function for separating sentences in the case where there is no punctuation.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    transcript (srt): full text of the .txt file. </span>
+<span class="sd">    transcript (str): Full text of the .txt file.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    sentences (list of strings): list of sentences of the text.</span>
+<span class="sd">    sentences (list of strings): List of sentences extracted from the text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#TODO: because of automatic annotation there is no sentences</span>
     <span class="c1"># Time: 180 sec</span>
@@ -165,13 +209,13 @@
 
 <div class="viewcode-block" id="fullTaggingForFrench"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.fullTaggingForFrench">[docs]</a><span class="k">def</span> <span class="nf">fullTaggingForFrench</span><span class="p">(</span><span class="n">transcript</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function that gives frenchDoc class object for the given text. </span>
+<span class="sd">    Function that provides frenchDoc class object for the given text. </span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    transcript (srt): full text of the .txt file. </span>
+<span class="sd">    transcript (str): Full text of the .txt file. </span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text</span>
+<span class="sd">    doc (frenchDoc class object): Object with three main attributes .docFull, .docPerSent, and .text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Load the model</span>
@@ -217,14 +261,15 @@
 
 <div class="viewcode-block" id="text2sentence"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.text2sentence">[docs]</a><span class="k">def</span> <span class="nf">text2sentence</span><span class="p">(</span><span class="n">transcript_dir</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function that downloads text from the transcript and launches the creation</span>
-<span class="sd">    of the new frenchDoc class object. </span>
+<span class="sd">    Function that loads text from a transcript file, performs NLP tagging, and creates a frenchDoc class object.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    ID (srt): ID of .txt file in the directory with transcripts. </span>
+<span class="sd">    transcript_dir (str): Directory path containing the transcript files.</span>
+<span class="sd">    id (str): ID of the .txt file in the directory with transcripts.</span>
+<span class="sd">    language (str): Language of the transcript (&#39;french&#39; or &#39;english&#39;).</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text</span>
+<span class="sd">    doc (frenchDoc class object): Object with three main attributes .docFull, .docPerSent, and .text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">transcript_dir</span><span class="p">,</span> <span class="nb">id</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -261,10 +306,10 @@
 <span class="sd">    Function for MTLD calculation. </span>
 <span class="sd">    </span>
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (list): A list of tokens or lemmas from the document.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    (float): MTLD value.</span>
+<span class="sd">    float: MTLD value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lemmasList</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">lemma_</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]</span>
 
@@ -317,10 +362,10 @@
 <span class="sd">    Function for lexical diversity feature calculation. </span>
 <span class="sd">    </span>
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (list): A list of lists where each inner list represents [word, word.lemma, word.pos, word.tag]</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    (list): list of features.</span>
+<span class="sd">    list: List of lexical diversity features.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nb_types</span> <span class="o">=</span> <span class="n">nbType</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
     <span class="n">nb_tokens</span> <span class="o">=</span> <span class="n">nbTokens</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
@@ -353,10 +398,10 @@
 <span class="sd">    Function for density feature calculation. </span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (list): A list of lists where each inner list represents [word, word.lemma, word.pos, word.tag]</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.</span>
+<span class="sd">    posFeatures (dict): Dictionary with the keys representing POS tag features and values as their calculated densities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># # Load the model</span>
     <span class="c1"># model = SequenceTagger.load(&quot;qanastek/pos-french&quot;)</span>
@@ -497,13 +542,13 @@
 
 <div class="viewcode-block" id="POSTagForEng"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.POSTagForEng">[docs]</a><span class="k">def</span> <span class="nf">POSTagForEng</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function for builging mapping between POSTag notations in french and english tagging. </span>
+<span class="sd">    Function for building mapping between POS Tag notations in French and English tagging. </span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (list of spacy.Token): List of tokens where each token has attributes like `text`, `lemma_`, `pos_`, `tag_`.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.</span>
+<span class="sd">    typesTags (dict): Dictionary with the keys of feature names and items values of the features for this document.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">listOfFeatures</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TotalWords&#39;</span><span class="p">,</span> <span class="s1">&#39;numAdj&#39;</span><span class="p">,</span> <span class="s1">&#39;numNouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numVerbs&#39;</span><span class="p">,</span> <span class="s1">&#39;numPronouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numConjunct&#39;</span><span class="p">,</span> <span class="s1">&#39;numProperNouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numPrepositions&#39;</span><span class="p">,</span> <span class="s1">&#39;numAdverbs&#39;</span><span class="p">,</span> <span class="s1">&#39;numLexicals&#39;</span><span class="p">,</span> <span class="s1">&#39;numModals&#39;</span><span class="p">,</span> <span class="s1">&#39;numInterjections&#39;</span><span class="p">,</span> <span class="s1">&#39;perpronouns&#39;</span> <span class="p">,</span> <span class="s1">&#39;whperpronouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numauxverbs&#39;</span><span class="p">,</span> <span class="s1">&#39;numFunctionWords&#39;</span><span class="p">,</span>  <span class="s1">&#39;numDeterminers&#39;</span><span class="p">,</span> <span class="s1">&#39;numTenses&#39;</span><span class="p">,</span>  <span class="s1">&#39;numVB&#39;</span><span class="p">,</span> <span class="s1">&#39;numVBD&#39;</span><span class="p">,</span><span class="s1">&#39;numVBG&#39;</span><span class="p">,</span> <span class="s1">&#39;numVBN&#39;</span><span class="p">,</span> <span class="s1">&#39;numVBP&#39;</span><span class="p">,</span> <span class="s1">&#39;numVBZ&#39;</span><span class="p">]</span>
     <span class="c1">#&#39;perpronouns&#39; : adding num Personal Pronouns with the hypothesis that they will occur more in Simple Sentences</span>
@@ -595,13 +640,24 @@
 
 <div class="viewcode-block" id="getOverlapFeatures"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.getOverlapFeatures">[docs]</a><span class="k">def</span> <span class="nf">getOverlapFeatures</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function extracts overlap features. </span>
+<span class="sd">    Function extracts overlap features between sentences in a document. </span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (list of list): List of sentences where each sentence is represented as a list of (text, lemma, pos, tag).</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    overlapFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</span>
+<span class="sd">    overlapFeatures (dict): Dictionary with the keys of feature names and items values of the features for this document.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    doc = [</span>
+<span class="sd">    [(&#39;The&#39;, &#39;the&#39;, &#39;DET&#39;, None), (&#39;cat&#39;, &#39;cat&#39;, &#39;NOUN&#39;, &#39;NCS&#39;)],</span>
+<span class="sd">    [(&#39;The&#39;, &#39;the&#39;, &#39;DET&#39;, None), (&#39;dog&#39;, &#39;dog&#39;, &#39;NOUN&#39;, &#39;NCS&#39;)]</span>
+<span class="sd">    ]</span>
+<span class="sd">    overlap_features = getOverlapFeatures(doc)</span>
+<span class="sd">    print(overlap_features)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># doc is given in format of [[list of (text, lemma, pos, tag)], ..., []]</span>
     <span class="n">sentences</span> <span class="o">=</span> <span class="n">doc</span>
@@ -647,12 +703,61 @@
 
 
 <div class="viewcode-block" id="isThereNounOverlap"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.isThereNounOverlap">[docs]</a><span class="k">def</span> <span class="nf">isThereNounOverlap</span><span class="p">(</span><span class="n">sentence1</span><span class="p">,</span> <span class="n">sentence2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if there is noun overlap between two sentences.</span>
+
+<span class="sd">    Noun overlap is defined by the presence of at least one noun appearing in both sentences.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    sentence1 (list): List of spaCy Token objects representing words in the first sentence.</span>
+<span class="sd">    sentence2 (list): List of spaCy Token objects representing words in the second sentence.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    bool: True if there is noun overlap, False otherwise.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    import spacy</span>
+<span class="sd">    nlp = spacy.load(&#39;fr_core_news_sm&#39;)</span>
+<span class="sd">    sentence1 = nlp(&quot;Il a acheté une voiture.&quot;)</span>
+<span class="sd">    sentence2 = nlp(&quot;Elle a vendu la maison.&quot;)</span>
+<span class="sd">    noun_overlap = isThereNounOverlap(sentence1, sentence2)</span>
+<span class="sd">    print(&quot;Noun overlap:&quot;, noun_overlap)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">sentence1</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s2">&quot;NOUN&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">word</span> <span class="ow">in</span> <span class="n">sentence2</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="isThereStemOverlap"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.isThereStemOverlap">[docs]</a><span class="k">def</span> <span class="nf">isThereStemOverlap</span><span class="p">(</span><span class="n">sentence1</span><span class="p">,</span> <span class="n">sentence2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if there is stem overlap between two sentences.</span>
+
+<span class="sd">    Stem overlap is defined by:</span>
+<span class="sd">    - Noun overlap: If at least one noun appears in both sentences.</span>
+<span class="sd">    - Argument overlap: If at least one argument (noun or pronoun) appears in both sentences.</span>
+<span class="sd">    - Stem (lemma) similarity: If at least one word&#39;s lemma in sentence1 matches with a word&#39;s lemma in sentence2.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    sentence1 (list): List of spaCy Token objects representing words in the first sentence.</span>
+<span class="sd">    sentence2 (list): List of spaCy Token objects representing words in the second sentence.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    bool: True if there is stem overlap, False otherwise.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    import spacy</span>
+<span class="sd">    nlp = spacy.load(&#39;fr_core_news_sm&#39;)</span>
+<span class="sd">    sentence1 = nlp(&quot;Il a acheté une voiture.&quot;)</span>
+<span class="sd">    sentence2 = nlp(&quot;Elle a vendu la maison.&quot;)</span>
+<span class="sd">    stem_overlap = isThereStemOverlap(sentence1, sentence2)</span>
+<span class="sd">    print(&quot;Stem overlap:&quot;, stem_overlap)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">isThereNounOverlap</span><span class="p">(</span><span class="n">sentence1</span><span class="p">,</span> <span class="n">sentence2</span><span class="p">)</span> <span class="ow">or</span> <span class="n">isThereArgumentOverlap</span><span class="p">(</span><span class="n">sentence1</span><span class="p">,</span> <span class="n">sentence2</span><span class="p">)):</span>
         <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># If there is a noun or argument overlap, there is obviously an argument overlap right? No need to test further.</span>
     <span class="k">else</span><span class="p">:</span>
@@ -670,6 +775,31 @@
 
 
 <div class="viewcode-block" id="isThereArgumentOverlap"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.isThereArgumentOverlap">[docs]</a><span class="k">def</span> <span class="nf">isThereArgumentOverlap</span><span class="p">(</span><span class="n">sentence1</span><span class="p">,</span> <span class="n">sentence2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if there is argument overlap between two sentences.</span>
+
+<span class="sd">    Argument overlap is defined by:</span>
+<span class="sd">    - Noun overlap: If at least one noun appears in both sentences.</span>
+<span class="sd">    - Pronoun overlap: If at least one pronoun appears in both sentences.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    sentence1 (list): List of spaCy Token objects representing words in the first sentence.</span>
+<span class="sd">    sentence2 (list): List of spaCy Token objects representing words in the second sentence.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    bool: True if there is argument overlap, False otherwise.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    import spacy</span>
+<span class="sd">    nlp = spacy.load(&#39;fr_core_news_sm&#39;)</span>
+<span class="sd">    sentence1 = nlp(&quot;Il a acheté une voiture.&quot;)</span>
+<span class="sd">    sentence2 = nlp(&quot;Elle a vendu la maison.&quot;)</span>
+<span class="sd">    argument_overlap = isThereArgumentOverlap(sentence1, sentence2)</span>
+<span class="sd">    print(&quot;Argument overlap:&quot;, argument_overlap)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">isThereNounOverlap</span><span class="p">(</span><span class="n">sentence1</span><span class="p">,</span> <span class="n">sentence2</span><span class="p">)):</span>
         <span class="k">return</span> <span class="kc">True</span> <span class="c1"># If there is a noun overlap, there is obviously an argument overlap right? No need to test further.</span>
     <span class="c1"># Check for pronoun overlap?</span>
@@ -691,6 +821,30 @@
 
 
 <div class="viewcode-block" id="contentWordOverlap"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.contentWordOverlap">[docs]</a><span class="k">def</span> <span class="nf">contentWordOverlap</span><span class="p">(</span><span class="n">sentence1</span><span class="p">,</span> <span class="n">sentence2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the overlap of content words between two sentences.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    sentence1 (list): List of spaCy Token objects representing words in the first sentence.</span>
+<span class="sd">    sentence2 (list): List of spaCy Token objects representing words in the second sentence.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    overlapsCount (int): Number of overlapping content words between the two sentences.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    Content words are considered based on their part-of-speech tags. Words tagged as &quot;PRON&quot; (pronouns) are excluded from overlap calculations.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    import spacy</span>
+<span class="sd">    nlp = spacy.load(&#39;fr_core_news_sm&#39;)</span>
+<span class="sd">    sentence1 = nlp(&quot;Ceci est une phrase en français.&quot;)</span>
+<span class="sd">    sentence2 = nlp(&quot;Voici une autre phrase avec des mots similaires.&quot;)</span>
+<span class="sd">    overlap_count = contentWordOverlap(sentence1, sentence2)</span>
+<span class="sd">    print(&quot;Content word overlap:&quot;, overlap_count)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">overlapsCount</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="c1"># Isn&#39;t this similar to cosine similarity between content-words?</span>
     <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">sentence1</span><span class="p">:</span>
@@ -710,13 +864,36 @@
 
 <div class="viewcode-block" id="getRefExpFeatures"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.getRefExpFeatures">[docs]</a><span class="k">def</span> <span class="nf">getRefExpFeatures</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function extracts referencial features. </span>
+<span class="sd">    Function extracts referential features from a French document.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (frenchDoc class object): Contains .docFull which is a list of lists [word, word.lemma, word.pos, word.tag]</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    refExprFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</span>
+<span class="sd">    refExprFeatures (dict): Dictionary with feature names as keys and their values as extracted features for the document.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function calculates various referential features based on the document&#39;s linguistic annotations.</span>
+
+<span class="sd">    Feature Keys:</span>
+<span class="sd">    - &#39;DISC_RefExprPronounsPerNoun&#39;: Ratio of personal pronouns to nouns in the document.</span>
+<span class="sd">    - &#39;DISC_RefExprPronounsPerSen&#39;: Ratio of personal pronouns to sentences in the document.</span>
+<span class="sd">    - &#39;DISC_RefExprPronounsPerWord&#39;: Ratio of personal pronouns to total words in the document.</span>
+<span class="sd">    - &#39;DISC_RefExprPerPronounsPerSen&#39;: Ratio of personal pronouns (excluding possessive pronouns) to sentences.</span>
+<span class="sd">    - &#39;DISC_RefExprPerProPerWord&#39;: Ratio of personal pronouns (excluding possessive pronouns) to total words.</span>
+<span class="sd">    - &#39;DISC_RefExprPossProPerSen&#39;: Ratio of possessive pronouns to sentences.</span>
+<span class="sd">    - &#39;DISC_RefExprPossProPerWord&#39;: Ratio of possessive pronouns to total words.</span>
+<span class="sd">    - &#39;DISC_RefExprDefArtPerSen&#39;: Ratio of definite articles to sentences.</span>
+<span class="sd">    - &#39;DISC_RefExprDefArtPerWord&#39;: Ratio of definite articles to total words.</span>
+<span class="sd">    - &#39;DISC_RefExprProperNounsPerNoun&#39;: Ratio of proper nouns to nouns.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    doc = frenchDoc(...)  # Initialize frenchDoc object</span>
+<span class="sd">    ref_features = getRefExpFeatures(doc)</span>
+<span class="sd">    print(ref_features)</span>
+<span class="sd">    ```</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">listOfCounters</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;numWords&#39;</span><span class="p">,</span> <span class="s1">&#39;numSentences&#39;</span><span class="p">,</span> <span class="s1">&#39;numPronouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numPersonalPronouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numPossessivePronouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numDefiniteArticles&#39;</span><span class="p">,</span> <span class="s1">&#39;numProperNouns&#39;</span><span class="p">,</span> <span class="s1">&#39;numNouns&#39;</span><span class="p">]</span>
     <span class="n">refExprCounters</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">listOfCounters</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -770,12 +947,42 @@
 <span class="c1"># 3) other, example: je sais que quelque ... ---&gt; que -- prefix of quelque</span>
 
 <div class="viewcode-block" id="isPrefix"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.isPrefix">[docs]</a><span class="k">def</span> <span class="nf">isPrefix</span><span class="p">(</span><span class="n">word1</span><span class="p">,</span> <span class="n">word2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if word1 is a prefix of word2.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    word1 (str): The potential prefix.</span>
+<span class="sd">    word2 (str): The word to check against.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    bool: True if word1 is a prefix of word2, False otherwise.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    Calling `isPrefix(&quot;pre&quot;, &quot;prefix&quot;)` will return True since &quot;pre&quot; is a prefix of &quot;prefix&quot;.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">word1</span> <span class="o">==</span> <span class="n">word2</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">word1</span><span class="p">)]):</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="hasStutterPrefix"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.hasStutterPrefix">[docs]</a><span class="k">def</span> <span class="nf">hasStutterPrefix</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if a word has a stuttering prefix.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    word (str): The word to check for stuttering prefixes.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    bool: True if the word has a stuttering prefix, False otherwise.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    A stuttering prefix is considered present if a substring of the word up to a certain length appears within the remaining part of the word.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    Calling `hasStutterPrefix(&quot;example&quot;)` will return True if the word &quot;example&quot; has any repeating prefix, otherwise False.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
         <span class="c1">#print(word[:i], &#39; &#39;, word[i:])</span>
         <span class="k">if</span> <span class="n">word</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">:]:</span>
@@ -787,13 +994,22 @@
 
 <div class="viewcode-block" id="stutterFeatures"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.stutterFeatures">[docs]</a><span class="k">def</span> <span class="nf">stutterFeatures</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function extracts stutter features. </span>
+<span class="sd">    Extracts stutter features from a document.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    stutterFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</span>
+<span class="sd">    dict: Dictionary with the keys representing feature names and values as the corresponding feature values for this document.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function computes stutter-related features based on word repetitions and structure within the document.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    Given a `doc` object of type `frenchDoc`, calling `stutterFeatures(doc)` will return a dictionary</span>
+<span class="sd">    containing features such as &#39;stutterToSent&#39;, &#39;stutterToWords&#39;, &#39;stutterStart&#39;, &#39;stutterMiddle&#39;, &#39;stutterEnd&#39;,</span>
+<span class="sd">    &#39;stutterNum&#39;, &#39;stutterFirstThird&#39;, &#39;stutterSecondThird&#39;, and &#39;stutterThirdThird&#39;.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#print(doc.text)</span>
     <span class="c1">#print([token.tag_ for token in doc.docFull])</span>
@@ -863,6 +1079,23 @@
 
 
 <div class="viewcode-block" id="embeddingExtraction"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.embeddingExtraction">[docs]</a><span class="k">def</span> <span class="nf">embeddingExtraction</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts document embeddings using a pre-trained Doc2Vec model.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    doc (object): Document object containing text to be embedded.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    np.ndarray: Extracted document embedding as a numpy array.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function uses a pre-trained Doc2Vec model to infer embeddings for the input document text.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    Given a `doc` object with text, calling `embeddingExtraction(doc)` will return a numpy array</span>
+<span class="sd">    representing the document embedding.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># parameters</span>
     <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;../demo/&quot;</span> <span class="o">+</span> <span class="n">dataset</span> <span class="o">+</span> <span class="s2">&quot;/model.bin&quot;</span>
     <span class="c1"># test_docs=&quot;toy_data/test_docs.txt&quot;</span>
@@ -890,16 +1123,23 @@
 
 <div class="viewcode-block" id="extractLinkingRate"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.extractLinkingRate">[docs]</a><span class="k">def</span> <span class="nf">extractLinkingRate</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function extracts linking rate features. </span>
+<span class="sd">    Extracts linking rate features from a document.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    conjunctFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</span>
+<span class="sd">    dict: Dictionary with keys representing feature names and values as the corresponding feature values for the document.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function computes linking rate features based on conjunctions and sentence structure in the document.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    Given a `doc` object of type `frenchDoc`, calling `extractLinkingRate(doc)` will return a dictionary</span>
+<span class="sd">    containing features such as &#39;conjunctToSent&#39;, &#39;conjunctTypesToSent&#39;, &#39;conjunctToWords&#39;, &#39;conjunctNum&#39;,</span>
+<span class="sd">    &#39;conjunctTypesToTotal&#39;, and &#39;conjunctNeighborSent&#39;.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-
-
     <span class="n">listOfFeatures</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;conjunctToSent&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctTypesToSent&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctToWords&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctNum&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctTypesToTotal&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctNeighborSent&#39;</span><span class="p">]</span>
     <span class="n">conjunctFeatures</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">listOfFeatures</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -941,15 +1181,22 @@
 <span class="c1"># TODO: sameRootRate features </span>
 <div class="viewcode-block" id="extractSynonymsRate"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.extractSynonymsRate">[docs]</a><span class="k">def</span> <span class="nf">extractSynonymsRate</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function extracts synonym rate features. </span>
+<span class="sd">    Extracts synonym rate features from a document.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</span>
+<span class="sd">    doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    synonymsFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    dict: Dictionary with keys representing feature names and values as the corresponding feature values for the document.</span>
 
+<span class="sd">    Notes:</span>
+<span class="sd">    This function computes synonym rates for nouns and verbs based on WordNet synonyms in French.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    Given a `doc` object of type `frenchDoc`, calling `extractSynonymsRate(doc)` will return a dictionary</span>
+<span class="sd">    containing features such as &#39;synonymToNouns&#39;, &#39;synonymToVerbs&#39;, &#39;averageSynClassNOUN&#39;, and &#39;averageSynClassVERB&#39;.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">listOfFeatures</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;synonymToNouns&#39;</span><span class="p">,</span> <span class="s1">&#39;synonymToVerbs&#39;</span><span class="p">,</span> <span class="s1">&#39;averageSynClassNOUN&#39;</span><span class="p">,</span> <span class="s1">&#39;averageSynClassVERB&#39;</span><span class="p">]</span>
     <span class="n">synonymsFeatures</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">listOfFeatures</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -1037,10 +1284,24 @@
 
 <div class="viewcode-block" id="extractTextFeatures"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.extractTextFeatures">[docs]</a><span class="k">def</span> <span class="nf">extractTextFeatures</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function createing the dictionary of the feature names of the category. </span>
+<span class="sd">    Extracts linguistic features from the document based on language-specific processing.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    doc (object): Document object containing text and metadata.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.</span>
+<span class="sd">    list: List of feature dictionaries extracted from the document.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function performs feature extraction based on the language of the document.</span>
+<span class="sd">    If the language is French (&#39;french&#39;), it extracts features related to linking rate,</span>
+<span class="sd">    synonym rate, lexical diversity, POS tag density, discourse features, and referential</span>
+<span class="sd">    expression features. English language processing is not currently supported.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    Given a document `doc`, calling `extractTextFeatures(doc)` will return a list of dictionaries</span>
+<span class="sd">    containing linguistic features extracted from the document.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;french&#39;</span><span class="p">):</span>
         <span class="c1"># Linking Rate feature extraction</span>
@@ -1064,10 +1325,23 @@
 
 <div class="viewcode-block" id="createFeatureLists"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.createFeatureLists">[docs]</a><span class="k">def</span> <span class="nf">createFeatureLists</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function createing the dictionary of the feature names of the category. </span>
+<span class="sd">    Creates a dictionary of feature names categorized by feature types.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.</span>
+<span class="sd">    dict: Dictionary where keys are category names and values are lists of feature names.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    The returned dictionary structure:</span>
+<span class="sd">    {</span>
+<span class="sd">    &#39;LinkingRate&#39;: [&#39;category&#39;, &#39;conjunctToSent&#39;, &#39;conjunctTypesToSent&#39;, &#39;conjunctToWords&#39;, &#39;conjunctNum&#39;, &#39;conjunctTypesToTotal&#39;, &#39;conjunctNeighborSent&#39;],</span>
+<span class="sd">    &#39;SynonymRate&#39;: [&#39;category&#39;, &#39;synonymToNouns&#39;, &#39;synonymToVerbs&#39;, &#39;averageSynClassNOUN&#39;, &#39;averageSynClassVERB&#39;],</span>
+<span class="sd">    &#39;featureEmbedName&#39;: [&#39;category&#39;, &#39;emb_axis_0&#39;, &#39;emb_axis_1&#39;, ..., &#39;emb_axis_99&#39;],</span>
+<span class="sd">    &#39;Diversity&#39;: [&#39;category&#39;, &#39;TTR&#39;, &#39;CorrectedTTR&#39;, &#39;RootTTR&#39;, &#39;BilogTTR&#39;, &#39;MTLD&#39;],</span>
+<span class="sd">    &#39;Density&#39;: [&#39;category&#39;, &#39;POS_numNouns&#39;, &#39;POS_numProperNouns&#39;, &#39;POS_numPronouns&#39;, &#39;POS_numConjunct&#39;, ...],</span>
+<span class="sd">    &#39;Discourse&#39;: [&#39;category&#39;, &#39;localNounOverlapCount&#39;, &#39;localArgumentOverlapCount&#39;, &#39;localStemOverlapCount&#39;, ...],</span>
+<span class="sd">    &#39;Reference&#39;: [&#39;category&#39;, &#39;DISC_RefExprPronounsPerNoun&#39;, &#39;DISC_RefExprPronounsPerSen&#39;, &#39;DISC_RefExprPronounsPerWord&#39;, ...]</span>
+<span class="sd">    }</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ceategoryDict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;LinkingRate&#39;</span><span class="p">:[</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctToSent&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctTypesToSent&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctToWords&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctNum&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctTypesToTotal&#39;</span><span class="p">,</span> <span class="s1">&#39;conjunctNeighborSent&#39;</span><span class="p">]</span>
                      <span class="p">,</span> <span class="s1">&#39;SynonymRate&#39;</span><span class="p">:[</span><span class="s1">&#39;category&#39;</span><span class="p">,</span><span class="s1">&#39;synonymToNouns&#39;</span><span class="p">,</span> <span class="s1">&#39;synonymToVerbs&#39;</span><span class="p">,</span> <span class="s1">&#39;averageSynClassNOUN&#39;</span><span class="p">,</span> <span class="s1">&#39;averageSynClassVERB&#39;</span><span class="p">]</span>
@@ -1088,13 +1362,17 @@
 
 <div class="viewcode-block" id="french_to_english_text"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.french_to_english_text">[docs]</a><span class="k">def</span> <span class="nf">french_to_english_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function cleaning the french letters in the filenames if needed. </span>
+<span class="sd">    Translates French accented characters to their English counterparts in the text.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    text (str): Name of the file/name of the directory.</span>
-<span class="sd">    </span>
+<span class="sd">    text (str): Text containing French accented characters.</span>
+
 <span class="sd">    Returns:</span>
-<span class="sd">    translated_text (str): cleaned name of directory name.</span>
+<span class="sd">    str: Translated text with French characters replaced by their English equivalents.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    If `text = &quot;école et théâtre&quot;`, the function will return `&quot;ecole et theatre&quot;`.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">french_to_english</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;é&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;á&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;à&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;â&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;ç&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;é&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;è&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;ê&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;ë&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;î&#39;</span><span class="p">:</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;ï&#39;</span><span class="p">:</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;ô&#39;</span><span class="p">:</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;ù&#39;</span><span class="p">:</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span><span class="s1">&#39;û&#39;</span><span class="p">:</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span><span class="s1">&#39;ç&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,}</span>
     <span class="n">translated_text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -1104,13 +1382,18 @@
 
 <div class="viewcode-block" id="sanitize_filename"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.sanitize_filename">[docs]</a><span class="k">def</span> <span class="nf">sanitize_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function cleaning the filenames from special symbols if needed. </span>
+<span class="sd">    Cleans the filename by removing specified special characters.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    filename (str): Name of the file/name of the directory.</span>
-<span class="sd">    </span>
+<span class="sd">    filename (str): Name of the file or directory to be sanitized.</span>
+
 <span class="sd">    Returns:</span>
-<span class="sd">    (str): cleaned name of directory name.</span>
+<span class="sd">    str: Sanitized filename without spaces, dashes, underscores, or commas.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    If `filename = &quot;my - file_name, with spaces.csv&quot;`, the function will return</span>
+<span class="sd">    `&quot;myfilenamewithspaces.csv&quot;`.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Example: Remove spaces and special characters</span>
     <span class="k">return</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span></div>
@@ -1121,19 +1404,26 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main function that reads .txt files from the directory with transcripts and </span>
 <span class="sd">    executes feature extraction. Transcript directory should contain subfolders: </span>
-<span class="sd">                            full, beg, mid, end</span>
-<span class="sd">    Transcripts are named with the ID in the dataset. </span>
+<span class="sd">    full, beg, mid, end. Transcripts are named with the ID in the dataset.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    rootDirPath (str): Root directory</span>
-<span class="sd">    dataset: Name of the dataset</span>
+<span class="sd">    rootDirPath (str): Root directory path where data is stored.</span>
+<span class="sd">    dataset (str): Name of the dataset.</span>
+<span class="sd">    clip (str or int, optional): Specifies the subfolder(s) to process. Default is &quot;all&quot;.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
-<span class="sd">    str(featureCategories[idx])+&quot;.csv&quot; (DataFrame): array of N x nb_cat_feat dimensions where</span>
-<span class="sd">                                            N -- number of data samples</span>
-<span class="sd">                                            nb_cat_feat -- number of features in the {category}</span>
-<span class="sd">                                            category: linkingRate, devirsity, density, discourse, </span>
-<span class="sd">                                            reference, synonymRate</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function reads text files (.txt) from subdirectories of the transcript directory,</span>
+<span class="sd">    extracts linguistic features from each file, and saves the results to CSV files categorized</span>
+<span class="sd">    by feature type (e.g., linkingRate.csv, diversity.csv).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    If `rootDirPath=&#39;/path/to/root&#39;`, `dataset=&#39;example_dataset&#39;`, and `clip=&#39;all&#39;`,</span>
+<span class="sd">    it will process all subfolders (&#39;full&#39;, &#39;beg&#39;, &#39;mid&#39;, &#39;end&#39;) in</span>
+<span class="sd">    &#39;/path/to/root/data/example_dataset/transcripts&#39;.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Data directory</span>
     <span class="n">data_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootDirPath</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
@@ -1181,6 +1471,26 @@
 
 
 <div class="viewcode-block" id="readMeta"><a class="viewcode-back" href="../../modules.html#preprocess.TextProcessor_MT.readMeta">[docs]</a><span class="k">def</span> <span class="nf">readMeta</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads metadata from a CSV file associated with the dataset.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    rootDirPath (str): Root directory path where data is stored.</span>
+<span class="sd">    dataset (str): Name of the dataset.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    str: Language associated with the dataset as specified in the metadata.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    This function assumes the metadata CSV file is named &#39;{dataset}_meta_data.csv&#39;</span>
+<span class="sd">    and is located in &#39;{rootDirPath}/data/{dataset}/&#39;.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    If `rootDirPath=&#39;/path/to/root&#39;` and `dataset=&#39;example_dataset&#39;`,</span>
+<span class="sd">    it reads metadata from &#39;/path/to/root/data/example_dataset/example_dataset_meta_data.csv&#39;</span>
+<span class="sd">    and returns the language specified in the &#39;language&#39; column of the metadata.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Data directory</span>
     <span class="n">data_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootDirPath</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">dataset</span><span class="o">+</span><span class="s2">&quot;_meta_data.csv&quot;</span><span class="p">)</span>
     <span class="c1"># Read metadata</span>
@@ -1190,6 +1500,28 @@
 
     
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Entry point of the script for processing text data and extracting linguistic features.</span>
+<span class="sd">    </span>
+<span class="sd">    Dependencies:</span>
+<span class="sd">    - nltk: Natural Language Toolkit for text processing tasks.</span>
+<span class="sd">    </span>
+<span class="sd">    Functionality:</span>
+<span class="sd">    1. Downloads necessary NLTK resources: Punkt, WordNet, and Open Multilingual WordNet.</span>
+<span class="sd">    2. Sets up feature categories for linguistic feature extraction.</span>
+<span class="sd">    3. Reads configuration settings using `read_config()` function.</span>
+<span class="sd">    4. Prints and uses configuration values like root directory path, dataset name, dimensions, and clip.</span>
+<span class="sd">    5. Modifies system path to include root directory path for module imports.</span>
+<span class="sd">    6. Reads metadata about the dataset using `readMeta()` function.</span>
+<span class="sd">    7. Processes text data using `TextProcess()` function for feature extraction.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    If `config[&#39;rootDirPath&#39;] = &#39;/path/to/root&#39;`, `config[&#39;dataset&#39;] = &#39;example_dataset&#39;`, </span>
+<span class="sd">    and `config[&#39;clip&#39;] = &#39;all&#39;`, the script will download necessary NLTK resources,</span>
+<span class="sd">    set up feature categories, read configuration values, and process text data from</span>
+<span class="sd">    &#39;/path/to/root/data/example_dataset/&#39;.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Functionality: Punkt is a pre-trained tokenizer that helps in dividing </span>
     <span class="c1">#                a text into a list of sentences or words. It&#39;s crucial for tasks that </span>
@@ -1252,7 +1584,9 @@
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">My Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../project_structure.html">Project Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../project_config.html">Configuration File</a></li>
 </ul>
 
 <div class="relations">

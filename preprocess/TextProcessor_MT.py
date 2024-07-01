@@ -1,18 +1,12 @@
 """
-This script extracts textual features based on:
-@article{Vajjala2016AutomatedAO,
-  title={Automated Assessment of Non-Native Learner Essays: Investigating the Role of Linguistic Features},
-  author={Sowmya Vajjala},
-  journal={International Journal of Artificial Intelligence in Education},
-  year={2016},
-  volume={28},
-  pages={79 - 105},
-  url={https://api.semanticscholar.org/CorpusID:3666482}
-}
+This script extracts textual features based on the methodology described in:
 
+    "Automated Assessment of Non-Native Learner Essays: Investigating the Role of Linguistic Features"
+    by Sowmya Vajjala, International Journal of Artificial Intelligence in Education, 2016.
+    Available at: https://api.semanticscholar.org/CorpusID:3666482
 
-
-@author: Alisa Barkar, alisa.george.barkar@gmail.com
+@author:
+    Alisa Barkar <alisa.george.barkar@gmail.com>
 """
 # NLP
 from flair.data import Sentence
@@ -43,13 +37,40 @@ global language
 # Manipulation with french and english POSTagging
 #---------------------------------------------------------------------
 def nbTokens(doc):
+    """
+    Calculates the total number of tokens in a given document.
+
+    Parameters:
+    doc (list of frencToken): Represents a document as a list of frencToken objects.
+
+    Returns:
+    int: Total number of tokens in the document.
+    """
     return len(doc)
 
 def nbType(doc):
+    """
+    Calculates the number of unique part-of-speech (POS) types in a given document.
+
+    Parameters:
+    doc (list of frencToken): Represents a document as a list of frencToken objects.
+
+    Returns:
+    int: Number of unique POS types in the document.
+    """
     types = tokenTypes(doc)
     return len(types)
 
 def tokenTypes(doc):
+    """
+    Counts the occurrences of each part-of-speech (POS) tag in a given document.
+
+    Parameters:
+    doc (list of frencToken): Represents a document as a list of frencToken objects.
+
+    Returns:
+    dict: A dictionary where keys are POS tags and values are the counts of tokens with each POS tag.
+    """
     types = dict()
     for token in doc:
         x = types.setdefault(token.pos_)
@@ -65,15 +86,29 @@ def tokenTypes(doc):
 #TODO: lowercase !!!! for lemmas at least!!
 class frencToken():
     """
-    Class of french tokens. 
+    Class for representing French tokens with linguistic annotations.
 
     Attributes:
-    self.text (str): word.  
-    self.lemma_ (str): lemma of the word
-    self.pos_ (str): pos of the word
-    self.tag_ (str): tag of the word
+    self.text (str): Actual word or token.
+    self.lemma\_ (str): Lemma (base form) of the word.
+    self.pos\_ (str): Part-of-speech (POS) tag of the word.
+    self.tag\_ (str): Additional tag associated with the word.
+
+    Methods:
+    __init__(self, text=None, lemma=None, pos=None, tag=None): Initializes the token object.
     """
+
+
     def __init__(self, text = None, lemma = None, pos = None, tag = None):
+        """
+        Initialize frencToken object.
+
+        Parameters:
+        text (str, optional): Actual word or token.
+        lemma (str, optional): Lemma (base form) of the word.
+        pos (str, optional): Part-of-speech (POS) tag of the word.
+        tag (str, optional): Additional tag associated with the word.
+        """
         self.text = text
         self.lemma_ = lemma
         self.pos_ = pos
@@ -81,14 +116,24 @@ class frencToken():
 
 class frenchDoc():
     """
-    Class of french document postagging. 
+    Class for storing French language document annotations.
 
     Attributes:
-    self.text (str): text of the transcript.  
-    self.docFull (list of lists): list of lists [spacyToken.text, spacyToken.lemma_, spacyToken.pos_, tag]
-    self.docPerSent (list of lists of lists): list of lists corresponding the sentences of the text where each is the sequence of lists [spacyToken.text, spacyToken.lemma_, spacyToken.pos_, tag]
+    self.text (str): Full text of the document.
+    self.docFull (list): List of tokens with annotations [`spacyToken.text`, `spacyToken.lemma_`, `spacyToken.pos_`, `tag`].
+    self.docPerSent (list): List of sentences, each containing a list of tokens with annotations.
+
+    Methods:
+    __init__(self, listOfFrenchSentences): Initializes the object with a list of annotated sentences.
     """
+
     def __init__(self, listOfFrenchSentences):
+        """
+        Initialize frenchDoc object.
+
+        Parameters:
+        listOfFrenchSentences (list of lists): List of sentences where each sentence is a list of tokens with annotations.
+        """
         self.docFull = []
         self.text = ''
         for sent in listOfFrenchSentences:
@@ -101,14 +146,13 @@ class frenchDoc():
 
 def sentenceSeparation(transcript):
     """
-    Function is used for separation on sentences in the case if there is no punctuation. 
-    With whisper --- no need to use, it is commented. 
+    Function for separating sentences in the case where there is no punctuation.
 
     Parameters:
-    transcript (srt): full text of the .txt file. 
+    transcript (str): Full text of the .txt file.
 
     Returns:
-    sentences (list of strings): list of sentences of the text.
+    sentences (list of strings): List of sentences extracted from the text.
     """
     #TODO: because of automatic annotation there is no sentences
     # Time: 180 sec
@@ -130,13 +174,13 @@ def sentenceSeparation(transcript):
 
 def fullTaggingForFrench(transcript):
     """
-    Function that gives frenchDoc class object for the given text. 
+    Function that provides frenchDoc class object for the given text. 
 
     Parameters:
-    transcript (srt): full text of the .txt file. 
+    transcript (str): Full text of the .txt file. 
 
     Returns:
-    doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text
+    doc (frenchDoc class object): Object with three main attributes .docFull, .docPerSent, and .text.
     """
 
     # Load the model
@@ -182,14 +226,15 @@ def fullTaggingForFrench(transcript):
 
 def text2sentence(transcript_dir, id):
     """
-    Function that downloads text from the transcript and launches the creation
-    of the new frenchDoc class object. 
+    Function that loads text from a transcript file, performs NLP tagging, and creates a frenchDoc class object.
 
     Parameters:
-    ID (srt): ID of .txt file in the directory with transcripts. 
+    transcript_dir (str): Directory path containing the transcript files.
+    id (str): ID of the .txt file in the directory with transcripts.
+    language (str): Language of the transcript ('french' or 'english').
 
     Returns:
-    doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text
+    doc (frenchDoc class object): Object with three main attributes .docFull, .docPerSent, and .text.
     """
     file = os.join(transcript_dir, id+".txt")
     with codecs.open(file, "r", "utf-8") as f:
@@ -226,10 +271,10 @@ def measureOfTextualLexicalDiversity(doc):
     Function for MTLD calculation. 
     
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (list): A list of tokens or lemmas from the document.
 
     Returns:
-    (float): MTLD value.
+    float: MTLD value.
     """
     lemmasList = [token.lemma_ for token in doc]
 
@@ -282,10 +327,10 @@ def lexicalDiversity(doc):
     Function for lexical diversity feature calculation. 
     
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (list): A list of lists where each inner list represents [word, word.lemma, word.pos, word.tag]
 
     Returns:
-    (list): list of features.
+    list: List of lexical diversity features.
     """
     nb_types = nbType(doc)
     nb_tokens = nbTokens(doc)
@@ -318,10 +363,10 @@ def POSTagDensity(doc):
     Function for density feature calculation. 
 
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (list): A list of lists where each inner list represents [word, word.lemma, word.pos, word.tag]
 
     Returns:
-    typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.
+    posFeatures (dict): Dictionary with the keys representing POS tag features and values as their calculated densities.
     """
     # # Load the model
     # model = SequenceTagger.load("qanastek/pos-french")
@@ -462,13 +507,13 @@ def POSTagDensity(doc):
 
 def POSTagForEng(doc):
     """
-    Function for builging mapping between POSTag notations in french and english tagging. 
+    Function for building mapping between POS Tag notations in French and English tagging. 
 
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (list of spacy.Token): List of tokens where each token has attributes like `text`, `lemma_`, `pos_`, `tag_`.
 
     Returns:
-    typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.
+    typesTags (dict): Dictionary with the keys of feature names and items values of the features for this document.
     """
     listOfFeatures = ['TotalWords', 'numAdj', 'numNouns', 'numVerbs', 'numPronouns', 'numConjunct', 'numProperNouns', 'numPrepositions', 'numAdverbs', 'numLexicals', 'numModals', 'numInterjections', 'perpronouns' , 'whperpronouns', 'numauxverbs', 'numFunctionWords',  'numDeterminers', 'numTenses',  'numVB', 'numVBD','numVBG', 'numVBN', 'numVBP', 'numVBZ']
     #'perpronouns' : adding num Personal Pronouns with the hypothesis that they will occur more in Simple Sentences
@@ -560,13 +605,24 @@ def POSTagForEng(doc):
 
 def getOverlapFeatures(doc):
     """
-    Function extracts overlap features. 
+    Function extracts overlap features between sentences in a document. 
 
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (list of list): List of sentences where each sentence is represented as a list of (text, lemma, pos, tag).
 
     Returns:
-    overlapFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.
+    overlapFeatures (dict): Dictionary with the keys of feature names and items values of the features for this document.
+
+    Example:
+    ```python
+    doc = [
+    [('The', 'the', 'DET', None), ('cat', 'cat', 'NOUN', 'NCS')],
+    [('The', 'the', 'DET', None), ('dog', 'dog', 'NOUN', 'NCS')]
+    ]
+    overlap_features = getOverlapFeatures(doc)
+    print(overlap_features)
+    ```
+
     """
     # doc is given in format of [[list of (text, lemma, pos, tag)], ..., []]
     sentences = doc
@@ -612,12 +668,61 @@ def getOverlapFeatures(doc):
 
 
 def isThereNounOverlap(sentence1, sentence2):
+    """
+    Check if there is noun overlap between two sentences.
+
+    Noun overlap is defined by the presence of at least one noun appearing in both sentences.
+
+    Parameters:
+    sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+    sentence2 (list): List of spaCy Token objects representing words in the second sentence.
+
+    Returns:
+    bool: True if there is noun overlap, False otherwise.
+
+    Example:
+    ```python
+    import spacy
+    nlp = spacy.load('fr_core_news_sm')
+    sentence1 = nlp("Il a acheté une voiture.")
+    sentence2 = nlp("Elle a vendu la maison.")
+    noun_overlap = isThereNounOverlap(sentence1, sentence2)
+    print("Noun overlap:", noun_overlap)
+    ```
+
+    """
     for word in sentence1:
         if (word.pos_ == "NOUN") and (word in sentence2):
             return True
     return False
 
 def isThereStemOverlap(sentence1, sentence2):
+    """
+    Check if there is stem overlap between two sentences.
+
+    Stem overlap is defined by:
+    - Noun overlap: If at least one noun appears in both sentences.
+    - Argument overlap: If at least one argument (noun or pronoun) appears in both sentences.
+    - Stem (lemma) similarity: If at least one word's lemma in sentence1 matches with a word's lemma in sentence2.
+
+    Parameters:
+    sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+    sentence2 (list): List of spaCy Token objects representing words in the second sentence.
+
+    Returns:
+    bool: True if there is stem overlap, False otherwise.
+
+    Example:
+    ```python
+    import spacy
+    nlp = spacy.load('fr_core_news_sm')
+    sentence1 = nlp("Il a acheté une voiture.")
+    sentence2 = nlp("Elle a vendu la maison.")
+    stem_overlap = isThereStemOverlap(sentence1, sentence2)
+    print("Stem overlap:", stem_overlap)
+    ```
+
+    """
     if (isThereNounOverlap(sentence1, sentence2) or isThereArgumentOverlap(sentence1, sentence2)):
         return True  # If there is a noun or argument overlap, there is obviously an argument overlap right? No need to test further.
     else:
@@ -635,6 +740,31 @@ def isThereStemOverlap(sentence1, sentence2):
 
 
 def isThereArgumentOverlap(sentence1, sentence2):
+    """
+    Check if there is argument overlap between two sentences.
+
+    Argument overlap is defined by:
+    - Noun overlap: If at least one noun appears in both sentences.
+    - Pronoun overlap: If at least one pronoun appears in both sentences.
+
+    Parameters:
+    sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+    sentence2 (list): List of spaCy Token objects representing words in the second sentence.
+
+    Returns:
+    bool: True if there is argument overlap, False otherwise.
+
+    Example:
+    ```python
+    import spacy
+    nlp = spacy.load('fr_core_news_sm')
+    sentence1 = nlp("Il a acheté une voiture.")
+    sentence2 = nlp("Elle a vendu la maison.")
+    argument_overlap = isThereArgumentOverlap(sentence1, sentence2)
+    print("Argument overlap:", argument_overlap)
+    ```
+
+    """
     if (isThereNounOverlap(sentence1, sentence2)):
         return True # If there is a noun overlap, there is obviously an argument overlap right? No need to test further.
     # Check for pronoun overlap?
@@ -656,6 +786,30 @@ def isThereArgumentOverlap(sentence1, sentence2):
 
 
 def contentWordOverlap(sentence1, sentence2):
+    """
+    Calculate the overlap of content words between two sentences.
+
+    Parameters:
+    sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+    sentence2 (list): List of spaCy Token objects representing words in the second sentence.
+
+    Returns:
+    overlapsCount (int): Number of overlapping content words between the two sentences.
+
+    Notes:
+    Content words are considered based on their part-of-speech tags. Words tagged as "PRON" (pronouns) are excluded from overlap calculations.
+
+    Example:
+    ```python
+    import spacy
+    nlp = spacy.load('fr_core_news_sm')
+    sentence1 = nlp("Ceci est une phrase en français.")
+    sentence2 = nlp("Voici une autre phrase avec des mots similaires.")
+    overlap_count = contentWordOverlap(sentence1, sentence2)
+    print("Content word overlap:", overlap_count)
+    ```
+
+    """
     overlapsCount = 0
     # Isn't this similar to cosine similarity between content-words?
     for word in sentence1:
@@ -675,13 +829,36 @@ def contentWordOverlap(sentence1, sentence2):
 
 def getRefExpFeatures(doc):
     """
-    Function extracts referencial features. 
+    Function extracts referential features from a French document.
 
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (frenchDoc class object): Contains .docFull which is a list of lists [word, word.lemma, word.pos, word.tag]
 
     Returns:
-    refExprFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.
+    refExprFeatures (dict): Dictionary with feature names as keys and their values as extracted features for the document.
+
+    Notes:
+    This function calculates various referential features based on the document's linguistic annotations.
+
+    Feature Keys:
+    - 'DISC_RefExprPronounsPerNoun': Ratio of personal pronouns to nouns in the document.
+    - 'DISC_RefExprPronounsPerSen': Ratio of personal pronouns to sentences in the document.
+    - 'DISC_RefExprPronounsPerWord': Ratio of personal pronouns to total words in the document.
+    - 'DISC_RefExprPerPronounsPerSen': Ratio of personal pronouns (excluding possessive pronouns) to sentences.
+    - 'DISC_RefExprPerProPerWord': Ratio of personal pronouns (excluding possessive pronouns) to total words.
+    - 'DISC_RefExprPossProPerSen': Ratio of possessive pronouns to sentences.
+    - 'DISC_RefExprPossProPerWord': Ratio of possessive pronouns to total words.
+    - 'DISC_RefExprDefArtPerSen': Ratio of definite articles to sentences.
+    - 'DISC_RefExprDefArtPerWord': Ratio of definite articles to total words.
+    - 'DISC_RefExprProperNounsPerNoun': Ratio of proper nouns to nouns.
+
+    Example:
+    ```python
+    doc = frenchDoc(...)  # Initialize frenchDoc object
+    ref_features = getRefExpFeatures(doc)
+    print(ref_features)
+    ```
+
     """
     listOfCounters = ['numWords', 'numSentences', 'numPronouns', 'numPersonalPronouns', 'numPossessivePronouns', 'numDefiniteArticles', 'numProperNouns', 'numNouns']
     refExprCounters = dict.fromkeys(listOfCounters, 0)
@@ -735,12 +912,42 @@ def getRefExpFeatures(doc):
 # 3) other, example: je sais que quelque ... ---> que -- prefix of quelque
 
 def isPrefix(word1, word2):
+    """
+    Checks if word1 is a prefix of word2.
+
+    Parameters:
+    word1 (str): The potential prefix.
+    word2 (str): The word to check against.
+
+    Returns:
+    bool: True if word1 is a prefix of word2, False otherwise.
+
+    Example:
+    Calling `isPrefix("pre", "prefix")` will return True since "pre" is a prefix of "prefix".
+
+    """
     if (word1 == word2[:len(word1)]):
         return True
     else:
         return False
 
 def hasStutterPrefix(word):
+    """
+    Checks if a word has a stuttering prefix.
+
+    Parameters:
+    word (str): The word to check for stuttering prefixes.
+
+    Returns:
+    bool: True if the word has a stuttering prefix, False otherwise.
+
+    Notes:
+    A stuttering prefix is considered present if a substring of the word up to a certain length appears within the remaining part of the word.
+
+    Example:
+    Calling `hasStutterPrefix("example")` will return True if the word "example" has any repeating prefix, otherwise False.
+
+    """
     for i in range(2,len(word) - 1):
         #print(word[:i], ' ', word[i:])
         if word[:i] in word[i:]:
@@ -752,13 +959,22 @@ def hasStutterPrefix(word):
 
 def stutterFeatures(doc):
     """
-    Function extracts stutter features. 
+    Extracts stutter features from a document.
 
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].
 
     Returns:
-    stutterFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.
+    dict: Dictionary with the keys representing feature names and values as the corresponding feature values for this document.
+
+    Notes:
+    This function computes stutter-related features based on word repetitions and structure within the document.
+
+    Example:
+    Given a `doc` object of type `frenchDoc`, calling `stutterFeatures(doc)` will return a dictionary
+    containing features such as 'stutterToSent', 'stutterToWords', 'stutterStart', 'stutterMiddle', 'stutterEnd',
+    'stutterNum', 'stutterFirstThird', 'stutterSecondThird', and 'stutterThirdThird'.
+
     """
     #print(doc.text)
     #print([token.tag_ for token in doc.docFull])
@@ -828,6 +1044,23 @@ def stutterFeatures(doc):
 
 
 def embeddingExtraction(doc):
+    """
+    Extracts document embeddings using a pre-trained Doc2Vec model.
+
+    Parameters:
+    doc (object): Document object containing text to be embedded.
+
+    Returns:
+    np.ndarray: Extracted document embedding as a numpy array.
+
+    Notes:
+    This function uses a pre-trained Doc2Vec model to infer embeddings for the input document text.
+
+    Example:
+    Given a `doc` object with text, calling `embeddingExtraction(doc)` will return a numpy array
+    representing the document embedding.
+
+    """
     # parameters
     model = "../demo/" + dataset + "/model.bin"
     # test_docs="toy_data/test_docs.txt"
@@ -855,16 +1088,23 @@ def embeddingExtraction(doc):
 
 def extractLinkingRate(doc):
     """
-    Function extracts linking rate features. 
+    Extracts linking rate features from a document.
 
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].
 
     Returns:
-    conjunctFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.
+    dict: Dictionary with keys representing feature names and values as the corresponding feature values for the document.
+
+    Notes:
+    This function computes linking rate features based on conjunctions and sentence structure in the document.
+
+    Example:
+    Given a `doc` object of type `frenchDoc`, calling `extractLinkingRate(doc)` will return a dictionary
+    containing features such as 'conjunctToSent', 'conjunctTypesToSent', 'conjunctToWords', 'conjunctNum',
+    'conjunctTypesToTotal', and 'conjunctNeighborSent'.
+
     """
-
-
     listOfFeatures = ['conjunctToSent', 'conjunctTypesToSent', 'conjunctToWords', 'conjunctNum', 'conjunctTypesToTotal', 'conjunctNeighborSent']
     conjunctFeatures = dict.fromkeys(listOfFeatures, 0)
 
@@ -906,15 +1146,22 @@ def extractLinkingRate(doc):
 # TODO: sameRootRate features 
 def extractSynonymsRate(doc):
     """
-    Function extracts synonym rate features. 
+    Extracts synonym rate features from a document.
 
     Parameters:
-    doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]
+    doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].
 
     Returns:
-    synonymsFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.
-    """
+    dict: Dictionary with keys representing feature names and values as the corresponding feature values for the document.
 
+    Notes:
+    This function computes synonym rates for nouns and verbs based on WordNet synonyms in French.
+
+    Example:
+    Given a `doc` object of type `frenchDoc`, calling `extractSynonymsRate(doc)` will return a dictionary
+    containing features such as 'synonymToNouns', 'synonymToVerbs', 'averageSynClassNOUN', and 'averageSynClassVERB'.
+
+    """
     listOfFeatures = ['synonymToNouns', 'synonymToVerbs', 'averageSynClassNOUN', 'averageSynClassVERB']
     synonymsFeatures = dict.fromkeys(listOfFeatures, 0)
 
@@ -1002,10 +1249,24 @@ def extractSynonymsRate(doc):
 
 def extractTextFeatures(doc):
     """
-    Function createing the dictionary of the feature names of the category. 
+    Extracts linguistic features from the document based on language-specific processing.
+
+    Parameters:
+    doc (object): Document object containing text and metadata.
 
     Returns:
-    categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.
+    list: List of feature dictionaries extracted from the document.
+
+    Notes:
+    This function performs feature extraction based on the language of the document.
+    If the language is French ('french'), it extracts features related to linking rate,
+    synonym rate, lexical diversity, POS tag density, discourse features, and referential
+    expression features. English language processing is not currently supported.
+
+    Example:
+    Given a document `doc`, calling `extractTextFeatures(doc)` will return a list of dictionaries
+    containing linguistic features extracted from the document.
+
     """
     if (language == 'french'):
         # Linking Rate feature extraction
@@ -1029,10 +1290,23 @@ def extractTextFeatures(doc):
 
 def createFeatureLists():
     """
-    Function createing the dictionary of the feature names of the category. 
+    Creates a dictionary of feature names categorized by feature types.
 
     Returns:
-    categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.
+    dict: Dictionary where keys are category names and values are lists of feature names.
+
+    Example:
+    The returned dictionary structure:
+    {
+    'LinkingRate': ['category', 'conjunctToSent', 'conjunctTypesToSent', 'conjunctToWords', 'conjunctNum', 'conjunctTypesToTotal', 'conjunctNeighborSent'],
+    'SynonymRate': ['category', 'synonymToNouns', 'synonymToVerbs', 'averageSynClassNOUN', 'averageSynClassVERB'],
+    'featureEmbedName': ['category', 'emb_axis_0', 'emb_axis_1', ..., 'emb_axis_99'],
+    'Diversity': ['category', 'TTR', 'CorrectedTTR', 'RootTTR', 'BilogTTR', 'MTLD'],
+    'Density': ['category', 'POS_numNouns', 'POS_numProperNouns', 'POS_numPronouns', 'POS_numConjunct', ...],
+    'Discourse': ['category', 'localNounOverlapCount', 'localArgumentOverlapCount', 'localStemOverlapCount', ...],
+    'Reference': ['category', 'DISC_RefExprPronounsPerNoun', 'DISC_RefExprPronounsPerSen', 'DISC_RefExprPronounsPerWord', ...]
+    }
+
     """
     ceategoryDict = {'LinkingRate':['category', 'conjunctToSent', 'conjunctTypesToSent', 'conjunctToWords', 'conjunctNum', 'conjunctTypesToTotal', 'conjunctNeighborSent']
                      , 'SynonymRate':['category','synonymToNouns', 'synonymToVerbs', 'averageSynClassNOUN', 'averageSynClassVERB']
@@ -1053,13 +1327,17 @@ def createFeatureLists():
 
 def french_to_english_text(text):
     """
-    Function cleaning the french letters in the filenames if needed. 
+    Translates French accented characters to their English counterparts in the text.
 
     Parameters:
-    text (str): Name of the file/name of the directory.
-    
+    text (str): Text containing French accented characters.
+
     Returns:
-    translated_text (str): cleaned name of directory name.
+    str: Translated text with French characters replaced by their English equivalents.
+
+    Example:
+    If `text = "école et théâtre"`, the function will return `"ecole et theatre"`.
+
     """
     french_to_english = {'é': 'e', 'á': 'a','à': 'a','â': 'a','ç': 'c','é': 'e','è': 'e','ê': 'e','ë': 'e','î': 'i','ï': 'i','ô': 'o', 'ù': 'u','û': 'u','ç': 'c',}
     translated_text = ''
@@ -1069,13 +1347,18 @@ def french_to_english_text(text):
 
 def sanitize_filename(filename):
     """
-    Function cleaning the filenames from special symbols if needed. 
+    Cleans the filename by removing specified special characters.
 
     Parameters:
-    filename (str): Name of the file/name of the directory.
-    
+    filename (str): Name of the file or directory to be sanitized.
+
     Returns:
-    (str): cleaned name of directory name.
+    str: Sanitized filename without spaces, dashes, underscores, or commas.
+
+    Example:
+    If `filename = "my - file_name, with spaces.csv"`, the function will return
+    `"myfilenamewithspaces.csv"`.
+
     """
     # Example: Remove spaces and special characters
     return filename.replace(" ", "").replace("-", "").replace("_", "").replace(",", "")
@@ -1086,19 +1369,26 @@ def TextProcess():
     """
     Main function that reads .txt files from the directory with transcripts and 
     executes feature extraction. Transcript directory should contain subfolders: 
-                            full, beg, mid, end
-    Transcripts are named with the ID in the dataset. 
+    full, beg, mid, end. Transcripts are named with the ID in the dataset.
 
     Parameters:
-    rootDirPath (str): Root directory
-    dataset: Name of the dataset
+    rootDirPath (str): Root directory path where data is stored.
+    dataset (str): Name of the dataset.
+    clip (str or int, optional): Specifies the subfolder(s) to process. Default is "all".
     
     Returns:
-    str(featureCategories[idx])+".csv" (DataFrame): array of N x nb_cat_feat dimensions where
-                                            N -- number of data samples
-                                            nb_cat_feat -- number of features in the {category}
-                                            category: linkingRate, devirsity, density, discourse, 
-                                            reference, synonymRate
+    None
+
+    Notes:
+    This function reads text files (.txt) from subdirectories of the transcript directory,
+    extracts linguistic features from each file, and saves the results to CSV files categorized
+    by feature type (e.g., linkingRate.csv, diversity.csv).
+
+    Example:
+    If `rootDirPath='/path/to/root'`, `dataset='example_dataset'`, and `clip='all'`,
+    it will process all subfolders ('full', 'beg', 'mid', 'end') in
+    '/path/to/root/data/example_dataset/transcripts'.
+
     """
     # Data directory
     data_dir=os.path.join(rootDirPath, "data", dataset)
@@ -1146,6 +1436,26 @@ def TextProcess():
 
 
 def readMeta():
+    """
+    Reads metadata from a CSV file associated with the dataset.
+
+    Parameters:
+    rootDirPath (str): Root directory path where data is stored.
+    dataset (str): Name of the dataset.
+
+    Returns:
+    str: Language associated with the dataset as specified in the metadata.
+
+    Notes:
+    This function assumes the metadata CSV file is named '{dataset}_meta_data.csv'
+    and is located in '{rootDirPath}/data/{dataset}/'.
+
+    Example:
+    If `rootDirPath='/path/to/root'` and `dataset='example_dataset'`,
+    it reads metadata from '/path/to/root/data/example_dataset/example_dataset_meta_data.csv'
+    and returns the language specified in the 'language' column of the metadata.
+
+    """
     # Data directory
     data_dir=os.path.join(rootDirPath, "data", dataset, dataset+"_meta_data.csv")
     # Read metadata
@@ -1155,6 +1465,28 @@ def readMeta():
 
     
 if __name__ == "__main__":
+    """
+    Entry point of the script for processing text data and extracting linguistic features.
+    
+    Dependencies:
+    - nltk: Natural Language Toolkit for text processing tasks.
+    
+    Functionality:
+    1. Downloads necessary NLTK resources: Punkt, WordNet, and Open Multilingual WordNet.
+    2. Sets up feature categories for linguistic feature extraction.
+    3. Reads configuration settings using `read_config()` function.
+    4. Prints and uses configuration values like root directory path, dataset name, dimensions, and clip.
+    5. Modifies system path to include root directory path for module imports.
+    6. Reads metadata about the dataset using `readMeta()` function.
+    7. Processes text data using `TextProcess()` function for feature extraction.
+
+    Example:
+    If `config['rootDirPath'] = '/path/to/root'`, `config['dataset'] = 'example_dataset'`, 
+    and `config['clip'] = 'all'`, the script will download necessary NLTK resources,
+    set up feature categories, read configuration values, and process text data from
+    '/path/to/root/data/example_dataset/'.
+
+    """
 
     # Functionality: Punkt is a pre-trained tokenizer that helps in dividing 
     #                a text into a list of sentences or words. It's crucial for tasks that 

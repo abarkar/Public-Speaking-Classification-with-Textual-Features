@@ -89,8 +89,7 @@ def createFeatureLists():
 def audioProcess():
     """
     Main function that reads .wav files from the directory with the audios and
-    executes feature extraction. Audio directory should contain subfolders:
-            full, beg, mid and end.
+    executes feature extraction. Audio directory should contain subfolders: full, beg, mid and end.
     Audio files are named with the ID in the dataset.
 
     Parameters:

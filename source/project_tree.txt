@@ -1,48 +1,34 @@
 .
 ├── Barkar2023.pdf
 ├── biblio.bib
+├── build
+│   ├── doctrees
+│   ├── genindex.html
+│   ├── html
+│   ├── _images
+│   ├── index.html
+│   ├── _modules
+│   ├── modules.html
+│   ├── objects.inv
+│   ├── project_config.html
+│   ├── project_structure.html
+│   ├── py-modindex.html
+│   ├── search.html
+│   ├── searchindex.js
+│   ├── _sources
+│   └── _static
 ├── config.ini
 ├── config_reader.py
 ├── data
 │   └── MT
-│       ├── features
-│       │   └── full
-│       │       ├── full_feature_set.csv
-│       │       └── text
-│       │           ├── Density.csv
-│       │           ├── Discourse.csv
-│       │           ├── Diversity.csv
-│       │           ├── LinkingRate.csv
-│       │           ├── LIWC.csv
-│       │           ├── Reference.csv
-│       │           └── SynonymRate.csv
-│       ├── labels
-│       │   ├── full
-│       │   │   ├── engagementLabel.csv
-│       │   │   └── persuasivenessLabel.csv
-│       │   └── regression
-│       │       └── full
-│       │           └── rms
-│       │               └── persuasivenessLabel.csv
-│       ├── MT_aggregated_ratings.csv
-│       ├── MT_Labels.csv
-│       └── score_aggregation.py
-├── data stats
 ├── demo
 │   └── MT
-│       ├── background.csv
-│       └── target.csv
 ├── feedback
 │   ├── feedback_generator.py
 │   ├── __init__.py
 │   ├── __pycache__
-│   │   ├── feedback_generator.cpython-311.pyc
-│   │   ├── feedback_generator.cpython-38.pyc
-│   │   ├── __init__.cpython-311.pyc
-│   │   ├── __init__.cpython-38.pyc
-│   │   ├── SHAP.cpython-311.pyc
-│   │   └── SHAP.cpython-38.pyc
 │   └── SHAP.py
+├── generate_tables.py
 ├── images
 │   └── schema.png
 ├── LICENSE
@@ -53,67 +39,24 @@
 │   ├── custom_metrics.py
 │   ├── ML_Model.py
 │   └── __pycache__
-│       ├── custom_metrics.cpython-311.pyc
-│       └── ML_Model.cpython-311.pyc
 ├── preprocess
+│   ├── AudioProcessor_MT.py
+│   ├── feature_categories.json
+│   ├── GenderSeparator.py
 │   ├── __init__.py
 │   ├── LabelProcessor_MT.py
-│   ├── __pycache__
-│   │   ├── __init__.cpython-311.pyc
-│   │   ├── LabelProcessor_MT.cpython-311.pyc
-│   │   └── TextProcessor_MT.cpython-311.pyc
 │   └── TextProcessor_MT.py
 ├── project_tree.txt
-├── __pycache__
-│   ├── config_reader.cpython-311.pyc
-│   └── main.cpython-311.pyc
 ├── README.md
 ├── requirements.txt
-└── results
-    └── MT
-        ├── engagement
-        │   └── full
-        │       └── correlation
-        │           ├── feature_label_correlations.csv
-        │           ├── pearson_correlation_by_category.png
-        │           ├── pearson_feature_correlation.png
-        │           ├── pearson_mean_corr_by_category.csv
-        │           ├── spearman_correlation_by_category.png
-        │           ├── spearman_feature_correlation.png
-        │           └── spearman_mean_corr_by_category.csv
-        └── persuasiveness
-            └── full
-                ├── correlation
-                │   ├── feature_label_correlations.csv
-                │   ├── pearson_correlation_by_category.png
-                │   ├── pearson_feature_correlation.png
-                │   ├── pearson_mean_corr_by_category.csv
-                │   ├── spearman_correlation_by_category.png
-                │   ├── spearman_feature_correlation.png
-                │   └── spearman_mean_corr_by_category.csv
-                ├── eNET
-                │   ├── best_parameters_rf.txt
-                │   ├── lvo_accuracy_score.txt
-                │   └── metrics.tex
-                ├── LAS
-                │   ├── best_parameters_rf.txt
-                │   ├── lvo_accuracy_score.txt
-                │   └── metrics.tex
-                ├── LIN
-                │   ├── best_parameters_rf.txt
-                │   ├── lvo_accuracy_score.txt
-                │   └── metrics.tex
-                ├── RFC
-                │   ├── best_parameters_rf.txt
-                │   └── lvo_accuracy_score.txt
-                ├── RFR
-                │   ├── best_parameters_rf.txt
-                │   ├── lvo_accuracy_score.txt
-                │   └── metrics.tex
-                ├── RID
-                │   ├── best_parameters_rf.txt
-                │   ├── lvo_accuracy_score.txt
-                │   └── metrics.tex
-                └── SVM
+├── results
+│   └── MT
+└── source
+    ├── conf.py
+    ├── index.rst
+    ├── modules.rst
+    ├── project_config.rst
+    ├── project_structure.rst
+    └── project_tree.txt
 
-36 directories, 80 files
+20 directories, 39 files

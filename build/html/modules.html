@@ -285,203 +285,411 @@ dim_columns (list): list of column names of considered dimensions of dataset.
 index (list): list of sample IDs.</p>
 </dd></dl>
 
-<span class="target" id="module-preprocess.TextProcessor_MT"></span><p>This script extracts textual features based on:
-&#64;article{Vajjala2016AutomatedAO,</p>
+<span class="target" id="module-preprocess.AudioProcessor_MT"></span><p>The AudioProcessor_MT.py script extracts eGeMAPS (extended Geneva Minimalistic Acoustic Parameter Set) features from MT dataset files and saves the resulting feature set to a CSV file.</p>
+<p>&#64;author: Valentine Fleith, <a class="reference external" href="mailto:valentine&#46;fleith&#37;&#52;&#48;gmail&#46;com">valentine<span>&#46;</span>fleith<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.AudioProcessor_MT.add_sex_feature">
+<span class="sig-prename descclassname"><span class="pre">preprocess.AudioProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">add_sex_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/AudioProcessor_MT.html#add_sex_feature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.AudioProcessor_MT.add_sex_feature" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Adds a sex feature to the frequency DataFrame based on gender information from a CSV file.</p>
+<p>Parameters:
+frequency_df (DataFrame): DataFrame containing frequency features with an “ID” column.</p>
+<p>Returns:
+DataFrame: Updated DataFrame with an additional “Sex” column where “0” indicates male and “1” indicates female.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.AudioProcessor_MT.audioProcess">
+<span class="sig-prename descclassname"><span class="pre">preprocess.AudioProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">audioProcess</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/AudioProcessor_MT.html#audioProcess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.AudioProcessor_MT.audioProcess" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Main function that reads .wav files from the directory with the audios and
+executes feature extraction. Audio directory should contain subfolders: full, beg, mid and end.
+Audio files are named with the ID in the dataset.</p>
+<p>Parameters:
+rootDirPATH: str: root directory
+dataset: name of the dataset</p>
+<dl class="simple">
+<dt>Returns: features (DataFrame): array of N x nb_cat_feat dimensions where:</dt><dd><p>n – nb of data samples
+nb_cat_feat – nb of features in the category
+category – prosody, voice_quality, warmth, likability, confidence</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.AudioProcessor_MT.createFeatureLists">
+<span class="sig-prename descclassname"><span class="pre">preprocess.AudioProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">createFeatureLists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/AudioProcessor_MT.html#createFeatureLists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.AudioProcessor_MT.createFeatureLists" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Function creating the dictionary of the feature names of the category based
+on a json file containing them.</p>
+<p>Returns:
+categoryDict (dict): dictionary with the keys of category names and values
+as lists of feature names.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="preprocess.AudioProcessor_MT.create_csv_files">
+<span class="sig-prename descclassname"><span class="pre">preprocess.AudioProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">create_csv_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/AudioProcessor_MT.html#create_csv_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.AudioProcessor_MT.create_csv_files" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Creates CSV files for the extracted features and saves them in the appropriate directory.</p>
+<p>Parameters:
+features (list of DataFrame): List of DataFrames containing the extracted features.
+data_dir (str): Directory path where the data is stored.</p>
+</dd></dl>
+
+<span class="target" id="module-preprocess.TextProcessor_MT"></span><p>This script extracts textual features based on the methodology described in:</p>
 <blockquote>
-<div><p>title={Automated Assessment of Non-Native Learner Essays: Investigating the Role of Linguistic Features},
-author={Sowmya Vajjala},
-journal={International Journal of Artificial Intelligence in Education},
-year={2016},
-volume={28},
-pages={79 - 105},
-url={<a class="reference external" href="https://api.semanticscholar.org/CorpusID:3666482">https://api.semanticscholar.org/CorpusID:3666482</a>}</p>
+<div><p>« Automated Assessment of Non-Native Learner Essays: Investigating the Role of Linguistic Features »
+by Sowmya Vajjala, International Journal of Artificial Intelligence in Education, 2016.
+Available at: <a class="reference external" href="https://api.semanticscholar.org/CorpusID:3666482">https://api.semanticscholar.org/CorpusID:3666482</a></p>
 </div></blockquote>
-<p>}</p>
-<p>&#64;author: Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<dl class="simple">
+<dt>&#64;author:</dt><dd><p>Alisa Barkar &lt;<a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
+</dd>
+</dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.POSTagDensity">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">POSTagDensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#POSTagDensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.POSTagDensity" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Function for density feature calculation.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (list): A list of lists where each inner list represents [word, word.lemma, word.pos, word.tag]</p>
 <p>Returns:
-typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+posFeatures (dict): Dictionary with the keys representing POS tag features and values as their calculated densities.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.POSTagForEng">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">POSTagForEng</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#POSTagForEng"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.POSTagForEng" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function for builging mapping between POSTag notations in french and english tagging.</p>
+<dd><p>Function for building mapping between POS Tag notations in French and English tagging.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (list of spacy.Token): List of tokens where each token has attributes like <cite>text</cite>, <cite>lemma_</cite>, <cite>pos_</cite>, <cite>tag_</cite>.</p>
 <p>Returns:
-typesTags (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+typesTags (dict): Dictionary with the keys of feature names and items values of the features for this document.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.TextProcess">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">TextProcess</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#TextProcess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.TextProcess" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Main function that reads .txt files from the directory with transcripts and
-executes feature extraction. Transcript directory should contain subfolders:</p>
-<blockquote>
-<div><p>full, beg, mid, end</p>
-</div></blockquote>
-<p>Transcripts are named with the ID in the dataset.</p>
+executes feature extraction. Transcript directory should contain subfolders:
+full, beg, mid, end. Transcripts are named with the ID in the dataset.</p>
 <p>Parameters:
-rootDirPath (str): Root directory
-dataset: Name of the dataset</p>
+rootDirPath (str): Root directory path where data is stored.
+dataset (str): Name of the dataset.
+clip (str or int, optional): Specifies the subfolder(s) to process. Default is « all ».</p>
 <p>Returns:
-str(featureCategories[idx])+ ».csv » (DataFrame): array of N x nb_cat_feat dimensions where</p>
-<blockquote>
-<div><p>N – number of data samples
-nb_cat_feat – number of features in the {category}
-category: linkingRate, devirsity, density, discourse,
-reference, synonymRate</p>
-</div></blockquote>
+None</p>
+<p>Notes:
+This function reads text files (.txt) from subdirectories of the transcript directory,
+extracts linguistic features from each file, and saves the results to CSV files categorized
+by feature type (e.g., linkingRate.csv, diversity.csv).</p>
+<p>Example:
+If <cite>rootDirPath=”/path/to/root”</cite>, <cite>dataset=”example_dataset”</cite>, and <cite>clip=”all”</cite>,
+it will process all subfolders (“full”, “beg”, “mid”, “end”) in
+“/path/to/root/data/example_dataset/transcripts”.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.contentWordOverlap">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">contentWordOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#contentWordOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.contentWordOverlap" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate the overlap of content words between two sentences.</p>
+<p>Parameters:
+sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+sentence2 (list): List of spaCy Token objects representing words in the second sentence.</p>
+<p>Returns:
+overlapsCount (int): Number of overlapping content words between the two sentences.</p>
+<p>Notes:
+Content words are considered based on their part-of-speech tags. Words tagged as « PRON » (pronouns) are excluded from overlap calculations.</p>
+<p>Example:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">import</span> <span class="pre">spacy</span>
+<span class="pre">nlp</span> <span class="pre">=</span> <span class="pre">spacy.load('fr_core_news_sm')</span>
+<span class="pre">sentence1</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Ceci</span> <span class="pre">est</span> <span class="pre">une</span> <span class="pre">phrase</span> <span class="pre">en</span> <span class="pre">français.&quot;)</span>
+<span class="pre">sentence2</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Voici</span> <span class="pre">une</span> <span class="pre">autre</span> <span class="pre">phrase</span> <span class="pre">avec</span> <span class="pre">des</span> <span class="pre">mots</span> <span class="pre">similaires.&quot;)</span>
+<span class="pre">overlap_count</span> <span class="pre">=</span> <span class="pre">contentWordOverlap(sentence1,</span> <span class="pre">sentence2)</span>
+<span class="pre">print(&quot;Content</span> <span class="pre">word</span> <span class="pre">overlap:&quot;,</span> <span class="pre">overlap_count)</span>
+<span class="pre">`</span></code></p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.createFeatureLists">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">createFeatureLists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#createFeatureLists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.createFeatureLists" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function createing the dictionary of the feature names of the category.</p>
+<dd><p>Creates a dictionary of feature names categorized by feature types.</p>
 <p>Returns:
-categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.</p>
+dict: Dictionary where keys are category names and values are lists of feature names.</p>
+<p>Example:
+The returned dictionary structure:
+{
+“LinkingRate”: [“category”, “conjunctToSent”, “conjunctTypesToSent”, “conjunctToWords”, “conjunctNum”, “conjunctTypesToTotal”, “conjunctNeighborSent”],
+“SynonymRate”: [“category”, “synonymToNouns”, “synonymToVerbs”, “averageSynClassNOUN”, “averageSynClassVERB”],
+“featureEmbedName”: [“category”, “emb_axis_0”, “emb_axis_1”, …, “emb_axis_99”],
+“Diversity”: [“category”, “TTR”, “CorrectedTTR”, “RootTTR”, “BilogTTR”, “MTLD”],
+“Density”: [“category”, “POS_numNouns”, “POS_numProperNouns”, “POS_numPronouns”, “POS_numConjunct”, …],
+“Discourse”: [“category”, “localNounOverlapCount”, “localArgumentOverlapCount”, “localStemOverlapCount”, …],
+“Reference”: [“category”, “DISC_RefExprPronounsPerNoun”, “DISC_RefExprPronounsPerSen”, “DISC_RefExprPronounsPerWord”, …]
+}</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.embeddingExtraction">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">embeddingExtraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#embeddingExtraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.embeddingExtraction" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Extracts document embeddings using a pre-trained Doc2Vec model.</p>
+<p>Parameters:
+doc (object): Document object containing text to be embedded.</p>
+<p>Returns:
+np.ndarray: Extracted document embedding as a numpy array.</p>
+<p>Notes:
+This function uses a pre-trained Doc2Vec model to infer embeddings for the input document text.</p>
+<p>Example:
+Given a <cite>doc</cite> object with text, calling <cite>embeddingExtraction(doc)</cite> will return a numpy array
+representing the document embedding.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.extractLinkingRate">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">extractLinkingRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#extractLinkingRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.extractLinkingRate" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function extracts linking rate features.</p>
+<dd><p>Extracts linking rate features from a document.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].</p>
 <p>Returns:
-conjunctFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+dict: Dictionary with keys representing feature names and values as the corresponding feature values for the document.</p>
+<p>Notes:
+This function computes linking rate features based on conjunctions and sentence structure in the document.</p>
+<p>Example:
+Given a <cite>doc</cite> object of type <cite>frenchDoc</cite>, calling <cite>extractLinkingRate(doc)</cite> will return a dictionary
+containing features such as “conjunctToSent”, “conjunctTypesToSent”, “conjunctToWords”, “conjunctNum”,
+“conjunctTypesToTotal”, and “conjunctNeighborSent”.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.extractSynonymsRate">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">extractSynonymsRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#extractSynonymsRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.extractSynonymsRate" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function extracts synonym rate features.</p>
+<dd><p>Extracts synonym rate features from a document.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].</p>
 <p>Returns:
-synonymsFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+dict: Dictionary with keys representing feature names and values as the corresponding feature values for the document.</p>
+<p>Notes:
+This function computes synonym rates for nouns and verbs based on WordNet synonyms in French.</p>
+<p>Example:
+Given a <cite>doc</cite> object of type <cite>frenchDoc</cite>, calling <cite>extractSynonymsRate(doc)</cite> will return a dictionary
+containing features such as “synonymToNouns”, “synonymToVerbs”, “averageSynClassNOUN”, and “averageSynClassVERB”.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.extractTextFeatures">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">extractTextFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#extractTextFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.extractTextFeatures" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function createing the dictionary of the feature names of the category.</p>
+<dd><p>Extracts linguistic features from the document based on language-specific processing.</p>
+<p>Parameters:
+doc (object): Document object containing text and metadata.</p>
 <p>Returns:
-categoryDict (dict): dictionary with the keys of category names and items as lists of feature names.</p>
+list: List of feature dictionaries extracted from the document.</p>
+<p>Notes:
+This function performs feature extraction based on the language of the document.
+If the language is French (“french”), it extracts features related to linking rate,
+synonym rate, lexical diversity, POS tag density, discourse features, and referential
+expression features. English language processing is not currently supported.</p>
+<p>Example:
+Given a document <cite>doc</cite>, calling <cite>extractTextFeatures(doc)</cite> will return a list of dictionaries
+containing linguistic features extracted from the document.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.frencToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">frencToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lemma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#frencToken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.frencToken" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class of french tokens.</p>
+<p>Class for representing French tokens with linguistic annotations.</p>
 <p>Attributes:
-self.text (str): word.
-<a href="#id1"><span class="problematic" id="id2">self.lemma_</span></a> (str): lemma of the word
-<a href="#id3"><span class="problematic" id="id4">self.pos_</span></a> (str): pos of the word
-<a href="#id5"><span class="problematic" id="id6">self.tag_</span></a> (str): tag of the word</p>
+self.text (str): Actual word or token.
+self.lemma_ (str): Lemma (base form) of the word.
+self.pos_ (str): Part-of-speech (POS) tag of the word.
+self.tag_ (str): Additional tag associated with the word.</p>
+<p>Methods:
+__init__(self, text=None, lemma=None, pos=None, tag=None): Initializes the token object.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.frenchDoc">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">frenchDoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">listOfFrenchSentences</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#frenchDoc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.frenchDoc" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Bases : <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class of french document postagging.</p>
+<p>Class for storing French language document annotations.</p>
 <p>Attributes:
-self.text (str): text of the transcript.
-self.docFull (list of lists): list of lists [spacyToken.text, <a href="#id7"><span class="problematic" id="id8">spacyToken.lemma_</span></a>, <a href="#id9"><span class="problematic" id="id10">spacyToken.pos_</span></a>, tag]
-self.docPerSent (list of lists of lists): list of lists corresponding the sentences of the text where each is the sequence of lists [spacyToken.text, <a href="#id11"><span class="problematic" id="id12">spacyToken.lemma_</span></a>, <a href="#id13"><span class="problematic" id="id14">spacyToken.pos_</span></a>, tag]</p>
+self.text (str): Full text of the document.
+self.docFull (list): List of tokens with annotations [<cite>spacyToken.text</cite>, <cite>spacyToken.lemma_</cite>, <cite>spacyToken.pos_</cite>, <cite>tag</cite>].
+self.docPerSent (list): List of sentences, each containing a list of tokens with annotations.</p>
+<p>Methods:
+__init__(self, listOfFrenchSentences): Initializes the object with a list of annotated sentences.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.french_to_english_text">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">french_to_english_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#french_to_english_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.french_to_english_text" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function cleaning the french letters in the filenames if needed.</p>
+<dd><p>Translates French accented characters to their English counterparts in the text.</p>
 <p>Parameters:
-text (str): Name of the file/name of the directory.</p>
+text (str): Text containing French accented characters.</p>
 <p>Returns:
-translated_text (str): cleaned name of directory name.</p>
+str: Translated text with French characters replaced by their English equivalents.</p>
+<p>Example:
+If <cite>text = « école et théâtre »</cite>, the function will return <cite>« ecole et theatre »</cite>.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.fullTaggingForFrench">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">fullTaggingForFrench</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#fullTaggingForFrench"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.fullTaggingForFrench" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function that gives frenchDoc class object for the given text.</p>
+<dd><p>Function that provides frenchDoc class object for the given text.</p>
 <p>Parameters:
-transcript (srt): full text of the .txt file.</p>
+transcript (str): Full text of the .txt file.</p>
 <p>Returns:
-doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text</p>
+doc (frenchDoc class object): Object with three main attributes .docFull, .docPerSent, and .text.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.getOverlapFeatures">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">getOverlapFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#getOverlapFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.getOverlapFeatures" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function extracts overlap features.</p>
+<dd><p>Function extracts overlap features between sentences in a document.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (list of list): List of sentences where each sentence is represented as a list of (text, lemma, pos, tag).</p>
 <p>Returns:
-overlapFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+overlapFeatures (dict): Dictionary with the keys of feature names and items values of the features for this document.</p>
+<p>Example:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">doc</span> <span class="pre">=</span> <span class="pre">[</span>
+<span class="pre">[('The',</span> <span class="pre">'the',</span> <span class="pre">'DET',</span> <span class="pre">None),</span> <span class="pre">('cat',</span> <span class="pre">'cat',</span> <span class="pre">'NOUN',</span> <span class="pre">'NCS')],</span>
+<span class="pre">[('The',</span> <span class="pre">'the',</span> <span class="pre">'DET',</span> <span class="pre">None),</span> <span class="pre">('dog',</span> <span class="pre">'dog',</span> <span class="pre">'NOUN',</span> <span class="pre">'NCS')]</span>
+<span class="pre">]</span>
+<span class="pre">overlap_features</span> <span class="pre">=</span> <span class="pre">getOverlapFeatures(doc)</span>
+<span class="pre">print(overlap_features)</span>
+<span class="pre">`</span></code></p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.getRefExpFeatures">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">getRefExpFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#getRefExpFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.getRefExpFeatures" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function extracts referencial features.</p>
+<dd><p>Function extracts referential features from a French document.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (frenchDoc class object): Contains .docFull which is a list of lists [word, word.lemma, word.pos, word.tag]</p>
 <p>Returns:
-refExprFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+refExprFeatures (dict): Dictionary with feature names as keys and their values as extracted features for the document.</p>
+<p>Notes:
+This function calculates various referential features based on the document’s linguistic annotations.</p>
+<p>Feature Keys:
+- “DISC_RefExprPronounsPerNoun”: Ratio of personal pronouns to nouns in the document.
+- “DISC_RefExprPronounsPerSen”: Ratio of personal pronouns to sentences in the document.
+- “DISC_RefExprPronounsPerWord”: Ratio of personal pronouns to total words in the document.
+- “DISC_RefExprPerPronounsPerSen”: Ratio of personal pronouns (excluding possessive pronouns) to sentences.
+- “DISC_RefExprPerProPerWord”: Ratio of personal pronouns (excluding possessive pronouns) to total words.
+- “DISC_RefExprPossProPerSen”: Ratio of possessive pronouns to sentences.
+- “DISC_RefExprPossProPerWord”: Ratio of possessive pronouns to total words.
+- “DISC_RefExprDefArtPerSen”: Ratio of definite articles to sentences.
+- “DISC_RefExprDefArtPerWord”: Ratio of definite articles to total words.
+- “DISC_RefExprProperNounsPerNoun”: Ratio of proper nouns to nouns.</p>
+<p>Example:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">doc</span> <span class="pre">=</span> <span class="pre">frenchDoc(...)</span>&#160; <span class="pre">#</span> <span class="pre">Initialize</span> <span class="pre">frenchDoc</span> <span class="pre">object</span>
+<span class="pre">ref_features</span> <span class="pre">=</span> <span class="pre">getRefExpFeatures(doc)</span>
+<span class="pre">print(ref_features)</span>
+<span class="pre">`</span></code></p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.hasStutterPrefix">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">hasStutterPrefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#hasStutterPrefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.hasStutterPrefix" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Checks if a word has a stuttering prefix.</p>
+<p>Parameters:
+word (str): The word to check for stuttering prefixes.</p>
+<p>Returns:
+bool: True if the word has a stuttering prefix, False otherwise.</p>
+<p>Notes:
+A stuttering prefix is considered present if a substring of the word up to a certain length appears within the remaining part of the word.</p>
+<p>Example:
+Calling <cite>hasStutterPrefix(« example »)</cite> will return True if the word « example » has any repeating prefix, otherwise False.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isPrefix">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isPrefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">word2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isPrefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isPrefix" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Checks if word1 is a prefix of word2.</p>
+<p>Parameters:
+word1 (str): The potential prefix.
+word2 (str): The word to check against.</p>
+<p>Returns:
+bool: True if word1 is a prefix of word2, False otherwise.</p>
+<p>Example:
+Calling <cite>isPrefix(« pre », « prefix »)</cite> will return True since « pre » is a prefix of « prefix ».</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isThereArgumentOverlap">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isThereArgumentOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isThereArgumentOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isThereArgumentOverlap" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Check if there is argument overlap between two sentences.</p>
+<p>Argument overlap is defined by:
+- Noun overlap: If at least one noun appears in both sentences.
+- Pronoun overlap: If at least one pronoun appears in both sentences.</p>
+<p>Parameters:
+sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+sentence2 (list): List of spaCy Token objects representing words in the second sentence.</p>
+<p>Returns:
+bool: True if there is argument overlap, False otherwise.</p>
+<p>Example:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">import</span> <span class="pre">spacy</span>
+<span class="pre">nlp</span> <span class="pre">=</span> <span class="pre">spacy.load('fr_core_news_sm')</span>
+<span class="pre">sentence1</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Il</span> <span class="pre">a</span> <span class="pre">acheté</span> <span class="pre">une</span> <span class="pre">voiture.&quot;)</span>
+<span class="pre">sentence2</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Elle</span> <span class="pre">a</span> <span class="pre">vendu</span> <span class="pre">la</span> <span class="pre">maison.&quot;)</span>
+<span class="pre">argument_overlap</span> <span class="pre">=</span> <span class="pre">isThereArgumentOverlap(sentence1,</span> <span class="pre">sentence2)</span>
+<span class="pre">print(&quot;Argument</span> <span class="pre">overlap:&quot;,</span> <span class="pre">argument_overlap)</span>
+<span class="pre">`</span></code></p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isThereNounOverlap">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isThereNounOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isThereNounOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isThereNounOverlap" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Check if there is noun overlap between two sentences.</p>
+<p>Noun overlap is defined by the presence of at least one noun appearing in both sentences.</p>
+<p>Parameters:
+sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+sentence2 (list): List of spaCy Token objects representing words in the second sentence.</p>
+<p>Returns:
+bool: True if there is noun overlap, False otherwise.</p>
+<p>Example:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">import</span> <span class="pre">spacy</span>
+<span class="pre">nlp</span> <span class="pre">=</span> <span class="pre">spacy.load('fr_core_news_sm')</span>
+<span class="pre">sentence1</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Il</span> <span class="pre">a</span> <span class="pre">acheté</span> <span class="pre">une</span> <span class="pre">voiture.&quot;)</span>
+<span class="pre">sentence2</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Elle</span> <span class="pre">a</span> <span class="pre">vendu</span> <span class="pre">la</span> <span class="pre">maison.&quot;)</span>
+<span class="pre">noun_overlap</span> <span class="pre">=</span> <span class="pre">isThereNounOverlap(sentence1,</span> <span class="pre">sentence2)</span>
+<span class="pre">print(&quot;Noun</span> <span class="pre">overlap:&quot;,</span> <span class="pre">noun_overlap)</span>
+<span class="pre">`</span></code></p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.isThereStemOverlap">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">isThereStemOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#isThereStemOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.isThereStemOverlap" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Check if there is stem overlap between two sentences.</p>
+<p>Stem overlap is defined by:
+- Noun overlap: If at least one noun appears in both sentences.
+- Argument overlap: If at least one argument (noun or pronoun) appears in both sentences.
+- Stem (lemma) similarity: If at least one word’s lemma in sentence1 matches with a word’s lemma in sentence2.</p>
+<p>Parameters:
+sentence1 (list): List of spaCy Token objects representing words in the first sentence.
+sentence2 (list): List of spaCy Token objects representing words in the second sentence.</p>
+<p>Returns:
+bool: True if there is stem overlap, False otherwise.</p>
+<p>Example:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">import</span> <span class="pre">spacy</span>
+<span class="pre">nlp</span> <span class="pre">=</span> <span class="pre">spacy.load('fr_core_news_sm')</span>
+<span class="pre">sentence1</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Il</span> <span class="pre">a</span> <span class="pre">acheté</span> <span class="pre">une</span> <span class="pre">voiture.&quot;)</span>
+<span class="pre">sentence2</span> <span class="pre">=</span> <span class="pre">nlp(&quot;Elle</span> <span class="pre">a</span> <span class="pre">vendu</span> <span class="pre">la</span> <span class="pre">maison.&quot;)</span>
+<span class="pre">stem_overlap</span> <span class="pre">=</span> <span class="pre">isThereStemOverlap(sentence1,</span> <span class="pre">sentence2)</span>
+<span class="pre">print(&quot;Stem</span> <span class="pre">overlap:&quot;,</span> <span class="pre">stem_overlap)</span>
+<span class="pre">`</span></code></p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.lexicalDiversity">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">lexicalDiversity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#lexicalDiversity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.lexicalDiversity" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Function for lexical diversity feature calculation.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (list): A list of lists where each inner list represents [word, word.lemma, word.pos, word.tag]</p>
 <p>Returns:
-(list): list of features.</p>
+list: List of lexical diversity features.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -489,72 +697,109 @@ doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word,
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">measureOfTextualLexicalDiversity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#measureOfTextualLexicalDiversity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.measureOfTextualLexicalDiversity" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Function for MTLD calculation.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (list): A list of tokens or lemmas from the document.</p>
 <p>Returns:
-(float): MTLD value.</p>
+float: MTLD value.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.nbTokens">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">nbTokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#nbTokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.nbTokens" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the total number of tokens in a given document.</p>
+<p>Parameters:
+doc (list of frencToken): Represents a document as a list of frencToken objects.</p>
+<p>Returns:
+int: Total number of tokens in the document.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.nbType">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">nbType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#nbType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.nbType" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the number of unique part-of-speech (POS) types in a given document.</p>
+<p>Parameters:
+doc (list of frencToken): Represents a document as a list of frencToken objects.</p>
+<p>Returns:
+int: Number of unique POS types in the document.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.readMeta">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">readMeta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#readMeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.readMeta" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reads metadata from a CSV file associated with the dataset.</p>
+<p>Parameters:
+rootDirPath (str): Root directory path where data is stored.
+dataset (str): Name of the dataset.</p>
+<p>Returns:
+str: Language associated with the dataset as specified in the metadata.</p>
+<p>Notes:
+This function assumes the metadata CSV file is named “{dataset}_meta_data.csv”
+and is located in “{rootDirPath}/data/{dataset}/”.</p>
+<p>Example:
+If <cite>rootDirPath=”/path/to/root”</cite> and <cite>dataset=”example_dataset”</cite>,
+it reads metadata from “/path/to/root/data/example_dataset/example_dataset_meta_data.csv”
+and returns the language specified in the “language” column of the metadata.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.sanitize_filename">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">sanitize_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#sanitize_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.sanitize_filename" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function cleaning the filenames from special symbols if needed.</p>
+<dd><p>Cleans the filename by removing specified special characters.</p>
 <p>Parameters:
-filename (str): Name of the file/name of the directory.</p>
+filename (str): Name of the file or directory to be sanitized.</p>
 <p>Returns:
-(str): cleaned name of directory name.</p>
+str: Sanitized filename without spaces, dashes, underscores, or commas.</p>
+<p>Example:
+If <cite>filename = « my - file_name, with spaces.csv »</cite>, the function will return
+<cite>« myfilenamewithspaces.csv »</cite>.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.sentenceSeparation">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">sentenceSeparation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#sentenceSeparation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.sentenceSeparation" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function is used for separation on sentences in the case if there is no punctuation.
-With whisper — no need to use, it is commented.</p>
+<dd><p>Function for separating sentences in the case where there is no punctuation.</p>
 <p>Parameters:
-transcript (srt): full text of the .txt file.</p>
+transcript (str): Full text of the .txt file.</p>
 <p>Returns:
-sentences (list of strings): list of sentences of the text.</p>
+sentences (list of strings): List of sentences extracted from the text.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.stutterFeatures">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">stutterFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#stutterFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.stutterFeatures" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function extracts stutter features.</p>
+<dd><p>Extracts stutter features from a document.</p>
 <p>Parameters:
-doc (frenchDoc class oblect): contains .docFull wich is the list of lists [word, word.lemma, word.pos, word.tag]</p>
+doc (frenchDoc class object): Document object containing attributes like .docFull, which is a list of lists [word, word.lemma, word.pos, word.tag].</p>
 <p>Returns:
-stutterFeatures (dict): dictionary with the keys of feature names and items values of the features for this document.</p>
+dict: Dictionary with the keys representing feature names and values as the corresponding feature values for this document.</p>
+<p>Notes:
+This function computes stutter-related features based on word repetitions and structure within the document.</p>
+<p>Example:
+Given a <cite>doc</cite> object of type <cite>frenchDoc</cite>, calling <cite>stutterFeatures(doc)</cite> will return a dictionary
+containing features such as “stutterToSent”, “stutterToWords”, “stutterStart”, “stutterMiddle”, “stutterEnd”,
+“stutterNum”, “stutterFirstThird”, “stutterSecondThird”, and “stutterThirdThird”.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.text2sentence">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">text2sentence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#text2sentence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.text2sentence" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Function that downloads text from the transcript and launches the creation
-of the new frenchDoc class object.</p>
+<dd><p>Function that loads text from a transcript file, performs NLP tagging, and creates a frenchDoc class object.</p>
 <p>Parameters:
-ID (srt): ID of .txt file in the directory with transcripts.</p>
+transcript_dir (str): Directory path containing the transcript files.
+id (str): ID of the .txt file in the directory with transcripts.
+language (str): Language of the transcript (“french” or “english”).</p>
 <p>Returns:
-doc (frenchDoc class object): object with three main attributes .docFull .docPerSent and .text</p>
+doc (frenchDoc class object): Object with three main attributes .docFull, .docPerSent, and .text.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="preprocess.TextProcessor_MT.tokenTypes">
 <span class="sig-prename descclassname"><span class="pre">preprocess.TextProcessor_MT.</span></span><span class="sig-name descname"><span class="pre">tokenTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/preprocess/TextProcessor_MT.html#tokenTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#preprocess.TextProcessor_MT.tokenTypes" title="Lien permanent vers cette définition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Counts the occurrences of each part-of-speech (POS) tag in a given document.</p>
+<p>Parameters:
+doc (list of frencToken): Represents a document as a list of frencToken objects.</p>
+<p>Returns:
+dict: A dictionary where keys are POS tags and values are the counts of tokens with each POS tag.</p>
+</dd></dl>
 
 <span class="target" id="module-models.custom_metrics"></span><dl class="py function">
 <dt class="sig sig-object py" id="models.custom_metrics.accuracy">
@@ -611,11 +856,7 @@ Defined: accuracy, f1</p>
 <p>best_param (dict): Parameter setting that gave the best results on the hold out data.
 train_score (float): Mean cross-validated score of the best_estimator.
 test_score (float): Score of best_estimator on the test set.
-{self.clf}_best (estimator): Estimator that was chosen by the search, i.e.</p>
-<blockquote>
-<div><p>estimator which gave highest score (or smallest
-loss if specified) on the left out data.</p>
-</div></blockquote>
+{self.clf}_best (estimator): Estimator that was chosen by the search, i.e. estimator which gave highest score (or smallest loss if specified) on the left out data.</p>
 <p>&#64;author: Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="models.ML_Model.classificator">
