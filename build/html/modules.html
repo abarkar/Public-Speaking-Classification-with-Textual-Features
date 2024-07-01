@@ -37,142 +37,90 @@
             
   <section id="module-main">
 <span id="project-modules"></span><h1>Project Modules<a class="headerlink" href="#module-main" title="Lien permanent vers cette rubrique">¶</a></h1>
-<p>This script trains and tests classical ML models based on different multimodal features.</p>
-<p>The configuration is downloaded from the <cite>configuration.ini</cite> file. It chooses:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>rootDirPath</p></li>
-<li><p>dataset</p></li>
-<li><p>dimension</p></li>
-<li><p>clip</p></li>
-<li><p>model</p></li>
-<li><p>clasSeparator</p></li>
-<li><p>scoreType</p></li>
-<li><p>task</p></li>
-</ul>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">author<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<p>This script trains and tests classical ML models based on the different multimodal features.</p>
+<dl class="simple">
+<dt>The configuration is downloaded from the configuration.ini file. It choses:</dt><dd><p>rootDirPath,
+dataset,
+dimension,
+clip,
+model,
+clasSeparator,
+scoreType,
+task</p>
 </dd>
 </dl>
+<p>&#64;author: Alisa Barkar, <a class="reference external" href="mailto:alisa&#46;george&#46;barkar&#37;&#52;&#48;gmail&#46;com">alisa<span>&#46;</span>george<span>&#46;</span>barkar<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
 <dl class="py function">
 <dt class="sig sig-object py" id="main.averageF1Score">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">averageF1Score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#averageF1Score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.averageF1Score" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Calculation of the average F1 score based on the model with the best parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
-<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
-<li><p><strong>best_param</strong> (<em>list</em>) – List of the best parameters.</p></li>
-<li><p><strong>clf</strong> (<em>object</em>) – Classifier object (classification model).</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-</ul>
-</dd>
-</dl>
+<p>Parameters:
+X (DataFrame): list of features.
+Y (DataFrame): list of labels.
+best_param (list): list of the best parameters.
+clf (classifier object): classification model.
+output_dir (string): directory to save data.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.bestModelPerformanceAssessment">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">bestModelPerformanceAssessment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#bestModelPerformanceAssessment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.bestModelPerformanceAssessment" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Test pre-trained model with the best parameters and measure performance with custom
-metrics from <cite>./models/custom_metrics.py</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>object</em>) – Trained model to be evaluated.</p></li>
-<li><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>array-like</em>) – Feature matrix.</p></li>
-<li><p><strong>y</strong> (<em>Series</em><em> or </em><em>array-like</em>) – Target vector.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>Saves results to <cite>./results/{dimension}/{clip}/{model}/</cite>.</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
+<dd><p>Test pre-trained model with the best parameters and measure performance with the custom
+metrics from ./models/custim_metrics.py.</p>
+<p>Parameters:
+model: Trained model to be evaluated.
+X: Feature matrix.
+y: Target vector.</p>
+<p>Returns:
+saves results to ./results/{dimention}/{clip}/{model}/</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.calc_corr_by_categories">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">calc_corr_by_categories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">corr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#calc_corr_by_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.calc_corr_by_categories" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Calculate correlation between features and labels and then group it by the categories.
-For each category, plot the boxplot.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>corr</strong> (<em>numpy.ndarray</em><em> or </em><em>array-like</em>) – Correlations between features and labels.</p></li>
-<li><p><strong>group_by_category</strong> (<em>dict</em>) – Dictionary with pairs (category: list_of_features).</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-<li><p><strong>type</strong> (<em>str</em>) – Type of correlation.</p></li>
-</ul>
-</dd>
-</dl>
+For each category plot the boxplot.</p>
+<p>Parameters:</p>
+<p>corr (array): correlations between features and labels.
+group_by_category (dict): dictionary with pairs (category:list_of_features).
+output_dir (string): directory to save data.
+type (string): type of correlation.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.calculate_ci">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">calculate_ci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#calculate_ci"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.calculate_ci" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Calculate mean and confidence interval from the data in the provided list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>list</em>) – List of values.</p>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>mean (float): Mean of the values in the data.</p></li>
-<li><p>ci (float): Confidence interval of the mean of the values in the data.</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
+<dd><p>Calculate mean and confidence interval from the data in provided list.</p>
+<p>Parameters:
+data (list): list of values.</p>
+<p>Return:
+mean (float): mean of the values in the data.
+ci (float): confidnce intervals of the mean of the values in the data.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.choseBestParametersForClassification">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">choseBestParametersForClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#choseBestParametersForClassification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.choseBestParametersForClassification" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Grid search for the given model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
-<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
-<li><p><strong>clf</strong> (<em>object</em>) – Classifier object (classification model).</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>rf_param (list): List of the best parameters.</p></li>
-<li><p>best_model (classifier): The best model after grid search.</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
+<p>Parameters:
+X (DataFrame): list of features.
+Y (DataFrame): list of labels.
+clf (classifier object): classification model.
+output_dir (string): directory to save data.</p>
+<p>Return:
+rf_param (list): list of the best parameters.
+best_model (classifier): the best model after grid search.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.correlation_analysis">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">correlation_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#correlation_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.correlation_analysis" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Launch calculation of different correlations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
-<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
-<li><p><strong>group_by_category</strong> (<em>dict</em>) – Dictionary with pairs (category: list_of_features).</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-</ul>
-</dd>
-</dl>
+<p>Parameters:
+X (DataFrame): list of features.
+Y (DataFrame): list of labels.
+group_by_category (dict): dictionary with pairs (category:list_of_features).
+output_dir (string): directory to save data.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -180,234 +128,134 @@ For each category, plot the boxplot.</p>
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">dataPreprocessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#dataPreprocessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.dataPreprocessing" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Checks that X and Y have the same list of IDs.
 Saves target and background data for further SHAP analysis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em>) – Feature values.</p></li>
-<li><p><strong>Y</strong> (<em>DataFrame</em>) – Labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>X (DataFrame): Feature values.</p></li>
-<li><p>Y (DataFrame): Labels.</p></li>
-<li><p>target (DataFrame): One chosen sample of dataset.</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
+<p>Parameters:
+X (DataFrame): feature values.
+Y (DataFrame): labels.</p>
+<p>Return:
+X (DataFrame): feature values.
+Y (DataFrame): labels.
+target (DataFrame): One chosen sample of dataset</p>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.evaluate_model">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">evaluate_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#evaluate_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.evaluate_model" title="Lien permanent vers cette définition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.feature_selection">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">feature_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#feature_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.feature_selection" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Feature selection based on Spearman correlation.
 Save the new X and target to the same files as before.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em>) – Feature values.</p></li>
-<li><p><strong>Y</strong> (<em>DataFrame</em>) – Labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>Only features with the absolute value of correlation bigger than threshold.</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame</p>
-</dd>
-</dl>
+<p>Parameters:
+X (DataFrame): feature values.
+Y (DataFrame): labels.</p>
+<p>Return:
+X (DataFrame): only features with the absolute value of correlation bigger than threshold.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.leaveOneOutTrain">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">leaveOneOutTrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#leaveOneOutTrain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.leaveOneOutTrain" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Leave-one-out method for testing the model with the best parameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>best_model</strong> (<em>object</em>) – Classification model with the best parameters.</p></li>
-<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
-<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
-<li><p><strong>clf</strong> (<em>object</em>) – Classifier object (classification model).</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-</ul>
-</dd>
-</dl>
+<p>Parameters:
+best_model (classifier object): classification model with the best parameters.
+X (DataFrame): list of features.
+Y (DataFrame): list of labels.
+clf (classifier object): classification model.
+output_dir (string): directory to save data.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.loadFeturesByCategories">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">loadFeturesByCategories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#loadFeturesByCategories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.loadFeturesByCategories" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Loads features from the .csv files.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>feature_dir</strong> (<em>str</em>) – Directory containing feature files.</p>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>feature_df (DataFrame): Feature values.</p></li>
-<li><p>group_by_category (dict): Dictionary of pairs (category_name: list_of_features).</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
+<p>Parameters:
+feature_dir (string): directory containing feature files.</p>
+<p>Return:
+feature_df (DataFrame): feature values.
+group_by_category (dictionary): dictoanary of pairs (category_name:list_of_features).</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.loadRatings">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">loadRatings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#loadRatings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.loadRatings" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Loads labels from the .csv file with respect to the task (classification/regression).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Labels.</p>
-</dd>
-<dt class="field-even">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame</p>
-</dd>
-</dl>
+<dd><p>Loads labels from the .csv file w.r.t. the task (classification/regression).</p>
+<p>Return:
+labels (DataFrame): label values.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.mainPipeline">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">mainPipeline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#mainPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.mainPipeline" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Main function that executes the pipeline steps:</p>
-<ol class="arabic simple">
-<li><p>Download features, preprocess, select features.</p></li>
-<li><p>Correlation analysis.</p></li>
-<li><p>Grid Search for the best parameters.</p></li>
-<li><p>Leave One Out for model testing.</p></li>
-<li><p>SHAP analysis.</p></li>
-</ol>
-<p>This function executes a pipeline of steps for each dimension specified:
-- Downloads features, preprocesses them, and selects relevant features.
-- Performs correlation analysis between features and labels.
-- Conducts a grid search to find the best parameters for a classifier.
-- Uses Leave One Out cross-validation to test the model.
-- Performs SHAP analysis to interpret model predictions.</p>
-<p>Notes:
-- Dimensions are assumed to be already downloaded from the configuration file.
-- Results are saved in the directory specified by <cite>rootDirPath/results/{dataset}/{dimension}/{clip}</cite>.</p>
-<p>No input parameters are directly specified within the function definition. However, it interacts with
-global variables or imports functions that may require certain configurations or data inputs.</p>
-<dl class="simple">
-<dt>None</dt><dd><p>The function does not return a value but saves results and outputs diagnostic messages during execution.</p>
-</dd>
-</dl>
+<dd><p>Main function that executes the pipeline steps:
+1. Download features, preprocess, select features;
+2. Correlation analysis;
+3. Grid Search for the best parameters;
+4. Leave One Out for model testing;
+5. SHAP analysis;</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.permutation_test">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">permutation_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#permutation_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.permutation_test" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Perform permutation test to obtain p-value for a given metric.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>object</em>) – Trained model to be evaluated.</p></li>
-<li><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>array-like</em>) – Feature matrix.</p></li>
-<li><p><strong>y</strong> (<em>Series</em><em> or </em><em>array-like</em>) – Target vector.</p></li>
-<li><p><strong>metric</strong> (<em>function</em>) – Metric function to evaluate the model.</p></li>
-<li><p><strong>n_permutations</strong> (<em>int</em>) – Number of permutations.</p></li>
-<li><p><strong>random_state</strong> (<em>int</em><em> or </em><em>None</em>) – Random state for reproducibility.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>P-value of the test.</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
+<p>Parameters:
+model: Trained model to be evaluated.
+X: Feature matrix.
+y: Target vector.
+metric: Metric function to evaluate the model.
+n_permutations: Number of permutations.
+random_state: Random state for reproducibility.</p>
+<p>Returns:
+p_value: P-value of the test.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.plot_feature_correlations">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">plot_feature_correlations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#plot_feature_correlations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.plot_feature_correlations" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Calculate Spearman and Pearson correlations between features. Saves results as correlation matrix.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-</ul>
-</dd>
-</dl>
+<p>Parameters:
+X (DataFrame): list of features.
+output_dir (string): directory to save data.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.randomClassifier">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">randomClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#randomClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.randomClassifier" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Random classification and all 1 predition (to compare accuracy with the classififers).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>array-like</em>) – Feature matrix.</p></li>
-<li><p><strong>Y</strong> (<em>Series</em><em> or </em><em>array-like</em>) – Target vector.</p></li>
-<li><p><strong>output_dir</strong> (<em>String</em>) – Save directory.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>Saves results to output_dir.</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.revert_dict">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">revert_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#revert_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.revert_dict" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Revert the dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – Dictionary with pairs (category: list_of_features).</p>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dictionary mapping feature names to categories.</p>
-</dd>
-<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
+<p>Parameters:
+d (dictionary): dictionary with pairs (category:list_of_features).</p>
+<p>Return:
+dictionary: {(feature_name:category)}</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.save_correlations_to_csv">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">save_correlations_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#save_correlations_to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.save_correlations_to_csv" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Calculate Spearman and Pearson correlations between features and labels, save results to .csv.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>DataFrame</em>) – List of features.</p></li>
-<li><p><strong>Y</strong> (<em>DataFrame</em>) – List of labels.</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-</ul>
-</dd>
-</dl>
+<p>Parameters:
+X (DataFrame): list of features.
+Y (DataFrame): list of labels.
+output_dir (string): directory to save data.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="main.shapAnalysis">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">shapAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">best_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_by_category</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#shapAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.shapAnalysis" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>SHAP analysis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>best_model</strong> (<em>object</em>) – Classification model with the best parameters.</p></li>
-<li><p><strong>X_train</strong> (<em>DataFrame</em>) – List of features for training.</p></li>
-<li><p><strong>X_test</strong> (<em>DataFrame</em>) – List of features for testing.</p></li>
-<li><p><strong>group_by_category</strong> (<em>dict</em>) – Dictionary of pairs (category: list_of_features).</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em>) – Directory to save data.</p></li>
-</ul>
-</dd>
-</dl>
+<p>Parameters:
+best_model (classifier object): classification model with the best parameters.
+X_train (DataFrame): list of features for training.
+X_test (DataFrame): list of features for testing.
+group_by_category (dict): dictionary of pairs (categor:list_of_features).
+output_dir (string): directory to save data.</p>
 </dd></dl>
 
 <span class="target" id="module-preprocess.LabelProcessor_MT"></span><p>This script creates classes of low and high quiality of performance based on
