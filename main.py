@@ -463,7 +463,6 @@ def leaveOneOutTrain(X, Y, best_param, clf, output_dir):
     txtForSave.write("mean: {}".format(mean) + " confidence interval: {}".format(ci) + "\n")
     txtForSave.close()
 
-
 def save_correlations_to_csv(X, Y, output_dir):
     """
     Calculate Spearman and Pearson correlations between features and labels, save results to .csv. 
