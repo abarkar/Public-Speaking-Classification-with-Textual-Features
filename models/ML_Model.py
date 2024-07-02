@@ -20,9 +20,7 @@ Defined: accuracy, f1
 best_param (dict): Parameter setting that gave the best results on the hold out data.
 train_score (float): Mean cross-validated score of the best_estimator.
 test_score (float): Score of best_estimator on the test set.
-{self.clf}_best (estimator): Estimator that was chosen by the search, i.e. 
-                        estimator which gave highest score (or smallest
-                        loss if specified) on the left out data. 
+{self.clf}_best (estimator): Estimator that was chosen by the search, i.e. estimator which gave highest score (or smallest loss if specified) on the left out data. 
 
 @author: Alisa Barkar, alisa.george.barkar@gmail.com
 """
