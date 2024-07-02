@@ -1,0 +1,28 @@
+
+version: 2
+
+build:
+  os: linux  # Auto-detect OS
+  tools:
+    python: "3.11.5"  # Auto-detect Python version
+  jobs:
+    pre_build:
+      - apt-get install -y graphviz && apt-get install -y make  # Install system packages
+    post_build:
+      - echo "Build finished"
+python:
+  version: 3.9
+  install:
+    - method: pip
+      path: .
+    - requirements: requirements.txt
+
+sphinx:
+  configuration: source/conf.py
+
+submodules:
+  include: true
+
+formats:
+  - pdf
+  - epub
