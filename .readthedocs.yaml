@@ -2,7 +2,7 @@
 version: 2
 
 build:
-  os: linux  # Auto-detect OS
+  os: ubuntu-22.04  # Auto-detect OS
   tools:
     python: "3.11.5"  # Auto-detect Python version
   jobs:
