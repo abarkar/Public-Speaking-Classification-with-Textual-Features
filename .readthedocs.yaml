@@ -20,9 +20,6 @@ python:
 sphinx:
   configuration: source/conf.py
 
-submodules:
-  include: true
-
 formats:
   - pdf
   - epub
