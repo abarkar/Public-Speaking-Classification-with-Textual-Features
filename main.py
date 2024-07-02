@@ -232,6 +232,8 @@ def choseBestParametersForClassification(X, Y, clf, output_dir):
     """
     # Split data for training and testing for the grid search
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)#, stratify=Y)
+    print(X_train.head())
+    print(X_test.head())
     # USe Grid search with the parameters specifies in the classifer class
     rf_param, rf_train, rf_test, best_model = clf.GridSearch(X_train, y_train, X_test, y_test)
     # Save the best parameters
@@ -316,7 +318,6 @@ def permutation_test(trained_model, X, y, metric, n_permutations=1000, random_st
         permuted_metrics.append(permuted_metric)
     
     # Calculate p-value
-    print(permuted_metrics)
     permuted_metrics = np.array(permuted_metrics)
     p_value = np.mean(permuted_metrics >= original_metric)
     
@@ -358,7 +359,6 @@ def bestModelPerformanceAssessment(save_dir, trained_model, X, y):
         metrics_dict["medae"]=[original_metric, p_value]
     # Convert dictionary to DataFrame
     df = pd.DataFrame(metrics_dict)
-    print(df)
     # Convert to LaTeX
     latex_table = df.to_latex(index=False)
     # Save Latex Table
@@ -643,9 +643,12 @@ def mainPipeline():
                 print("*********************** Random ***********************")
                 # randomClassifier(X, Y, output_dir)
                 print("*********************** SHAP ***********************")
-                # X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42, stratify=Y)
+                # X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
                 # best_model.fit(X_train, y_train.values.ravel())
-                # shapAnalysis(best_model, X_train, X_test, group_by_category, model_res_dir)
+                # from sklearn.linear_model import Lasso
+                # lasso_model = Lasso(alpha=0.1)
+                # lasso_model.fit(X_train, y_train)   
+                # shapAnalysis(lasso_model, X_train, X_test, group_by_category, model_res_dir)
                 
 
 

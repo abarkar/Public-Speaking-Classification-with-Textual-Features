@@ -34,22 +34,20 @@
             
   <h1>Code source de main</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This script trains and tests classical ML models based on different multimodal features.</span>
+<span class="sd">This script trains and tests classical ML models based on the different multimodal features.</span>
 
-<span class="sd">The configuration is downloaded from the `configuration.ini` file. It chooses:</span>
-<span class="sd">    </span>
-<span class="sd">    - rootDirPath</span>
-<span class="sd">    - dataset</span>
-<span class="sd">    - dimension</span>
-<span class="sd">    - clip</span>
-<span class="sd">    - model</span>
-<span class="sd">    - clasSeparator</span>
-<span class="sd">    - scoreType</span>
-<span class="sd">    - task</span>
+<span class="sd">The configuration is downloaded from the configuration.ini file. It choses:</span>
+<span class="sd">    rootDirPath,</span>
+<span class="sd">    dataset,</span>
+<span class="sd">    dimension,</span>
+<span class="sd">    clip,</span>
+<span class="sd">    model,</span>
+<span class="sd">    clasSeparator,</span>
+<span class="sd">    scoreType,</span>
+<span class="sd">    task</span>
 
-<span class="sd">:author: Alisa Barkar, alisa.george.barkar@gmail.com</span>
+<span class="sd">@author: Alisa Barkar, alisa.george.barkar@gmail.com</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 
 <span class="c1"># Data &amp; Mathmatics</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -100,15 +98,13 @@
 <span class="sd">    Feature selection based on Spearman correlation. </span>
 <span class="sd">    Save the new X and target to the same files as before.</span>
 
-<span class="sd">    :param X: Feature values.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param Y: Labels.</span>
-<span class="sd">    :type Y: DataFrame</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    X (DataFrame): feature values.</span>
+<span class="sd">    Y (DataFrame): labels.</span>
 
-<span class="sd">    :return: Only features with the absolute value of correlation bigger than threshold.</span>
-<span class="sd">    :rtype: DataFrame</span>
+<span class="sd">    Return:</span>
+<span class="sd">    X (DataFrame): only features with the absolute value of correlation bigger than threshold.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Align features and labels along the IDs.</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
     <span class="c1"># Calculate Spearman correlation</span>
@@ -139,18 +135,15 @@
 <span class="sd">    Checks that X and Y have the same list of IDs. </span>
 <span class="sd">    Saves target and background data for further SHAP analysis.</span>
 
-<span class="sd">    :param X: Feature values.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param Y: Labels.</span>
-<span class="sd">    :type Y: DataFrame</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    X (DataFrame): feature values.</span>
+<span class="sd">    Y (DataFrame): labels.</span>
 
-<span class="sd">    :returns: </span>
-<span class="sd">        - X (DataFrame): Feature values.</span>
-<span class="sd">        - Y (DataFrame): Labels.</span>
-<span class="sd">        - target (DataFrame): One chosen sample of dataset.</span>
-<span class="sd">    :rtype: tuple</span>
+<span class="sd">    Return:</span>
+<span class="sd">    X (DataFrame): feature values.</span>
+<span class="sd">    Y (DataFrame): labels.</span>
+<span class="sd">    target (DataFrame): One chosen sample of dataset</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Check for the same IDs in X(features) and Y(labels)</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">Y</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">])]</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">X</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">])]</span>
@@ -178,17 +171,15 @@
 
 <div class="viewcode-block" id="loadFeturesByCategories"><a class="viewcode-back" href="../modules.html#main.loadFeturesByCategories">[docs]</a><span class="k">def</span> <span class="nf">loadFeturesByCategories</span><span class="p">(</span><span class="n">feature_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Loads features from the .csv files.</span>
+<span class="sd">    Loads features from the .csv files. </span>
 
-<span class="sd">    :param feature_dir: Directory containing feature files.</span>
-<span class="sd">    :type feature_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    feature_dir (string): directory containing feature files.</span>
 
-<span class="sd">    :returns: </span>
-<span class="sd">        - feature_df (DataFrame): Feature values.</span>
-<span class="sd">        - group_by_category (dict): Dictionary of pairs (category_name: list_of_features).</span>
-<span class="sd">    :rtype: tuple</span>
+<span class="sd">    Return:</span>
+<span class="sd">    feature_df (DataFrame): feature values.</span>
+<span class="sd">    group_by_category (dictionary): dictoanary of pairs (category_name:list_of_features).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Create dataset of feature:</span>
     <span class="n">feature_df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
     <span class="c1"># Create dictionaries of feature categories</span>
@@ -229,10 +220,10 @@
 
 <div class="viewcode-block" id="loadRatings"><a class="viewcode-back" href="../modules.html#main.loadRatings">[docs]</a><span class="k">def</span> <span class="nf">loadRatings</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Loads labels from the .csv file with respect to the task (classification/regression).</span>
+<span class="sd">    Loads labels from the .csv file w.r.t. the task (classification/regression). </span>
 
-<span class="sd">    :returns: Labels.</span>
-<span class="sd">    :rtype: DataFrame</span>
+<span class="sd">    Return:</span>
+<span class="sd">    labels (DataFrame): label values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">label_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootDirPath</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">clip</span><span class="p">,</span> <span class="n">aggregationMethod</span><span class="p">,</span> <span class="n">dim</span> <span class="o">+</span> <span class="s2">&quot;Label.csv&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">task</span> <span class="o">==</span><span class="s2">&quot;classification&quot;</span><span class="p">:</span>
@@ -246,17 +237,15 @@
 
 <div class="viewcode-block" id="calculate_ci"><a class="viewcode-back" href="../modules.html#main.calculate_ci">[docs]</a><span class="k">def</span> <span class="nf">calculate_ci</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate mean and confidence interval from the data in the provided list.</span>
+<span class="sd">    Calculate mean and confidence interval from the data in provided list. </span>
 
-<span class="sd">    :param data: List of values.</span>
-<span class="sd">    :type data: list</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    data (list): list of values.</span>
 
-<span class="sd">    :return: </span>
-<span class="sd">        - mean (float): Mean of the values in the data.</span>
-<span class="sd">        - ci (float): Confidence interval of the mean of the values in the data.</span>
-<span class="sd">    :rtype: tuple</span>
+<span class="sd">    Return:</span>
+<span class="sd">    mean (float): mean of the values in the data.</span>
+<span class="sd">    ci (float): confidnce intervals of the mean of the values in the data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">ci</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">confidence</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">sem</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">ci</span></div>
@@ -264,25 +253,22 @@
 
 <div class="viewcode-block" id="choseBestParametersForClassification"><a class="viewcode-back" href="../modules.html#main.choseBestParametersForClassification">[docs]</a><span class="k">def</span> <span class="nf">choseBestParametersForClassification</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">clf</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Grid search for the given model.</span>
+<span class="sd">    Grid search for the given model. </span>
 
-<span class="sd">    :param X: List of features.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param Y: List of labels.</span>
-<span class="sd">    :type Y: DataFrame</span>
-<span class="sd">    :param clf: Classifier object (classification model).</span>
-<span class="sd">    :type clf: object</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    X (DataFrame): list of features.</span>
+<span class="sd">    Y (DataFrame): list of labels.</span>
+<span class="sd">    clf (classifier object): classification model.</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
 
-<span class="sd">    :return: </span>
-<span class="sd">        - rf_param (list): List of the best parameters.</span>
-<span class="sd">        - best_model (classifier): The best model after grid search.</span>
-<span class="sd">    :rtype: tuple</span>
+<span class="sd">    Return:</span>
+<span class="sd">    rf_param (list): list of the best parameters.</span>
+<span class="sd">    best_model (classifier): the best model after grid search.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Split data for training and testing for the grid search</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="c1">#, stratify=Y)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
     <span class="c1"># USe Grid search with the parameters specifies in the classifer class</span>
     <span class="n">rf_param</span><span class="p">,</span> <span class="n">rf_train</span><span class="p">,</span> <span class="n">rf_test</span><span class="p">,</span> <span class="n">best_model</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">GridSearch</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
     <span class="c1"># Save the best parameters</span>
@@ -297,20 +283,15 @@
 
 <div class="viewcode-block" id="averageF1Score"><a class="viewcode-back" href="../modules.html#main.averageF1Score">[docs]</a><span class="k">def</span> <span class="nf">averageF1Score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">best_param</span><span class="p">,</span> <span class="n">clf</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculation of the average F1 score based on the model with the best parameters.</span>
+<span class="sd">    Calculation of the average F1 score based on the model with the best parameters. </span>
 
-<span class="sd">    :param X: List of features.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param Y: List of labels.</span>
-<span class="sd">    :type Y: DataFrame</span>
-<span class="sd">    :param best_param: List of the best parameters.</span>
-<span class="sd">    :type best_param: list</span>
-<span class="sd">    :param clf: Classifier object (classification model).</span>
-<span class="sd">    :type clf: object</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    X (DataFrame): list of features.</span>
+<span class="sd">    Y (DataFrame): list of labels.</span>
+<span class="sd">    best_param (list): list of the best parameters.</span>
+<span class="sd">    clf (classifier object): classification model.</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Avegare F1 Score over 50 trainings</span>
     <span class="n">test_mean</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
@@ -326,28 +307,36 @@
     <span class="n">txtForSave</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;mean: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; confidence interval: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ci</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">txtForSave</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
+<span class="c1"># Function to evaluate regression model</span>
+<div class="viewcode-block" id="evaluate_model"><a class="viewcode-back" href="../modules.html#main.evaluate_model">[docs]</a><span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+    <span class="c1"># Predict labels from trained model with the best parameters</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="c1"># Postprocess ground truth values</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="c1"># Calculate metrics</span>
+    <span class="n">mae</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">mape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">y_test</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">/</span> <span class="n">y_test</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">medae</span> <span class="o">=</span> <span class="n">median_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;MAE&#39;</span><span class="p">:</span> <span class="n">mae</span><span class="p">,</span> <span class="s1">&#39;MSE&#39;</span><span class="p">:</span> <span class="n">mse</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">:</span> <span class="n">rmse</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">:</span> <span class="n">r2</span><span class="p">,</span> <span class="s1">&#39;MAPE&#39;</span><span class="p">:</span> <span class="n">mape</span><span class="p">,</span> <span class="s1">&#39;MedAE&#39;</span><span class="p">:</span> <span class="n">medae</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="permutation_test"><a class="viewcode-back" href="../modules.html#main.permutation_test">[docs]</a><span class="k">def</span> <span class="nf">permutation_test</span><span class="p">(</span><span class="n">trained_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform permutation test to obtain p-value for a given metric.</span>
 
-<span class="sd">    :param model: Trained model to be evaluated.</span>
-<span class="sd">    :type model: object</span>
-<span class="sd">    :param X: Feature matrix.</span>
-<span class="sd">    :type X: DataFrame or array-like</span>
-<span class="sd">    :param y: Target vector.</span>
-<span class="sd">    :type y: Series or array-like</span>
-<span class="sd">    :param metric: Metric function to evaluate the model.</span>
-<span class="sd">    :type metric: function</span>
-<span class="sd">    :param n_permutations: Number of permutations.</span>
-<span class="sd">    :type n_permutations: int</span>
-<span class="sd">    :param random_state: Random state for reproducibility.</span>
-<span class="sd">    :type random_state: int or None</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    model: Trained model to be evaluated.</span>
+<span class="sd">    X: Feature matrix.</span>
+<span class="sd">    y: Target vector.</span>
+<span class="sd">    metric: Metric function to evaluate the model.</span>
+<span class="sd">    n_permutations: Number of permutations.</span>
+<span class="sd">    random_state: Random state for reproducibility.</span>
 
-<span class="sd">    :return: P-value of the test.</span>
-<span class="sd">    :rtype: float</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    p_value: P-value of the test.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="n">random_state</span><span class="p">:</span>
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
     
@@ -364,7 +353,6 @@
         <span class="n">permuted_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">permuted_metric</span><span class="p">)</span>
     
     <span class="c1"># Calculate p-value</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">permuted_metrics</span><span class="p">)</span>
     <span class="n">permuted_metrics</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">permuted_metrics</span><span class="p">)</span>
     <span class="n">p_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">permuted_metrics</span> <span class="o">&gt;=</span> <span class="n">original_metric</span><span class="p">)</span>
     
@@ -372,20 +360,17 @@
 
 <div class="viewcode-block" id="bestModelPerformanceAssessment"><a class="viewcode-back" href="../modules.html#main.bestModelPerformanceAssessment">[docs]</a><span class="k">def</span> <span class="nf">bestModelPerformanceAssessment</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="n">trained_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Test pre-trained model with the best parameters and measure performance with custom </span>
-<span class="sd">    metrics from `./models/custom_metrics.py`.</span>
+<span class="sd">    Test pre-trained model with the best parameters and measure performance with the custom </span>
+<span class="sd">    metrics from ./models/custim_metrics.py.</span>
 
-<span class="sd">    :param model: Trained model to be evaluated.</span>
-<span class="sd">    :type model: object</span>
-<span class="sd">    :param X: Feature matrix.</span>
-<span class="sd">    :type X: DataFrame or array-like</span>
-<span class="sd">    :param y: Target vector.</span>
-<span class="sd">    :type y: Series or array-like</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    model: Trained model to be evaluated.</span>
+<span class="sd">    X: Feature matrix.</span>
+<span class="sd">    y: Target vector.</span>
 
-<span class="sd">    :return: Saves results to `./results/{dimension}/{clip}/{model}/`.</span>
-<span class="sd">    :rtype: None</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    saves results to ./results/{dimention}/{clip}/{model}/</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Postprocess ground truth values</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="n">metrics_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:[</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;p-value&quot;</span><span class="p">]}</span>
@@ -409,7 +394,6 @@
         <span class="n">metrics_dict</span><span class="p">[</span><span class="s2">&quot;medae&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">original_metric</span><span class="p">,</span> <span class="n">p_value</span><span class="p">]</span>
     <span class="c1"># Convert dictionary to DataFrame</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics_dict</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
     <span class="c1"># Convert to LaTeX</span>
     <span class="n">latex_table</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_latex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># Save Latex Table</span>
@@ -425,16 +409,6 @@
 <div class="viewcode-block" id="randomClassifier"><a class="viewcode-back" href="../modules.html#main.randomClassifier">[docs]</a><span class="k">def</span> <span class="nf">randomClassifier</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Random classification and all 1 predition (to compare accuracy with the classififers). </span>
-
-<span class="sd">    :param X: Feature matrix.</span>
-<span class="sd">    :type X: DataFrame or array-like</span>
-<span class="sd">    :param Y: Target vector.</span>
-<span class="sd">    :type Y: Series or array-like</span>
-<span class="sd">    :param output_dir: Save directory.</span>
-<span class="sd">    :type output_dir: String</span>
-
-<span class="sd">    :return: Saves results to output_dir.</span>
-<span class="sd">    :rtype: None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Launch random classification 300 times</span>
     <span class="n">test_mean</span> <span class="o">=</span> <span class="p">[]</span>
@@ -469,20 +443,15 @@
 
 <div class="viewcode-block" id="shapAnalysis"><a class="viewcode-back" href="../modules.html#main.shapAnalysis">[docs]</a><span class="k">def</span> <span class="nf">shapAnalysis</span><span class="p">(</span><span class="n">best_model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">group_by_category</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    SHAP analysis.</span>
+<span class="sd">    SHAP analysis. </span>
 
-<span class="sd">    :param best_model: Classification model with the best parameters.</span>
-<span class="sd">    :type best_model: object</span>
-<span class="sd">    :param X_train: List of features for training.</span>
-<span class="sd">    :type X_train: DataFrame</span>
-<span class="sd">    :param X_test: List of features for testing.</span>
-<span class="sd">    :type X_test: DataFrame</span>
-<span class="sd">    :param group_by_category: Dictionary of pairs (category: list_of_features).</span>
-<span class="sd">    :type group_by_category: dict</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    best_model (classifier object): classification model with the best parameters.</span>
+<span class="sd">    X_train (DataFrame): list of features for training.</span>
+<span class="sd">    X_test (DataFrame): list of features for testing.</span>
+<span class="sd">    group_by_category (dict): dictionary of pairs (categor:list_of_features).</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># TODO: check the use and whether we need it here</span>
     <span class="n">feedback_generator</span> <span class="o">=</span> <span class="n">feedback</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="c1"># group_shap = grouped_shap(svm, X_test, target, group_by_category, feature_name)</span>
@@ -498,20 +467,15 @@
 
 <div class="viewcode-block" id="leaveOneOutTrain"><a class="viewcode-back" href="../modules.html#main.leaveOneOutTrain">[docs]</a><span class="k">def</span> <span class="nf">leaveOneOutTrain</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">best_param</span><span class="p">,</span> <span class="n">clf</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Leave-one-out method for testing the model with the best parameters.</span>
+<span class="sd">    Leave-one-out method for testing the model with the best parameters. </span>
 
-<span class="sd">    :param best_model: Classification model with the best parameters.</span>
-<span class="sd">    :type best_model: object</span>
-<span class="sd">    :param X: List of features.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param Y: List of labels.</span>
-<span class="sd">    :type Y: DataFrame</span>
-<span class="sd">    :param clf: Classifier object (classification model).</span>
-<span class="sd">    :type clf: object</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    best_model (classifier object): classification model with the best parameters.</span>
+<span class="sd">    X (DataFrame): list of features.</span>
+<span class="sd">    Y (DataFrame): list of labels.</span>
+<span class="sd">    clf (classifier object): classification model.</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Initialisation of leave one out object</span>
     <span class="n">loo</span> <span class="o">=</span> <span class="n">LeaveOneOut</span><span class="p">()</span>
     
@@ -534,19 +498,15 @@
     <span class="n">txtForSave</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;mean: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; confidence interval: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ci</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">txtForSave</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-
 <div class="viewcode-block" id="save_correlations_to_csv"><a class="viewcode-back" href="../modules.html#main.save_correlations_to_csv">[docs]</a><span class="k">def</span> <span class="nf">save_correlations_to_csv</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate Spearman and Pearson correlations between features and labels, save results to .csv.</span>
+<span class="sd">    Calculate Spearman and Pearson correlations between features and labels, save results to .csv. </span>
 
-<span class="sd">    :param X: List of features.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param Y: List of labels.</span>
-<span class="sd">    :type Y: DataFrame</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    X (DataFrame): list of features.</span>
+<span class="sd">    Y (DataFrame): list of labels.</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span><span class="c1">#.drop(&#39;ID&#39;)</span>
     <span class="n">spearman_corr</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
     <span class="n">pearson_corr</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">)[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
@@ -562,12 +522,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate Spearman and Pearson correlations between features. Saves results as correlation matrix.</span>
 
-<span class="sd">    :param X: List of features.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    X (DataFrame): list of features.</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">spearman_corr</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)</span>
     <span class="n">pearson_corr</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearson&#39;</span><span class="p">)</span>
     
@@ -587,29 +545,27 @@
 
 <div class="viewcode-block" id="revert_dict"><a class="viewcode-back" href="../modules.html#main.revert_dict">[docs]</a><span class="k">def</span> <span class="nf">revert_dict</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Revert the dictionary.</span>
+<span class="sd">    Revert the dictionary. </span>
 
-<span class="sd">    :param d: Dictionary with pairs (category: list_of_features).</span>
-<span class="sd">    :type d: dict</span>
-
-<span class="sd">    :return: Dictionary mapping feature names to categories.</span>
-<span class="sd">    :rtype: dict</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    d (dictionary): dictionary with pairs (category:list_of_features).</span>
+<span class="sd">    </span>
+<span class="sd">    Return:</span>
+<span class="sd">    dictionary: {(feature_name:category)}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">zip</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()]))</span></div>
 
 <div class="viewcode-block" id="calc_corr_by_categories"><a class="viewcode-back" href="../modules.html#main.calc_corr_by_categories">[docs]</a><span class="k">def</span> <span class="nf">calc_corr_by_categories</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">group_by_category</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate correlation between features and labels and then group it by the categories. </span>
-<span class="sd">    For each category, plot the boxplot.</span>
+<span class="sd">    For each category plot the boxplot.</span>
 
-<span class="sd">    :param corr: Correlations between features and labels.</span>
-<span class="sd">    :type corr: numpy.ndarray or array-like</span>
-<span class="sd">    :param group_by_category: Dictionary with pairs (category: list_of_features).</span>
-<span class="sd">    :type group_by_category: dict</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
-<span class="sd">    :param type: Type of correlation.</span>
-<span class="sd">    :type type: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    </span>
+<span class="sd">    corr (array): correlations between features and labels. </span>
+<span class="sd">    group_by_category (dict): dictionary with pairs (category:list_of_features).</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
+<span class="sd">    type (string): type of correlation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">groupmap</span> <span class="o">=</span> <span class="n">revert_dict</span><span class="p">(</span><span class="n">group_by_category</span><span class="p">)</span>
     <span class="c1"># Convert the Series to a DataFrame</span>
@@ -638,14 +594,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Launch calculation of different correlations.</span>
 
-<span class="sd">    :param X: List of features.</span>
-<span class="sd">    :type X: DataFrame</span>
-<span class="sd">    :param Y: List of labels.</span>
-<span class="sd">    :type Y: DataFrame</span>
-<span class="sd">    :param group_by_category: Dictionary with pairs (category: list_of_features).</span>
-<span class="sd">    :type group_by_category: dict</span>
-<span class="sd">    :param output_dir: Directory to save data.</span>
-<span class="sd">    :type output_dir: str</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    X (DataFrame): list of features.</span>
+<span class="sd">    Y (DataFrame): list of labels. </span>
+<span class="sd">    group_by_category (dict): dictionary with pairs (category:list_of_features).</span>
+<span class="sd">    output_dir (string): directory to save data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">corr_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;correlation&quot;</span><span class="p">)</span>
     <span class="c1"># Ensure the output directory exists</span>
@@ -672,33 +625,11 @@
 <div class="viewcode-block" id="mainPipeline"><a class="viewcode-back" href="../modules.html#main.mainPipeline">[docs]</a><span class="k">def</span> <span class="nf">mainPipeline</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main function that executes the pipeline steps:</span>
-
-<span class="sd">    1. Download features, preprocess, select features.</span>
-<span class="sd">    2. Correlation analysis.</span>
-<span class="sd">    3. Grid Search for the best parameters.</span>
-<span class="sd">    4. Leave One Out for model testing.</span>
-<span class="sd">    5. SHAP analysis.</span>
-
-<span class="sd">    This function executes a pipeline of steps for each dimension specified:</span>
-<span class="sd">    - Downloads features, preprocesses them, and selects relevant features.</span>
-<span class="sd">    - Performs correlation analysis between features and labels.</span>
-<span class="sd">    - Conducts a grid search to find the best parameters for a classifier.</span>
-<span class="sd">    - Uses Leave One Out cross-validation to test the model.</span>
-<span class="sd">    - Performs SHAP analysis to interpret model predictions.</span>
-
-<span class="sd">    Notes:</span>
-<span class="sd">    - Dimensions are assumed to be already downloaded from the configuration file.</span>
-<span class="sd">    - Results are saved in the directory specified by `rootDirPath/results/{dataset}/{dimension}/{clip}`.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    ----------</span>
-<span class="sd">    No input parameters are directly specified within the function definition. However, it interacts with</span>
-<span class="sd">    global variables or imports functions that may require certain configurations or data inputs.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    -------</span>
-<span class="sd">    None</span>
-<span class="sd">        The function does not return a value but saves results and outputs diagnostic messages during execution.</span>
+<span class="sd">    1. Download features, preprocess, select features;</span>
+<span class="sd">    2. Correlation analysis;</span>
+<span class="sd">    3. Grid Search for the best parameters;</span>
+<span class="sd">    4. Leave One Out for model testing;</span>
+<span class="sd">    5. SHAP analysis;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Now dimensions are already downloaded from the configuration file</span>
     <span class="c1">#dimentions = getDimentions(dataset)</span>
@@ -747,51 +678,21 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*********************** Random ***********************&quot;</span><span class="p">)</span>
                 <span class="c1"># randomClassifier(X, Y, output_dir)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*********************** SHAP ***********************&quot;</span><span class="p">)</span></div>
-                <span class="c1"># X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42, stratify=Y)</span>
+                <span class="c1"># X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)</span>
                 <span class="c1"># best_model.fit(X_train, y_train.values.ravel())</span>
-                <span class="c1"># shapAnalysis(best_model, X_train, X_test, group_by_category, model_res_dir)</span>
+                <span class="c1"># from sklearn.linear_model import Lasso</span>
+                <span class="c1"># lasso_model = Lasso(alpha=0.1)</span>
+                <span class="c1"># lasso_model.fit(X_train, y_train)   </span>
+                <span class="c1"># shapAnalysis(lasso_model, X_train, X_test, group_by_category, model_res_dir)</span>
                 
 
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initialization function that reads values from the configuration file and launches the main pipeline.</span>
-
-<span class="sd">    This function initializes the script by reading configuration values from a configuration file,</span>
-<span class="sd">    printing them for verification, and then appending the root directory path to the system path.</span>
-<span class="sd">    It finally calls the main pipeline function to execute the data processing and analysis steps.</span>
-
-<span class="sd">    Example usage in your script:</span>
-<span class="sd">    ```</span>
-<span class="sd">    Root Directory Path: {rootDirPath}</span>
-<span class="sd">    Dataset: {dataset}</span>
-<span class="sd">    Dimension: {dimension}</span>
-<span class="sd">    Clip: {clip}</span>
-<span class="sd">    Model: {model}</span>
-<span class="sd">    Task: {task}</span>
-<span class="sd">    Modalities: {modalities}</span>
-<span class="sd">    Threshold: {threshold}</span>
-<span class="sd">    Feature Selection: {featureSelection}</span>
-<span class="sd">    Class Separation w.r.t.: {clasSeparator}</span>
-<span class="sd">    Score Aggregation method: {aggregationMethod}</span>
-<span class="sd">    ```</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    ----------</span>
-<span class="sd">    No direct parameters are specified in the function definition. It interacts with a configuration file</span>
-<span class="sd">    assumed to be read by the `read_config()` function, which defines variables used throughout the script.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    -------</span>
-<span class="sd">    None</span>
-
-<span class="sd">    Notes:</span>
-<span class="sd">    ------</span>
-<span class="sd">    - Assumes the existence of a `read_config()` function that returns a dictionary with configuration values.</span>
-<span class="sd">    - Sets the `rootDirPath` to the system path to enable module imports relative to this path.</span>
-<span class="sd">    - Executes the `mainPipeline()` function, which orchestrates the data processing and analysis pipeline.</span>
+<span class="sd">    Initialisation function that downloads values from the configuration file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># Read the configuration</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">read_config</span><span class="p">()</span>
 
@@ -848,7 +749,9 @@
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">My Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../project_structure.html">Project Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../project_config.html">Configuration File</a></li>
 </ul>
 
 <div class="relations">

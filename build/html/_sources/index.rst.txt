@@ -6,8 +6,18 @@
 Welcome to Public Speaking Automatic Assessment with AudioTextual Features's documentation!
 ===========================================================================================
 
-.. image:: ../images/schema.png
+.. figure:: ../images/FeatureExtraction.jpeg
    :align: center
+   :alt: Feature Extraction
+
+   Feature Extraction
+
+.. figure:: ../images/PredictionsAndAssessment.jpeg
+   :align: center
+   :alt: Prediction Assessment
+
+   Prediction Assessment
+
 
 Introduction
 ------------

@@ -39,7 +39,11 @@ def plot_shap_by_feature(shap_values, target):
 
 # calculate Shapley value of each group
 def grouped_shap(model, background, target, groups, features_name):
-    explainer = shap.KernelExplainer(model.predict_proba, background)
+    # explainer = shap.KernelExplainer(model.predict_proba, background)
+    def callableModel(X):
+        return model.predict(X)
+    
+    explainer = shap.KernelExplainer(callableModel, background)
     shap_values = explainer.shap_values(target)
     # shap_values_all = explainer.shap_values(background)
 

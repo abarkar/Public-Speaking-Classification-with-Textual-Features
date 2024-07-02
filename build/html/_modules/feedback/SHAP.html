@@ -74,7 +74,11 @@
 
 <span class="c1"># calculate Shapley value of each group</span>
 <div class="viewcode-block" id="grouped_shap"><a class="viewcode-back" href="../../modules.html#feedback.SHAP.grouped_shap">[docs]</a><span class="k">def</span> <span class="nf">grouped_shap</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">background</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">features_name</span><span class="p">):</span>
-    <span class="n">explainer</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">KernelExplainer</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span> <span class="n">background</span><span class="p">)</span>
+    <span class="c1"># explainer = shap.KernelExplainer(model.predict_proba, background)</span>
+    <span class="k">def</span> <span class="nf">callableModel</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    
+    <span class="n">explainer</span> <span class="o">=</span> <span class="n">shap</span><span class="o">.</span><span class="n">KernelExplainer</span><span class="p">(</span><span class="n">callableModel</span><span class="p">,</span> <span class="n">background</span><span class="p">)</span>
     <span class="n">shap_values</span> <span class="o">=</span> <span class="n">explainer</span><span class="o">.</span><span class="n">shap_values</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
     <span class="c1"># shap_values_all = explainer.shap_values(background)</span>
 
@@ -117,7 +121,9 @@
 <h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">My Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../project_structure.html">Project Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../project_config.html">Configuration File</a></li>
 </ul>
 
 <div class="relations">
