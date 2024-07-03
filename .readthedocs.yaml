@@ -10,7 +10,7 @@ sphinx:
   configuration: source/conf.py
 
 submodules:
-  include: all
+  include: [preprocessor.TextProcessor_MT]
 
 formats:
   - pdf
