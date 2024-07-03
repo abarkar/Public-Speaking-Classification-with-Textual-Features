@@ -36,9 +36,10 @@ Features
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
+   modules
    project_structure
    project_config
 

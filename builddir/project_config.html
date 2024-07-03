@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Configuration File &#8212; Documentation Public Speaking Automatic Assessment with AudioTextual Features 1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="prev" title="Project Structure" href="project_structure.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="configuration-file">
+<span id="id1"></span><h1>Configuration File<a class="headerlink" href="#configuration-file" title="Lien permanent vers cette rubrique">¶</a></h1>
+<p>This is an example configuration file (<cite>config.ini</cite>) for the project. It contains various settings and options used throughout the script.</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[Settings]</span>
+<span class="na">rootDirPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/alisa/Documents/GitHubProjects/Public-Speaking-Classification-with-Textual-Features</span>
+<span class="na">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MT</span>
+<span class="na">dimension</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">persuasiveness</span>
+<span class="na">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">full</span>
+<span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">LAS</span>
+<span class="na">clasSeparator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">mean</span>
+<span class="na">aggregationMethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">rms</span>
+<span class="na">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">regression</span>
+<span class="na">modalities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">text</span>
+<span class="na">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0.10</span>
+<span class="na">featureSelection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+</pre></div>
+</div>
+<section id="configuration-options">
+<h2>Configuration Options<a class="headerlink" href="#configuration-options" title="Lien permanent vers cette rubrique">¶</a></h2>
+<section id="settings-section">
+<h3>Settings Section<a class="headerlink" href="#settings-section" title="Lien permanent vers cette rubrique">¶</a></h3>
+<p class="rubric">Settings Section</p>
+<ul>
+<li><p><strong>rootDirPath</strong> (<cite>str</cite>)</p>
+<p>Root directory path where the project resides.</p>
+</li>
+<li><p><strong>dataset</strong> (<cite>str</cite>)</p>
+<p>Name of the dataset to be used.</p>
+</li>
+<li><p><strong>dimension</strong> (<cite>str</cite>)</p>
+<p>Dimension parameter for analysis.</p>
+</li>
+<li><p><strong>clip</strong> (<cite>str</cite>)</p>
+<p>Clip value used in preprocessing.</p>
+</li>
+<li><p><strong>model</strong> (<cite>str</cite>)</p>
+<p>Name of the model to be used.</p>
+</li>
+<li><p><strong>clasSeparator</strong> (<cite>str</cite>)</p>
+<p>Classifier separator method.</p>
+</li>
+<li><p><strong>aggregationMethod</strong> (<cite>str</cite>)</p>
+<p>Aggregation method used.</p>
+</li>
+<li><p><strong>task</strong> (<cite>str</cite>)</p>
+<p>Task type for the model.</p>
+</li>
+<li><p><strong>modalities</strong> (<cite>str</cite>)</p>
+<p>Modalities included in the analysis.</p>
+</li>
+<li><p><strong>threshold</strong> (<cite>float</cite>)</p>
+<p>Threshold value for feature selection.</p>
+</li>
+<li><p><strong>featureSelection</strong> (<cite>bool</cite>)</p>
+<p>Whether feature selection is enabled (<cite>True</cite> or <cite>False</cite>).</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Public Speaking Automatic Assessment with AudioTextual Features</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Project Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="project_structure.html">Project Structure</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration File</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-options">Configuration Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#settings-section">Settings Section</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="project_structure.html" title="Chapitre précédent">Project Structure</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Recherche rapide</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Alisa Barkar, Valentine Fleith.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/project_config.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
