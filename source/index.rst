@@ -39,9 +39,9 @@ Features
    :maxdepth: 2
    :caption: Contents:
 
-   modules
    project_structure
    project_config
+   modules
 
 Indices and tables
 ==================
