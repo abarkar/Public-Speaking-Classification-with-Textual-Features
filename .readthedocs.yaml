@@ -11,10 +11,9 @@ sphinx:
   configuration: source/conf.py
   fail_on_warning: true
 
-  
+
 git:
-  submodules:
-    depth: 3
+  submodules: true
 
 formats:
   - pdf
