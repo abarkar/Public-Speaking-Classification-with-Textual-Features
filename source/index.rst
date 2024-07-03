@@ -41,7 +41,6 @@ Features
 
    project_structure
    project_config
-   modules
 
 Indices and tables
 ==================
