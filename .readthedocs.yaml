@@ -11,9 +11,8 @@ sphinx:
   configuration: source/conf.py
   fail_on_warning: true
 
-
-git:
-  submodules: true
+submodules:
+  include: all
 
 formats:
   - pdf
