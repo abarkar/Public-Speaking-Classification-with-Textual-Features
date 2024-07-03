@@ -7,10 +7,11 @@ build:
     python: "3.11"  # Auto-detect Python version
 
 sphinx:
+  builder: html
   configuration: source/conf.py
-  extensions:
-    - sphinx.ext.todo
-    - sphinx.ext.viewcode
+  fail_on_warning: true
+
+  
 git:
   submodules:
     depth: 3
