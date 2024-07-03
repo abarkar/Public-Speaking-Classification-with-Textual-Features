@@ -8,6 +8,12 @@ build:
 
 sphinx:
   configuration: source/conf.py
+  extensions:
+    - sphinx.ext.todo
+    - sphinx.ext.viewcode
+git:
+  submodules:
+    depth: 3
 
 formats:
   - pdf
